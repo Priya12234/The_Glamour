@@ -1,0 +1,397 @@
+/* Google Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
+
+body {
+    overflow-x: hidden;
+    /* Prevent horizontal scrolling */
+}
+
+/* Custom Navbar */
+.custom-navbar {
+    margin-left: -10px;
+    background-color: #F5CADE;
+    font-family: "Kaisei HarunoUmi", "Times New Roman";
+    font-size: 40px;
+    z-index: 1;
+    position: relative;
+}
+
+.custom-navbar .navbar-nav .nav-link {
+    color: #9F7E9E;
+}
+
+.custom-navbar .navbar-nav .nav-link:hover {
+    color: #6E5473;
+}
+
+.custom-navbar .navbar-nav .nav-item {
+    margin-right: 15px;
+    position: relative;
+    left: -150px;
+    top: 10px;
+}
+
+/* Media query for small devices (tablets, 768px and below) */
+@media (max-width: 768px) {
+    .custom-navbar .navbar-nav .nav-item {
+        left: -50px;
+        top: 0;
+        margin-right: 10px;
+    }
+}
+
+/* Media query for extra small devices (phones, 576px and below) */
+@media (max-width: 576px) {
+    .custom-navbar .navbar-nav .nav-item {
+        left: 0;
+        top: 0;
+        margin-right: 5px;
+    }
+}
+
+@media (max-width: 767px) {
+    .custom-navbar {
+        font-size: 20px;
+    }
+
+    .custom-navbar .navbar-nav .nav-item {
+        margin-right: 15px;
+    }
+}
+
+
+/* Overlapping Container */
+.overlapping-container {
+    background-color: #9F7E91;
+    padding: 400px;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: -150px;
+    left: 850px;
+    right: 0;
+    z-index: 2;
+    border-radius: 50%;
+}
+
+/* Adjust based on screen size */
+@media (max-width: 768px) {
+    .custom-navbar {
+        font-size: 20px;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .overlapping-container,
+    .overlapping-container2,
+    .end-container-half,
+    .pink-circle-container-full,
+    .right-halfcircle,
+    .left-halfcircle,
+    .left-quarter-circle {
+        display: none;
+    }
+
+    .headline {
+        font-size: 40px;
+        text-align: center;
+    }
+
+    .makeup-brush img {
+        width: 100%;
+        height: auto;
+    }
+
+    .services-heading,
+    .appointment-heading {
+        font-size: 40px;
+        text-align: center;
+    }
+
+    .cards-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .Book-appointment-btn {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+/* Overlapping Container 2 */
+.overlapping-container2 {
+    position: absolute;
+    z-index: 4;
+    top: 30px;
+    left: 940px;
+    background-color: #9F7E91;
+    height: 70px;
+    line-height: 55px;
+}
+
+/* Nav Link Font */
+.nav-link-font {
+    color: #F5CADE;
+    font-family: "Kaisei HarunoUmi", "Times New Roman";
+    font-size: 40px;
+    margin-right: 40px;
+}
+
+.nav-link-font:hover {
+    color: #f7dced;
+    text-decoration: none;
+}
+
+/* Nav Link Font Small */
+.nav-link-font-small {
+    color: #F5CADE;
+    font-family: "Kaisei HarunoUmi", "Times New Roman";
+    font-size: 22px;
+    position: absolute;
+    right: 630px;
+    line-height: 65px;
+}
+
+.nav-link-font-small:hover {
+    color: #f4e4ee;
+    text-decoration: underline;
+}
+
+.right-align {
+    right: 535px;
+}
+
+/* End Container Half */
+.end-container-half {
+    position: relative;
+    z-index: 3;
+    height: 340px;
+    width: 340px;
+    background-color: #F5CADE;
+    padding: 120px;
+    border-radius: 50%;
+    margin-top: 280px;
+    left: 790px;
+}
+
+/* Pink Circle Container Full */
+.pink-circle-container-full {
+    position: absolute;
+    z-index: 4;
+    background-color: #f5cade;
+    border-radius: 50%;
+    height: 130px;
+    width: 130px;
+    top: 470px;
+    left: 55%;
+}
+
+/* Model 1 */
+.model1 {
+    position: absolute;
+    z-index: 5;
+    top: 25px;
+    left: 65%;
+    display: flex;
+}
+
+/* Headline */
+.headline {
+    position: absolute;
+    font-size: 80px;
+    color: #9F7E9E;
+    font-family: "Kaushan Script";
+    bottom: 40%;
+    left: 5%;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Makeup Brush */
+.makeup-brush {
+    position: absolute;
+    z-index: 5;
+    top: 475px;
+    left: 25%;
+    display: flex;
+    height: 250px;
+}
+
+/* Divider */
+.divider {
+    position: absolute;
+    top: 725px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1550px;
+    height: 8px;
+    background-color: #F5CADE;
+    z-index: 2;
+}
+
+/* Left Half Circle */
+.left-halfcircle {
+    position: absolute;
+    top: 650px;
+    z-index: 3;
+    height: 470px;
+    width: 500px;
+    background-color: #9F7E91;
+    right: 1300px;
+    border-radius: 50%;
+}
+
+/* Services Heading */
+.services-heading {
+    position: absolute;
+    font-size: 80px;
+    color: #9F7E9E;
+    font-family: "Kaisei HarunoUmi", "Times New Roman";
+    top: 780px;
+    left: 35%;
+    text-align: center;
+}
+
+/* Cards Wrapper */
+.cards-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    z-index: 4;
+    top: 220px;
+    gap: 5px;
+    margin-left: 6%;
+}
+
+.card img {
+    max-width: 70%;
+    max-height: 70%;
+    position: relative;
+}
+
+.card {
+    margin: 10px;
+    border: none;
+    border-radius: 0;
+    width: 450px;
+    height: 800px;
+}
+
+.carousel-inner {
+    padding: 10px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5vh;
+    height: 5vh;
+    border-radius: 50%;
+    top: 400px;
+    position: absolute;
+    z-index: 5;
+    right: 50px;
+}
+
+#carouselExampleControls {
+    position: relative;
+    left: 20px;
+}
+
+.card-body {
+    position: relative;
+    left: 0px;
+    font-family: "Kaisei HarunoUmi", "Times New Roman";
+    color: #6E5473;
+    text-align: left;
+    padding: 0;
+}
+
+.card-title {
+    font-weight: bold;
+    position: relative;
+    margin-top: 15px;
+}
+
+.card-discription {
+    font-size: 20px;
+}
+
+.card-discription .card-title {
+    margin-left: 0;
+}
+
+/* Book Appointment Button */
+.Book-appointment-btn {
+    position: relative;
+    left: 135px;
+    top: 6%;
+    background-color: #6E5473;
+    padding: 5px 20px;
+    border: none;
+    z-index: 3;
+}
+
+.Book-appointment-btn:hover {
+    cursor: pointer;
+}
+
+.Book-appointment-btn a {
+    color: #F5CADE;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+/* Right Half Circle */
+.right-halfcircle {
+    position: absolute;
+    top: 1500px;
+    z-index: 4;
+    height: 360px;
+    width: 400px;
+    background-color: #9F7E91;
+    left: 1350px;
+    border-radius: 50%;
+}
+
+/* Divider 2 */
+.divider2 {
+    position: absolute;
+    top: 1700px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1550px;
+    height: 8px;
+    background-color: #F5CADE;
+    z-index: 2;
+}
+
+/* Left Quarter Circle */
+.left-quarter-circle {
+    position: absolute;
+    top: 1508px;
+    right: 1350px;
+    width: 400px;
+    height: 400px;
+    background-color: #9F7E91;
+    border-radius: 50%;
+    clip-path: polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%);
+    z-index: 4;
+}
+
+.appointment-heading {
+    position: absolute;
+    font-size: 80px;
+    color: #9F7E9E;
+    font-family: "Kaisei HarunoUmi", "Times New Roman";
+    top: 1750px;
+    left: 28%;
+    text-align: center;
+}
