@@ -2,6 +2,7 @@ import "./Files/bootstrap.min.css";
 import "./css/Landing_page.css";
 
 function LandingPage() {
+
   return (
     <>
       <header>
@@ -45,11 +46,20 @@ function LandingPage() {
                       <a className="nav-link" href="#products">Our Products</a>
                     </li>
                   </ul>
+                  <div className="collapse" id="navbarToggleExternalContent6">
+                    <div className="bg-body-tertiary shadow-3 p-4">
+                      <button data-mdb-button-init data-mdb-ripple-init className="btn btn-link btn-block border-bottom m-0">Link 1</button>
+                      <button data-mdb-button-init data-mdb-ripple-init className="btn btn-link btn-block border-bottom m-0">Link 2</button>
+                      <button data-mdb-button-init data-mdb-ripple-init className="btn btn-link btn-block m-0">Link 3</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </nav>
+
+
         <div className="container overlapping-container2">
           <a className="nav-link-font" href="#Feedback">
             Feedback
@@ -65,7 +75,7 @@ function LandingPage() {
           </a>
         </div>
         <div className="container model1">
-          <img src="./src/assets/model1.png" alt="Image" height="700px" />
+          <img src="./src/assets/model1_crop.png" alt="Image"/>
         </div>
         <div className="container pink-circle-container-full">
         </div>
@@ -80,7 +90,7 @@ function LandingPage() {
         One Look at a Time.
       </div>
       <div className="container makeup-brush">
-        <img src="makeup_brush.png" alt="Image" />
+        <img src="./src/assets/makeup_brush.png" alt="Image" />
       </div>
       <div className="left-halfcircle">
       </div>
@@ -95,7 +105,7 @@ function LandingPage() {
           <div className="carousel-item active">
             <div className="cards-wrapper">
               <div className="card">
-                <img src="Makeup.jpg" className="card-img-top" alt="Card Image" />
+                <img src="./src/assets/Makeup.jpg" className="card-img-top" alt="Card Image" />
                 <div className="card-body">
                   <h2 className="card-title">Makeup1</h2>
                   <p className="card-discription">
@@ -104,7 +114,7 @@ function LandingPage() {
                 </div>
               </div>
               <div className="card">
-                <img src="Makeup.jpg" className="card-img-top" alt="Card Image" />
+                <img src="./src/assets/Makeup.jpg" className="card-img-top" alt="Card Image" />
                 <div className="card-body">
                   <h2 className="card-title">Makeup2</h2>
                   <p className="card-discription">
@@ -113,7 +123,7 @@ function LandingPage() {
                 </div>
               </div>
               <div className="card">
-                <img src="Makeup.jpg" className="card-img-top" alt="Card Image" />
+                <img src="./src/assets/Makeup.jpg" className="card-img-top" alt="Card Image" />
                 <div className="card-body">
                   <h2 className="card-title">Makeup3</h2>
                   <p className="card-discription">
@@ -126,7 +136,7 @@ function LandingPage() {
           <div className="carousel-item">
             <div className="cards-wrapper">
               <div className="card">
-                <img src="Hairstyle1.jpg" className="card-img-top" alt="Card Image" />
+                <img src="./src/assets/Hairstyle1.jpg" className="card-img-top" alt="Card Image" />
                 <div className="card-body">
                   <h2 className="card-title">Makeup4</h2>
                   <p className="card-discription">
@@ -135,7 +145,7 @@ function LandingPage() {
                 </div>
               </div>
               <div className="card">
-                <img src="Makeup.jpg" className="card-img-top" alt="Card Image" />
+                <img src="./src/assets/Makeup.jpg" className="card-img-top" alt="Card Image" />
                 <div className="card-body">
                   <h2 className="card-title">Makeup5</h2>
                   <p className="card-discription">
@@ -144,7 +154,7 @@ function LandingPage() {
                 </div>
               </div>
               <div className="card">
-                <img src="Makeup.jpg" className="card-img-top" alt="Card Image" />
+                <img src="./src/assets/Makeup.jpg" className="card-img-top" alt="Card Image" />
                 <div className="card-body">
                   <h2 className="card-title">Makeup6</h2>
                   <p className="card-discription">
