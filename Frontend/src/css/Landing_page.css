@@ -14,10 +14,22 @@ body {
     font-size: 40px;
     z-index: 1;
     position: relative;
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Adjust based on your needs */
+    align-items: center; /* Center items vertically */
+    padding: 10px; /* Add padding for better spacing */
+}
+
+.custom-navbar .navbar-nav {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .custom-navbar .navbar-nav .nav-link {
     color: #9F7E9E;
+    text-decoration: none;
 }
 
 .custom-navbar .navbar-nav .nav-link:hover {
@@ -29,6 +41,40 @@ body {
     position: relative;
     left: -150px;
     top: 10px;
+}
+
+.hamburger-menu {
+    display: none;
+    cursor: pointer;
+    font-size: 30px;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .custom-navbar {
+        flex-direction: column; /* Vertical layout for smaller screens */
+        font-size: 30px; /* Adjust font size */
+    }
+
+    .custom-navbar .navbar-nav {
+        flex-direction: column; /* Stack items vertically */
+        width: 100%;
+        display: none; /* Hide menu by default */
+    }
+
+    .custom-navbar .navbar-nav .nav-item {
+        margin: 5px 0; /* Adjust margins for vertical layout */
+        left: 0; /* Reset left position */
+        top: 0; /* Reset top position */
+    }
+
+    .hamburger-menu {
+        display: block; /* Show hamburger menu */
+    }
+
+    .custom-navbar.active .navbar-nav {
+        display: flex; /* Show menu when active */
+    }
 }
 
 /* Media query for small devices (tablets, 768px and below) */
@@ -59,6 +105,8 @@ body {
     }
 }
 
+
+/*========================================================================================================================*/
 
 /* Overlapping Container */
 .overlapping-container {
@@ -199,9 +247,9 @@ body {
 .model1 {
     position: absolute;
     z-index: 5;
-    top: 25px;
+    top: 156px;
     left: 65%;
-    display: flex;
+    width: 200px;
 }
 
 /* Headline */
@@ -365,8 +413,7 @@ body {
 .divider2 {
     position: absolute;
     top: 1700px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0%;
     width: 1550px;
     height: 8px;
     background-color: #F5CADE;
@@ -377,7 +424,7 @@ body {
 .left-quarter-circle {
     position: absolute;
     top: 1508px;
-    right: 1350px;
+    right: 1355px;
     width: 400px;
     height: 400px;
     background-color: #9F7E91;
