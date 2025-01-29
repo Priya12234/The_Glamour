@@ -21,7 +21,6 @@ const RegisterForm = () => {
             <input
               type="email"
               id="email"
-              placeholder="Enter your email"
             />
           </div>
 
@@ -30,7 +29,6 @@ const RegisterForm = () => {
             <input
               type="text"
               id="name"
-              placeholder="Enter your name"
             />
           </div>
 
@@ -39,7 +37,6 @@ const RegisterForm = () => {
             <input
               type="password"
               id="password"
-              placeholder="Enter your password"
             />
           </div>
 
@@ -48,7 +45,6 @@ const RegisterForm = () => {
             <input
               type="password"
               id="confirm-password"
-              placeholder="Confirm your password"
             />
           </div>
 

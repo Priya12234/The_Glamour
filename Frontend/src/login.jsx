@@ -22,7 +22,6 @@ const LoginForm = () => {
             <input
               type="email"
               id="email"
-              placeholder="Enter your email"
             />
           </div>
 
@@ -31,7 +30,6 @@ const LoginForm = () => {
             <input
               type="text"
               id="name"
-              placeholder="Enter your name"
             />
           </div>
 
@@ -40,7 +38,6 @@ const LoginForm = () => {
             <input
               type="password"
               id="password"
-              placeholder="Enter your password"
             />
           </div>
 

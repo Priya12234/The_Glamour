@@ -46,7 +46,7 @@ body {
   
   .right-section form {
     font-family: 'Kaisei HarunoUmi';
-    background-color: #9F7E91; /* White background for the form */
+    background-color: #786670; /* White background for the form */
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     width: 80%; /* Adjust form width */
@@ -57,7 +57,7 @@ body {
   .right-section h2 {
     text-align: center;
     font-size: 1.8rem;
-    color: #ffffff;
+    color: black;
     margin-bottom: 1.5rem;
   }
   
@@ -65,7 +65,7 @@ body {
     display: block;
     font-size: 20px;
     width: 50%;
-    color: #ffffff;
+    color: black;
     margin-bottom: 0.5rem;
     position: relative;
   }
@@ -86,10 +86,10 @@ body {
     font-family: 'Kaisei HarunoUmi';
     width: auto;
     background-color: #ffffff;
-    color: #a584a5;
+    color: black;
     padding: 1rem 2rem; 
     margin-top: 1rem;  
-    font-size: 1rem;
+    font-size: 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -104,13 +104,13 @@ body {
   
   .right-section p {
     text-align: center;
-    font-size: 0.9rem;
-    color: #ffffff;
+    font-size: 18px;
+    color: black;
     margin-top: 1rem;
   }
   
   .right-section p a {
-    color: #ffffff;
+    color: black;
     text-decoration: underline;
   }
   
