@@ -1,0 +1,123 @@
+/* styles.css */
+
+/* General Styles */
+body {
+    font-family: 'Kaisei HarunoUmi';
+    background-color: #f4f4f4;
+  }
+  
+  .container {
+      display: flex;
+      height: 100vh;
+    }
+    
+    /* Left section for image */
+    .left-section {
+      background-color: white;
+        flex: 1;
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      
+      .left-section img {
+          width: 80%; /* Reduce the image size */
+          height: auto;
+          object-fit: contain; /* Keeps the aspect ratio */
+        }
+        .right-section {
+          flex: 1;
+          background-color: white; /* Match the purple background */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 2rem;
+        }
+        .time-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Adds spacing between inputs */
+  }
+  
+  .time-inputs input,
+  .time-inputs select {
+    width: auto;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+        .right-section form {
+            background-color: #786670; /* White background for the form */
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            width: 80%; /* Adjust form width */
+            height: 90%;
+            padding: 2rem;
+            
+          }
+          
+          .right-section h2 {
+            text-align: center;
+           
+            color: black;
+            margin-bottom: 1.5rem;
+          }
+          
+          .right-section form label {
+            font-size:20px;
+            display: block;
+            font-size: 16px;
+            width: 30%;
+            color: black;
+            margin-bottom: 0.1rem;
+            padding: 0.2rem;
+          }
+          
+          .right-section form input {
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 0.7rem;
+            padding: 0.4rem;
+          }
+          
+          .right-section form button {
+            font-family: 'Kaisei HarunoUmi'; 
+            font-size: 20px;
+            margin: 20px;
+            padding:15px;
+            width: auto;
+            justify-content: center;
+            place-items: center;
+            text-align: center;
+            background-color: #ffffff;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            position:relative;
+            left:40%;
+          }
+          
+          .right-section form button:hover {
+            background-color: #d3c4d3;
+          }
+          
+          .right-section p {
+            text-align: center;
+            
+            color: black;
+            margin-top: 1rem;
+          }
+          
+          .right-section p a {
+            color: black;
+            text-decoration: underline;
+          }
+          
