@@ -1,9 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import RegisterForm from './register.jsx'
+import BookingForm from './appointment.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RegisterForm/>
+    <BookingForm/>
   </StrictMode>,
 )
