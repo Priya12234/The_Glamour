@@ -4,7 +4,7 @@ import logo from "../Assets/Images/logo-removebg-preview.png"
 function NavigationBar() {
     return (
         <header>
-            <nav className="navbar navbar-expand-lg navbar-dark navbar-custom">
+            <nav className="navbar navbar-expand-lg navbar-dark navbar-custom py-0">
                 <div className="container">
                     <a className="navbar-brand brand-logo" href="#home">
                         <img src={logo} alt="Logo" className="brand-logo-img" />
