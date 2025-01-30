@@ -1,15 +1,16 @@
 .navbar-custom {
-    background-color: #6b5b6b;
-    height: 90px;
-  }
-  .brand-logo-img {
-    height: 100px;
-    
-  }
-  .navbar-nav .nav-link {
-    color: black;
-    font-weight: bold;
-    margin-right: 15px;
-    font-family: "Kaisei HarunoUmi";
-    font-size: larger;
-  }
+  background-color: #6b5b6b;
+}
+
+.brand-logo-img {
+  height: 100px;
+
+}
+
+.navbar-nav .nav-link {
+  color: black;
+  font-weight: bold;
+  margin-right: 15px;
+  font-family: "Kaisei HarunoUmi";
+  font-size: larger;
+}
