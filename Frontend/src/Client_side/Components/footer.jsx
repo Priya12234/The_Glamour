@@ -1,5 +1,6 @@
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
-import "../Assets/Files/bootstrap.min.css";
+import logo from "../Assets/Images/logo-removebg-preview.png"
+
 const Footer = () => {
   return (
     <footer style={{ backgroundColor: "#786670", color: "black" }} className="py-5 px-4">
@@ -7,7 +8,9 @@ const Footer = () => {
         <div className="row">
           {/* Logo and Vision */}
           <div className="col-md-3">
-            <h2 className="h5">Logo</h2>
+            <h2 className="h5">
+              <img src={logo} alt="Logo" className="brand-logo-img" />
+            </h2>
             <p className="small">
               Our vision is to provide convenience and help increase your sales business.
             </p>
@@ -24,7 +27,7 @@ const Footer = () => {
           </div>
 
           {/* About Section */}
-          <div className="col-md-3">
+          <div className="col-md-3" style={{ marginTop: "45px" }}>
             <h5>About</h5>
             <ul className="list-unstyled small mt-2">
               <li>How it works</li>
@@ -35,7 +38,7 @@ const Footer = () => {
           </div>
 
           {/* Community Section */}
-          <div className="col-md-3">
+          <div className="col-md-3" style={{ marginTop: "45px" }}>
             <h5>Community</h5>
             <ul className="list-unstyled small mt-2">
               <li>Events</li>
@@ -46,7 +49,7 @@ const Footer = () => {
           </div>
 
           {/* Socials Section */}
-          <div className="col-md-3">
+          <div className="col-md-3" style={{ marginTop: "45px" }}>
             <h5>Socials</h5>
             <ul className="list-unstyled small mt-2">
               <li>Discord</li>
