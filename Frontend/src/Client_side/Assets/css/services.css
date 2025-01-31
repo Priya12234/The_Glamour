@@ -1,0 +1,160 @@
+.services-container {
+    text-align: center;
+    background-color: #E0E0E0;
+    padding: 40px 20px;
+}
+
+.services-title {
+    font-size: 50px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #000000;
+    font-family: "Kaisei HarunoUmi";
+}
+
+/* Flexbox for Card Layout */
+.cards-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 100px;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+/* Uniform Card Size */
+.card {
+    width: 320px;
+    /* Fixed width */
+    height: 520px;
+    /* Fixed height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    border:none;
+    overflow: hidden;
+    background-color: #E0E0E0;
+}
+
+/* Ensure All Images are Same Size */
+.card img {
+    width: 100%;
+    height: 350px;
+    /* Fixed height for images */
+    object-fit: cover;
+}
+
+/* Card Body */
+.card-body {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Card Title */
+.card-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #6E5473;
+}
+
+/* Card Description */
+.card-description {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Carousel Styling */
+.carousel-inner {
+    padding: 10px;
+}
+
+/* Navigation Buttons */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.3);
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+}
+
+.carousel-control-prev {
+    left: 10px;
+}
+
+.carousel-control-next {
+    right: 10px;
+}
+
+/* Navigation Icons */
+.carousel-control-icon {
+    font-size: 24px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Book Appointment Button */
+.appointment-btn-container {
+    display: flex;
+    justify-content: flex-start; /* Align button to the left */
+    margin-top: 20px;
+    padding-left: 200px; /* Optional: Add some padding to the left */
+}
+
+.book-appointment-btn {
+    background-color: #6E5473;
+    color: white;
+    padding: 12px 24px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: "Kaisei HarunoUmi";
+
+}
+
+.book-appointment-btn:hover {
+    background-color: #543E58;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .cards-wrapper {
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .card {
+        width: 250px;
+        /* Make cards smaller on small screens */
+        height: auto;
+    }
+
+    .card img {
+        height: 180px;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 30px;
+        height: 30px;
+    }
+
+    .carousel-control-icon {
+        font-size: 18px;
+    }
+
+    .appointment-btn-container {
+        justify-content: flex-start; /* Align button to the left */
+    }
+}

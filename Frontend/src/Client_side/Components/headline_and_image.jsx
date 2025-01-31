@@ -1,4 +1,3 @@
-import React from 'react';
 import headlineImage from '../Assets/Images/Model_new.png'; // Adjust the path to your image
 import '../Assets/css/headline_and_image.css'
 function HeadlineImage() {

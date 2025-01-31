@@ -1,10 +1,12 @@
 import NavigationBar from "../Components/Navbar.jsx";
 import HeadlineImage from "./headline_and_image.jsx";
+import Services from "./services.jsx";
 function LandingPage() {
   return (
     <>
       <NavigationBar></NavigationBar>
       <HeadlineImage></HeadlineImage>
+      <Services></Services>
     </>
   );
 }
