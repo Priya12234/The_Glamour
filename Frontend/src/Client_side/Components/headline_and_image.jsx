@@ -9,7 +9,7 @@ function HeadlineImage() {
                 {/* Left Column: Headline Text */}
                 <div className="col-md-6 p-5">
                     <h1 className="display-2 fw-bold" style={{ fontFamily:"Kaisei HarunoUmi" }}>THE GLAMOUR</h1><br/>
-                    <p className="lead text-end" style={{fontFamily:"Kaushan Script",fontSize: "4rem"}}>Crafting Elegance,<br/> One Look at a Time.</p>
+                    <p className="lead align-items-center" style={{fontFamily:"Kaushan Script",fontSize: "3.2rem"}}>Crafting Elegance,<br/> One Look at a Time.</p>
                 </div>
 
                 {/* Right Column: Image */}
