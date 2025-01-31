@@ -1,11 +1,10 @@
-import Footer from "./Client_side/Components/footer.jsx";
+import Team from "./Client_side/Components/ourteam.jsx";
 
 function App() {
   return (
-    <>
-    <Footer/>
-      {/* <BookingForm /> */}
-    </>
+      <Team/>
+
+
   );
 }
 
