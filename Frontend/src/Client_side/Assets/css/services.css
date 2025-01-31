@@ -27,7 +27,7 @@
 }
 
 .book-appointment-btn-custom {
-    background-color: #6E5473;
+    background-color: #6b5b6b;
     color: white;
     padding: 12px 24px;
     font-size: 18px;
@@ -36,7 +36,14 @@
     cursor: pointer;
     transition: 0.3s;
     font-family: "Kaisei HarunoUmi";
-    justify-content: flex-start; /* Align button to the left */
+    justify-content: flex-start;
+    /* Align button to the left */
+}
+
+.book-appointment-btn-custom:hover {
+    background-color: #543e58;
+    /* Change this to your desired hover color */
+    color: white;
 }
 
 .carousel-control-prev-icon,
@@ -44,4 +51,18 @@
     filter: invert(1);
 }
 
+@media (max-width: 768px) {
+    .card-custom {
+        width: 15rem;
+        height: 24rem;
+    }
 
+    .card-img-custom {
+        height: 15rem;
+    }
+
+    .card-container {
+        gap: 50px;
+        /* Adjust the gap value as needed for smaller screens */
+    }
+}

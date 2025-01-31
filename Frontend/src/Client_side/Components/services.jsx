@@ -90,7 +90,7 @@ function Services() {
 
       {/* Book Appointment Button */}
       <div className="d-flex justify-content-start mt-4  pl-6" style={{ paddingLeft: '200px' }}>
-        <button className="btn btn-primary book-appointment-btn-custom">Book Appointment</button>
+        <button className="btn book-appointment-btn-custom">Book Appointment</button>
       </div>
       <br></br>
       <br></br>
