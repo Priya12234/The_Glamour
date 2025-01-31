@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import '../Assets/css/appointment.css';
 import bro1Image from '../Assets/Images/bro1.png';
 
 function BookingForm() {
@@ -48,7 +47,7 @@ function BookingForm() {
 
         {/* Right Section: Form */}
         {showForm && (
-          <div className="right-form col-md-6 mx-auto">
+          <div className="right-form col-md-6 mx-auto"style={{ background:"#6b5b6b" }} >
             <form className="p-4 shadow-lg rounded" onSubmit={handleSubmit}>
               <button
                 type="button"
