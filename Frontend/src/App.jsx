@@ -1,9 +1,9 @@
-import Footer from "./Client_side/Components/footer.jsx";
-
+// import Footer from "./Client_side/Components/footer.jsx";
+import LandingPage from "./Client_side/Components/Landing_page.jsx";
 function App() {
   return (
     <>
-    <Footer/>
+      <LandingPage/>
       {/* <BookingForm /> */}
     </>
   );

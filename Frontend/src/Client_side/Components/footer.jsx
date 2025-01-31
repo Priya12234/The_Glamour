@@ -1,5 +1,4 @@
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
-import "../Assets/Files/bootstrap.min.css";
 const Footer = () => {
   return (
     <footer style={{ backgroundColor: "#786670", color: "black" }} className="py-5 px-4">

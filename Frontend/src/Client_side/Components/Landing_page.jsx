@@ -1,5 +1,6 @@
 import NavigationBar from "../Components/Navbar.jsx";
 import BenifitComponent from "./benefit_component.jsx";
+import Footer from "./footer.jsx";
 import HeadlineImage from "./headline_and_image.jsx";
 import Services from "./services.jsx";
 function LandingPage() {
@@ -9,7 +10,8 @@ function LandingPage() {
       <HeadlineImage></HeadlineImage>
       <Services></Services>
       <BenifitComponent></BenifitComponent>
-    </>
+      <Footer></Footer>    
+      </>
   );
 }
 
