@@ -26,7 +26,7 @@ function OurServices() {
     <>
       <NavigationBar />
       <div className="container-fluid p-5" style={{ backgroundColor: "#D3D3D3" }}>
-        <div className="container p-4" style={{ backgroundColor: "#4C394E", color: "#DAC2D0", borderRadius: "10px", fontFamily: "'Kaisei HarunoUmi'", width: "70%" }}>
+        <div className="container p-4" style={{ backgroundColor: "#35262E", color: "#DAC2D0", borderRadius: "10px", fontFamily: "'Kaisei HarunoUmi'", width: "70%" }}>
           <h2 className="text-center fw-bold mb-4">Our Services</h2>
           {services.map((service, index) => (
             <div key={index}>
