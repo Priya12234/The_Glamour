@@ -1,8 +1,8 @@
-import LandingPage from "./Client_side/Components/Landing_page.jsx";
+import OurServices from "./Client_side/Components/ourservices.jsx";
 
 function App() {
   return (
-      <LandingPage/>
+      <OurServices/>
   );
 }
 
