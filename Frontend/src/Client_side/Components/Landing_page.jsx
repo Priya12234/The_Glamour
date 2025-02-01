@@ -4,6 +4,7 @@ import Footer from "./footer.jsx";
 import HeadlineImage from "./headline_and_image.jsx";
 import Services from "./services.jsx";
 import Team from "./ourteam.jsx";
+import FeedbackForm from "./feedback.jsx"
 function LandingPage() {
   return (
     <>
@@ -12,6 +13,7 @@ function LandingPage() {
       <Services></Services>
       <BenifitComponent></BenifitComponent>
       <Team></Team>
+      <FeedbackForm></FeedbackForm>
       <Footer></Footer>    
       </>
   );
@@ -19,5 +21,3 @@ function LandingPage() {
 
 export default LandingPage;
 
-//added comment to check that project is in github repo
-//added another  comment to check

@@ -46,7 +46,6 @@ function Team() {
       </div>
     </div>
     <div className="w-100 bg-black" style={{ height: "10px" }}></div>
-
     </>
   );
 }
