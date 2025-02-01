@@ -1,5 +1,4 @@
 import React from 'react';
-import "../Assets/Files/bootstrap.min.css";
 import Person from '../Assets/Images/download (7) 4.png';
 
 function Team() {

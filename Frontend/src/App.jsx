@@ -1,21 +1,10 @@
-<<<<<<< HEAD
-import Team from "./Client_side/Components/ourteam.jsx";
+import FeedbackForm from "./Client_side/Components/feedback.jsx";
 
 function App() {
   return (
-      <Team/>
+      <FeedbackForm/>
 
 
-=======
-// import Footer from "./Client_side/Components/footer.jsx";
-import LandingPage from "./Client_side/Components/Landing_page.jsx";
-function App() {
-  return (
-    <>
-      <LandingPage/>
-      {/* <BookingForm /> */}
-    </>
->>>>>>> 79303304a88e3b373adc9b6ca60ae42eb55e756f
   );
 }
 
