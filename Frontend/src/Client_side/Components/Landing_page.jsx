@@ -5,6 +5,7 @@ import HeadlineImage from "./headline_and_image.jsx";
 import Services from "./services.jsx";
 import Team from "./ourteam.jsx";
 import FeedbackForm from "./feedback.jsx"
+import Products from "./products.jsx"
 function LandingPage() {
   return (
     <>
@@ -12,6 +13,7 @@ function LandingPage() {
       <HeadlineImage></HeadlineImage>
       <Services></Services>
       <BenifitComponent></BenifitComponent>
+      <Products></Products>
       <Team></Team>
       <FeedbackForm></FeedbackForm>
       <Footer></Footer>    

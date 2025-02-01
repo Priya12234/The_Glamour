@@ -3,8 +3,8 @@ import Person from '../Assets/Images/download (7) 4.png';
 function Team() {
   return (
     <>
-    <div className="container-fluid py-5" style={{ backgroundColor: "#E0E0E0", fontFamily: "'Kaisei HarunoUmi', serif", minHeight: "100vh" }}>
-      <h1 className="text-center mb-5 fw-bold">Our Team</h1>
+    <div id="ourteam" className="container-fluid py-5" style={{ backgroundColor: "#E0E0E0", fontFamily: "'Kaisei HarunoUmi', serif", minHeight: "100vh" }}>
+    <h2 className="services-title display-4 font-weight-bold mb-4 text-center">Our Team</h2>
       <div className="container">
         <div className="row g-5 justify-content-center text-center">
           {/* Team Member 1 */}

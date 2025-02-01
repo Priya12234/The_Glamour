@@ -1,8 +1,8 @@
-
 function FeedbackForm() {
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100" style={{ backgroundColor: "#D3D3D3",fontFamily: "'Kaisei HarunoUmi'",fontSize : "20px" }}>
+    <div id="feedback" className="d-flex justify-content-center align-items-center vh-100" style={{ backgroundColor: "#E0E0E0", fontFamily: "'Kaisei HarunoUmi'", fontSize: "20px" }}>
       <div className="w-45">
+        {/* Centered Heading */}
         <h2 className="text-center mb-4 fw-bold" style={{ fontFamily: "'Kaisei HarunoUmi'" }}>
           We Value Your Feedback
         </h2>
@@ -19,7 +19,7 @@ function FeedbackForm() {
             <label className="form-label fw-bold">Describe</label>
             <textarea className="form-control" rows="4" required></textarea>
           </div>
-          <button type="submit" className="btn w-100" style={{ backgroundColor: "#786670", color: "black" ,fontFamily: "'Kaisei HarunoUmi'",padding : "10px 20px"}}>
+          <button type="submit" className="btn w-100" style={{ backgroundColor: "#786670", color: "black", fontFamily: "'Kaisei HarunoUmi'", padding: "10px 20px" }}>
             Submit
           </button>
         </form>

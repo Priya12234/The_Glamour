@@ -1,0 +1,71 @@
+.card-container {
+    gap: 100px;
+    /* Adjust the gap value as needed */
+}
+
+
+.services-container {
+    background-color: #E0E0E0;
+}
+
+.services-title {
+    font-family: "Kaisei HarunoUmi";
+}
+
+.card-custom {
+    width: 20rem;
+    height: 32rem;
+    background-color: #E0E0E0;
+    border: none !important;
+    font-family: "Kaisei HarunoUmi";
+
+}
+.card-text-custom {
+    font-size: 1.2rem; /* Adjust the size as needed */
+}
+
+.card-img-custom {
+    height: 22rem;
+    object-fit: cover;
+}
+
+.book-appointment-btn-custom {
+    background-color: #6b5b6b;
+    color: white;
+    padding: 12px 24px;
+    font-size: 18px;
+    border: none;
+    border-radius: 0%;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: "Kaisei HarunoUmi";
+    justify-content: flex-start;
+    /* Align button to the left */
+}
+
+.book-appointment-btn-custom:hover {
+    background-color: #543e58;
+    /* Change this to your desired hover color */
+    color: white;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(1);
+}
+
+@media (max-width: 768px) {
+    .card-custom {
+        width: 15rem;
+        height: 24rem;
+    }
+
+    .card-img-custom {
+        height: 15rem;
+    }
+
+    .card-container {
+        gap: 50px;
+        /* Adjust the gap value as needed for smaller screens */
+    }
+}

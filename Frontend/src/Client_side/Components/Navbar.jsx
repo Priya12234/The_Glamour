@@ -29,16 +29,16 @@ function NavigationBar() {
                                 <a className="nav-link" href="#services">Services</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#appointment">Appointment</a>
+                                <a className="nav-link" href="#Benefit">Appointment</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="#products">Our Products</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#feedback">Feedback</a>
+                                <a className="nav-link" href="#ourteam">Our Team</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#team">Our Team</a>
+                                <a className="nav-link" href="#feedback">Feedback</a>
                             </li>
                         </ul>
                         <ul className="navbar-nav ms-auto">

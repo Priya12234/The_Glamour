@@ -6,7 +6,7 @@ import "../Assets/css/services.css"
 function Services() {
   return (
     <>
-    <div className="services-container text-center py-5">
+    <div id="services" className="services-container text-center py-5">
       <h2 className="services-title display-4 font-weight-bold mb-4">What We Provide</h2>
 
       <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
