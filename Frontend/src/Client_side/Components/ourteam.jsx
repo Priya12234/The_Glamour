@@ -1,9 +1,8 @@
-import React from 'react';
-import "../Assets/Files/bootstrap.min.css";
 import Person from '../Assets/Images/download (7) 4.png';
 
 function Team() {
   return (
+    <>
     <div className="container-fluid py-5" style={{ backgroundColor: "#E0E0E0", fontFamily: "'Kaisei HarunoUmi', serif", minHeight: "100vh" }}>
       <h1 className="text-center mb-5 fw-bold">Our Team</h1>
       <div className="container">
@@ -39,13 +38,16 @@ function Team() {
              
               <h5 className="mt-3 fw-bold">Drashti Chag</h5>
               <p className="text-muted text-left">
-                Achieve the perfect look with our expert Hairstylist services. Whether it's a fresh cut, color, or special occasion style, we deliver precision and creativity for every hair type.
+                Achieve the perfect look with our expert Hairstylist services. Whether its a fresh cut, color, or special occasion style, we deliver precision and creativity for every hair type.
               </p>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div className="w-100 bg-black" style={{ height: "10px" }}></div>
+
+    </>
   );
 }
 

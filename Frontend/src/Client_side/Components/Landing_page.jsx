@@ -3,6 +3,7 @@ import BenifitComponent from "./benefit_component.jsx";
 import Footer from "./footer.jsx";
 import HeadlineImage from "./headline_and_image.jsx";
 import Services from "./services.jsx";
+import Team from "./ourteam.jsx";
 function LandingPage() {
   return (
     <>
@@ -10,6 +11,7 @@ function LandingPage() {
       <HeadlineImage></HeadlineImage>
       <Services></Services>
       <BenifitComponent></BenifitComponent>
+      <Team></Team>
       <Footer></Footer>    
       </>
   );
