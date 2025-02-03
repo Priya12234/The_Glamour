@@ -18,7 +18,7 @@
     background-color: #E0E0E0;
     border: none !important;
     font-family: "Kaisei HarunoUmi";
-
+    cursor: pointer;
 }
 
 .card-img-custom {

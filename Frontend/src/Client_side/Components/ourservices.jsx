@@ -1,4 +1,3 @@
-import React from "react";
 import NavigationBar from "../Components/Navbar.jsx";
 import Footer from "../Components/footer.jsx";
 import Bride from "../Assets/Images/Bride.jpg";
