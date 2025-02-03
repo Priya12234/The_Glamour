@@ -1,8 +1,8 @@
-import Cart from "./Client_side/Components/mycart.jsx";
+import EditProfile from "./Client_side/Components/editprofile.jsx";
 
 function App() {
   return (
-      <Cart/>
+      <EditProfile/>
   );
 }
 
