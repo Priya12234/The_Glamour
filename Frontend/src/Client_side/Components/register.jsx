@@ -1,5 +1,4 @@
-import panaImage from "../Assets/Images/pana.png"; // Adjust the path based on your file location
-import "../Assets/Files/bootstrap.min.css";
+import panaImage from "../Assets/Images/pana.png";
 import "../Assets/css/register.css";
 
 const RegisterForm = () => {

@@ -1,6 +1,4 @@
-import React from "react";
-import BroImage from "../Assets/Images/bro1.png"; // Adjust the path based on your file location
-import "../Assets/Files/bootstrap.min.css";
+import BroImage from "../Assets/Images/bro1.png";
 import "../Assets/css/login.css";
 
 const LoginForm = () => {
@@ -45,7 +43,7 @@ const LoginForm = () => {
               </div>
 
               <p className="text-center mt-3">
-                Don't have an account? <a href="/register">Register Yourself</a>
+                Dont have an account? <a href="/register">Register Yourself</a>
               </p>
             </form>
           </div>

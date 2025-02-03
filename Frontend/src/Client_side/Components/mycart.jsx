@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-import React, { useState } from "react";
-=======
 import { useState } from "react";
->>>>>>> Stashed changes
 import foundation from "../Assets/Images/foundation.png";
 import lipstick from "../Assets/Images/lipstick.png";
 import eyeshadow from "../Assets/Images/eyeshadow.png";
@@ -32,16 +28,10 @@ const Cart = () => {
   return (
     <>
       <NavigationBar />
-<<<<<<< Updated upstream
       <div className="container-fluid d-flex flex-wrap" style={{ backgroundColor: "#E0E0E0" }}>
         
         {/* Sidebar */}
         <div className="d-none d-md-block sidebar p-4" style={{ width: "250px", minHeight: "100vh", fontFamily: "'Kaisei HarunoUmi'", fontSize: "20px", color: "#9F7E91" }}>
-=======
-      <div className="container-fluid d-flex" style={{ backgroundColor: "#E0E0E0" }}>
-        {/* Sidebar */}
-        <div className="sidebar p-4" style={{ width: "250px", minHeight: "100vh", fontFamily: "'Kaisei HarunoUmi'", fontSize: "20px", color: "#9F7E91" }}>
->>>>>>> Stashed changes
           <ul className="list-unstyled">
             <li className="mb-3"><a href="#" className="text-dark text-decoration-none">My Appointment</a></li><hr />
             <li className="mb-3"><a href="#" className="text-dark text-decoration-none">My Cart</a></li><hr />
@@ -64,7 +54,6 @@ const Cart = () => {
         </div>
 
         {/* Cart Content */}
-<<<<<<< Updated upstream
         <div className="flex-grow-1 p-4">
           <h2 className="mb-4">My Cart</h2>
 
@@ -78,37 +67,6 @@ const Cart = () => {
                   <th>Quantity</th>
                   <th>Cancel Order</th>
                   <th>Total</th>
-=======
-        <div className="flex-grow-1 p-4" style={{ fontFamily: "'Kaisei HarunoUmi'", fontSize: "20px", background: "" }}>
-          <h2 className="mb-4">My Cart</h2>
-          <table className="table" style={{ backgroundColor: "#E0E0E0 !important" }}>
-            <thead style={{ backgroundColor: "#E0E0E0" }}>
-              <tr style={{ backgroundColor: "#E0E0E0" }}>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Cancel Order</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody style={{ backgroundColor: "#E0E0E0" }}>
-              {cartItems.map(item => (
-                <tr key={item.id}>
-                  <td className="d-flex align-items-center">
-                    <img src={item.image} alt={item.name} width="50" className="me-3" />
-                    {item.name} <br /> <small>{item.size}</small>
-                  </td>
-                  <td>₹{item.price}</td>
-                  <td>
-                    <button className="btn btn-outline-secondary me-2" onClick={() => handleQuantityChange(item.id, -1)}>-</button>
-                    {item.quantity}
-                    <button className="btn btn-outline-secondary ms-2" onClick={() => handleQuantityChange(item.id, 1)}>+</button>
-                  </td>
-                  <td>
-                    <button className="btn btn-danger px-3" onClick={() => handleCancel(item.id)}>Cancel</button>
-                  </td>
-                  <td>₹{item.price * item.quantity}</td>
->>>>>>> Stashed changes
                 </tr>
               </thead>
               <tbody style={{ backgroundColor: "#E0E0E0" }}>
@@ -135,15 +93,9 @@ const Cart = () => {
           </div>
 
           {/* Grand Total */}
-<<<<<<< Updated upstream
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4">
             <h4 className="mb-3 mb-md-0">Grand Total: ₹{getTotal()}</h4>
             <button className="btn px-4 py-2" style={{
-=======
-          <div className="d-flex justify-content-between align-items-center mt-4" style={{ fontFamily: "'Kaisei HarunoUmi'" }} >
-            <h4>Grand Total: ₹{getTotal()}</h4>
-            <button className="btn" style={{
->>>>>>> Stashed changes
               backgroundColor: "#786670",
               color: "black",
               fontSize: "18px"

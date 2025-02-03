@@ -1,8 +1,7 @@
-import EditProfile from "./Client_side/Components/editprofile.jsx";
-
+import LandingPage from "../src/Client_side/Components/Landing_page"
 function App() {
   return (
-      <EditProfile/>
+      <LandingPage/>
   );
 }
 

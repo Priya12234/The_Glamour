@@ -1,5 +1,3 @@
-import NavigationBar from "../Components/Navbar.jsx";
-import Footer from "../Components/footer.jsx";
 import Bride from "../Assets/Images/Bride.jpg";
 import Makeup from "../Assets/Images/Makeup.jpg";
 import HairStyle from "../Assets/Images/Hairstyle1.jpg";
@@ -23,7 +21,6 @@ const services = [
 function OurServices() {
   return (
     <>
-      <NavigationBar />
       <div className="container-fluid p-5" style={{ backgroundColor: "#D3D3D3" }}>
         <div className="container p-4" style={{ backgroundColor: "#35262E", color: "#DAC2D0", borderRadius: "10px", fontFamily: "'Kaisei HarunoUmi'", width: "70%" }}>
           <h2 className="text-center fw-bold mb-4">Our Services</h2>
@@ -49,7 +46,6 @@ function OurServices() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

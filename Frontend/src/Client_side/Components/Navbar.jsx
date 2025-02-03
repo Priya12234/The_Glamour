@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import "../Assets/css/Navbar.css";
-import logo from "../Assets/Images/logo-removebg-preview.png"
+import logo from "../Assets/Images/logo-removebg-preview.png";
 
 function NavigationBar() {
     return (
@@ -43,10 +44,10 @@ function NavigationBar() {
                         </ul>
                         <ul className="navbar-nav ms-auto">
                             <li className="nav-item">
-                                <a className="nav-link" href="#login">Login</a>
+                                <Link className="nav-link" to="/loginForm">Login</Link> {/* Using React Router Link */}
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#register">Register</a>
+                                <Link className="nav-link" to="/registerForm">Register</Link> {/* Using React Router Link */}
                             </li>
                         </ul>
                     </div>
