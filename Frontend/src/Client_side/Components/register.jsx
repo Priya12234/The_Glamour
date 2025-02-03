@@ -3,16 +3,17 @@ import "../Assets/css/register.css";
 
 const RegisterForm = () => {
   return (
-    <div className="container d-flex justify-content-center align-items-center">
-      <div className="row w-100">
+    <div className="container d-flex justify-content-center align-items-center vh-100">
+      <div className="row w-100 justify-content-center">
+        
         {/* Left Section: Illustration */}
-        <div className="col-md-6 d-flex justify-content-center align-items-center">
-          <img src={panaImage} alt="Salon Illustration" className="img-fluid" />
+        <div className="col-md-6 d-flex justify-content-center align-items-center order-md-1 order-0">
+          <img src={panaImage} alt="Salon Illustration" className="img-fluid illustration" />
         </div>
 
-        {/* Right Section: Enlarged Registration Form */}
-        <div className="col-md-6 d-flex justify-content-center align-items-center">
-          <div className="card shadow w-100 min-vh-75 p-4">
+        {/* Right Section: Registration Form */}
+        <div className="col-md-6 d-flex justify-content-center align-items-center order-md-2 order-1">
+          <div className="card register-card shadow p-4 w-100">
             <h2 className="text-center">Register Yourself</h2>
             <form>
               <div className="mb-3">
@@ -40,11 +41,7 @@ const RegisterForm = () => {
                 <label htmlFor="confirm-password" className="form-label">
                   Confirm Password:
                 </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="confirm-password"
-                />
+                <input type="password" className="form-control" id="confirm-password" />
               </div>
 
               <div className="text-center">
@@ -59,6 +56,7 @@ const RegisterForm = () => {
             </form>
           </div>
         </div>
+
       </div>
     </div>
   );

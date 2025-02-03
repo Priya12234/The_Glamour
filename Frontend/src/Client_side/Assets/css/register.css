@@ -5,38 +5,30 @@ body {
   background-color: #f8f9fa;
 }
 
-.container {
-  height: 100vh;
+/* Reduce spacing between illustration and form */
+.illustration {
+  width: 100%;
 }
 
-.left-section img {
-  width: 100%;
-  max-width: 450px;
-}
-.card {
+/* Styling for the form card */
+.register-card {
   background-color: #786670;
   color: black;
-  padding: 2rem;
   border-radius: 10px;
-  min-height: 80vh; /* Increased height */
-  width: 90%; /* Increased width */
-  position: relative;
-  left: 25%;
+  width: 80%;
+  min-height: 65vh;
 }
 
-.form-control {
-  font-family: 'Kaisei HarunoUmi', serif;
-  padding: 0.8rem;
-  border-radius: 5px;
-}
-
+/* Custom button */
 .btn-custom {
   background-color: white;
   color: black;
-  padding: 1rem 2rem;
-  font-size: 20px;
+  padding: 0.8rem 1.5rem;
+  font-size: 18px;
   border-radius: 5px;
   transition: background-color 0.3s;
+  border: none;
+  cursor: pointer;
 }
 
 .btn-custom:hover {
@@ -46,4 +38,13 @@ body {
 .text-center a {
   text-decoration: underline;
   color: black;
+}
+
+/* Responsive layout: Show image first, form below on smaller screens */
+@media (max-width: 768px) {
+  .register-card {
+    width: 90%;
+    min-height: auto;
+    padding: 1.2rem;
+  }
 }
