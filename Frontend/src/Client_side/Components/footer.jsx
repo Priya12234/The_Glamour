@@ -61,7 +61,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-4 border-top pt-3 d-flex justify-content-between small">
-          <p>&copy; 2022 Company Name. All rights <strong>reserved</strong></p>
+          <p>&copy; 2025 The Glamour. All rights <strong>reserved</strong></p>
           <div className="d-flex gap-3">
             <p>Terms & Condition</p>
             <p>Privacy & Policy</p>

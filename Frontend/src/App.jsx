@@ -1,8 +1,8 @@
-import OurServices from "./Client_side/Components/ourservices.jsx";
+import Cart from "./Client_side/Components/mycart.jsx";
 
 function App() {
   return (
-      <OurServices/>
+      <Cart/>
   );
 }
 
