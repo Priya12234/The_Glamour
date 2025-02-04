@@ -9,11 +9,11 @@ import FeedbackForm from "./feedback.jsx";
 import Products from "./products.jsx";
 import OurServices from "./ourservices.jsx";
 import RegisterForm from "./register.jsx";
+import LoginForm from "./login.jsx";
 
 function Layout() {
   const location = useLocation();
-  const hideNavbarAndFooter = location.pathname === "/registerForm"; // Hide on register page
-
+  const hideNavbarAndFooter = location.pathname === "/registerForm" || location.pathname === "/loginForm";; // Hide on register page
   return (
     <>
       {!hideNavbarAndFooter && <NavigationBar />}
@@ -33,6 +33,7 @@ function Layout() {
         />
         <Route path="/ourservice" element={<OurServices />} />
         <Route path="/registerForm" element={<RegisterForm />} />
+        <Route path="/loginForm" element={<LoginForm />}/>
       </Routes>
       {!hideNavbarAndFooter && <Footer />}
     </>

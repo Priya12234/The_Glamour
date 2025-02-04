@@ -12,37 +12,37 @@ const LoginForm = () => {
 
         {/* Right Section: Enlarged Login Form */}
         <div className="col-md-6 d-flex justify-content-center align-items-center">
-          <div className="card shadow w-100 min-vh-75 p-4">
+          <div className="login-card shadow w-100 min-vh-75 p-4">
             <h2 className="text-center">Hello! Welcome Back</h2>
             <form>
               <div className="mb-3">
                 <label htmlFor="email" className="form-label">
                   Email:
                 </label>
-                <input type="email" className="form-control" id="email" />
+                <input type="email" className="login-form-control" id="email" />
               </div>
 
               <div className="mb-3">
                 <label htmlFor="name" className="form-label">
                   Name:
                 </label>
-                <input type="text" className="form-control" id="name" />
+                <input type="text" className="login-form-control" id="name" />
               </div>
 
               <div className="mb-3">
                 <label htmlFor="password" className="form-label">
                   Password:
                 </label>
-                <input type="password" className="form-control" id="password" />
+                <input type="password" className="login-form-control" id="password" />
               </div>
 
-              <div className="text-center">
-                <button type="submit" className="btn btn-custom">
+              <div className="login-text-center">
+                <button type="submit" className="login-btn">
                   Login
                 </button>
               </div>
 
-              <p className="text-center mt-3">
+              <p className="login-text-center mt-3">
                 Dont have an account? <a href="/register">Register Yourself</a>
               </p>
             </form>

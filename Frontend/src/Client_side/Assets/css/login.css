@@ -1,4 +1,4 @@
-.card {
+.login-card {
   background-color: #786670;
   color: black;
   padding: 2rem;
@@ -7,14 +7,14 @@
   width: 90%; /* Increased width */
 }
 
-.form-control {
+.login-form-control {
   font-size: 25px;
   font-family: 'Kaisei HarunoUmi', serif;
   padding: 0.8rem;
   border-radius: 5px;
 }
 
-.btn-custom {
+.login-btn-custom {
   background-color: white;
   color: black;
   padding: 1rem 2rem;
@@ -23,11 +23,11 @@
   transition: background-color 0.3s;
 }
 
-.btn-custom:hover {
+.login-btn-custom:hover {
   background-color: #d3c4d3;
 }
 
-.text-center a {
+.login-text-center a {
   text-decoration: underline;
   color: black;
   font-size: 18px;
