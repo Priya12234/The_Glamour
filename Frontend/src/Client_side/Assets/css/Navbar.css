@@ -5,7 +5,7 @@
 
 .brand-logo-img {
   height:130px;
-
+  position: relative;
 }
 
 .navbar-nav .nav-link {
@@ -13,9 +13,10 @@
   font-weight: bold;
   margin-right: 15px;
   font-family: "Kaisei HarunoUmi";
-  font-size: 25px;
+  font-size: 23px;
 }
 
-/* Add this to your global CSS file (e.g., App.css or index.css) */
+
+
 
 

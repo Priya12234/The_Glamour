@@ -1,18 +1,16 @@
-.card-container {
+.card-container-services {
     gap: 100px;
-    /* Adjust the gap value as needed */
 }
 
-
-.services-container {
+.services-section {
     background-color: #E0E0E0;
 }
 
-.services-title {
+.services-heading {
     font-family: "Kaisei HarunoUmi";
 }
 
-.card-custom {
+.card-services {
     width: 20rem;
     height: 32rem;
     background-color: #E0E0E0;
@@ -21,12 +19,12 @@
     cursor: pointer;
 }
 
-.card-img-custom {
+.card-img-services {
     height: 22rem;
     object-fit: cover;
 }
 
-.book-appointment-btn-custom {
+.btn-book-appointment {
     background-color: #6b5b6b;
     color: white;
     padding: 12px 24px;
@@ -37,32 +35,29 @@
     transition: 0.3s;
     font-family: "Kaisei HarunoUmi";
     justify-content: flex-start;
-    /* Align button to the left */
 }
 
-.book-appointment-btn-custom:hover {
+.btn-book-appointment:hover {
     background-color: #543e58;
-    /* Change this to your desired hover color */
     color: white;
 }
 
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
+.carousel-prev-icon-services,
+.carousel-next-icon-services {
     filter: invert(1);
 }
 
 @media (max-width: 768px) {
-    .card-custom {
+    .card-services {
         width: 15rem;
         height: 24rem;
     }
 
-    .card-img-custom {
+    .card-img-services {
         height: 15rem;
     }
 
-    .card-container {
+    .card-container-services {
         gap: 50px;
-        /* Adjust the gap value as needed for smaller screens */
     }
 }

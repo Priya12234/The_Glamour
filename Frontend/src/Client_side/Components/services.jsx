@@ -46,6 +46,40 @@ function Services() {
                 </Link>
               </div>
             </div>
+            {/* Second Carousel Slide */}
+            <div className="carousel-item active">
+              <div className="d-flex justify-content-center align-items-center flex-wrap card-container py-3">
+                <Link to="/ourservice" className="card card-custom text-decoration-none">
+                  <img src={Makeup} className="card-img-top card-img-custom" alt="Makeup" />
+                  <div className="card-body d-flex flex-column justify-content-between">
+                    <h3 className="card-title">Makeup</h3>
+                    <p className="card-text">
+                      Our talented team of professional makeup artists specializes in creating stunning looks for every occasion.
+                    </p>
+                  </div>
+                </Link>
+
+                <Link to="/ourservice" className="card card-custom text-decoration-none">
+                  <img src={Hairstyle1} className="card-img-top card-img-custom" alt="Hairstyle" />
+                  <div className="card-body d-flex flex-column justify-content-between">
+                    <h3 className="card-title">Hairstyle</h3>
+                    <p className="card-text">
+                      Our skilled hairstylists specialize in crafting beautiful, personalized looks for any occasion.
+                    </p>
+                  </div>
+                </Link>
+
+                <Link to="/ourservice" className="card card-custom text-decoration-none">
+                  <img src={Facial} className="card-img-top card-img-custom" alt="Facial" />
+                  <div className="card-body d-flex flex-column justify-content-between">
+                    <h3 className="card-title">Facial</h3>
+                    <p className="card-text">
+                      Experience rejuvenation with facials that cleanse, nourish, and bring out your skin’s natural radiance.
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            </div>
           </div>
 
           {/* Carousel Controls */}

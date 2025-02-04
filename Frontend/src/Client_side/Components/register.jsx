@@ -8,12 +8,16 @@ const RegisterForm = () => {
         
         {/* Left Section: Illustration */}
         <div className="col-md-6 d-flex justify-content-center align-items-center order-md-1 order-0">
-          <img src={panaImage} alt="Salon Illustration" className="img-fluid illustration" />
+          <img
+            src={panaImage}
+            alt="Salon Illustration"
+            className="img-fluid illustration-register"
+          />
         </div>
 
         {/* Right Section: Registration Form */}
         <div className="col-md-6 d-flex justify-content-center align-items-center order-md-2 order-1">
-          <div className="card register-card shadow p-4 w-100">
+          <div className="card register-card-container shadow p-4 w-100">
             <h2 className="text-center">Register Yourself</h2>
             <form>
               <div className="mb-3">
@@ -45,12 +49,12 @@ const RegisterForm = () => {
               </div>
 
               <div className="text-center">
-                <button type="submit" className="btn btn-custom">
+                <button type="submit" className="btn btn-register-custom">
                   Register
                 </button>
               </div>
 
-              <p className="text-center mt-3">
+              <p className="text-center-register mt-3">
                 Already have an account? <a href="/login">Login</a>
               </p>
             </form>

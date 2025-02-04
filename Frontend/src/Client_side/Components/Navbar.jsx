@@ -5,14 +5,14 @@ import logo from "../Assets/Images/logo-removebg-preview.png";
 function NavigationBar() {
     return (
         <header>
-            <nav className="navbar navbar-expand-lg navbar-dark navbar-custom py-0">
+            <nav className="navbar navbar-expand-lg navbar-dark navbar-custom py-0 d-flex">
                 <div className="container">
-                    <a className="navbar-brand brand-logo" href="#home">
+                    <a className="navbar-brand brand-logo me-auto" href="#home">
                         <img src={logo} alt="Logo" className="brand-logo-img" />
                     </a>
                     <button
                         className="navbar-toggler"
-                        type="button"
+                        type="button"   
                         data-bs-toggle="collapse"
                         data-bs-target="#navbarNav"
                         aria-controls="navbarNav"

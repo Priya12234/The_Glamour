@@ -5,13 +5,11 @@ body {
   background-color: #f8f9fa;
 }
 
-/* Reduce spacing between illustration and form */
-.illustration {
+.illustration-register {
   width: 100%;
 }
 
-/* Styling for the form card */
-.register-card {
+.register-card-container {
   background-color: #786670;
   color: black;
   border-radius: 10px;
@@ -19,8 +17,7 @@ body {
   min-height: 65vh;
 }
 
-/* Custom button */
-.btn-custom {
+.btn-register-custom {
   background-color: white;
   color: black;
   padding: 0.8rem 1.5rem;
@@ -31,18 +28,17 @@ body {
   cursor: pointer;
 }
 
-.btn-custom:hover {
+.btn-register-custom:hover {
   background-color: #d3c4d3;
 }
 
-.text-center a {
+.text-center-register a {
   text-decoration: underline;
   color: black;
 }
 
-/* Responsive layout: Show image first, form below on smaller screens */
 @media (max-width: 768px) {
-  .register-card {
+  .register-card-container {
     width: 90%;
     min-height: auto;
     padding: 1.2rem;
