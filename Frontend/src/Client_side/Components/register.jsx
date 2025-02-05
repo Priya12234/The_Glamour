@@ -1,9 +1,27 @@
+import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 import panaImage from "../Assets/Images/pana.png";
 import "../Assets/css/register.css";
 
 const RegisterForm = () => {
+  const navigate = useNavigate(); // Hook for navigation
+
   return (
-    <div className="container d-flex justify-content-center align-items-center vh-100">
+    <div className="container d-flex justify-content-center align-items-center vh-100 position-relative">
+      {/* Back Arrow */}
+      <FaArrowLeft
+        className="back-arrow"
+        style={{
+          position: "absolute",
+          top: "20px",
+          left: "10px",
+          fontSize: "24px",
+          color: "#35262E",
+          cursor: "pointer"
+        }}
+        onClick={() => navigate("/")} // Navigate back to the landing page
+      />
+
       <div className="row w-100 justify-content-center">
         
         {/* Left Section: Illustration */}

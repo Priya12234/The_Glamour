@@ -1,9 +1,27 @@
+import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 import BroImage from "../Assets/Images/bro1.png";
 import "../Assets/css/login.css";
 
 const LoginForm = () => {
+  const navigate = useNavigate(); // Hook for navigation
+
   return (
-    <div className="container d-flex justify-content-center align-items-center">
+    <div className="container d-flex justify-content-center align-items-center position-relative">
+      {/* Back Arrow */}
+      <FaArrowLeft
+        className="back-arrow"
+        style={{
+          position: "absolute",
+          top: "20px",
+          left: "20px",
+          fontSize: "24px",
+          color: "#35262E",
+          cursor: "pointer"
+        }}
+        onClick={() => navigate("/")} // Navigate back to the landing page
+      />
+
       <div className="row w-100">
         {/* Left Section: Illustration */}
         <div className="col-md-6 d-flex justify-content-center align-items-center">

@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 import Bride from "../Assets/Images/Bride.jpg";
 import Makeup from "../Assets/Images/Makeup.jpg";
 import HairStyle from "../Assets/Images/Hairstyle1.jpg";
@@ -19,9 +21,25 @@ const services = [
 ];
 
 function OurServices() {
+  const navigate = useNavigate(); // Hook for navigation
+
   return (
     <>
-      <div className="container-fluid p-5" style={{ backgroundColor: "#D3D3D3" }}>
+      <div className="container-fluid p-5" style={{ backgroundColor: "#D3D3D3", position: "relative" }}>
+        {/* Back Arrow */}
+        <FaArrowLeft
+          className="back-arrow"
+          style={{
+            position: "absolute",
+            top: "20px",
+            left: "20px",
+            fontSize: "24px",
+            color: "#35262E",
+            cursor: "pointer"
+          }}
+          onClick={() => navigate("/")} // Navigate back to the landing page
+        />
+
         <div className="container p-4" style={{ backgroundColor: "#35262E", color: "#DAC2D0", borderRadius: "10px", fontFamily: "'Kaisei HarunoUmi'", width: "70%" }}>
           <h2 className="text-center fw-bold mb-4">Our Services</h2>
           {services.map((service, index) => (
@@ -40,7 +58,7 @@ function OurServices() {
             </div>
           ))}
           <div className="text-center mt-4">
-            <button className="btn" style={{ backgroundColor: "#786670", color: "#DAC2D0", fontFamily: "'Kaisei HarunoUmi'", padding: "10px 20px" ,position:"relative",left:"40%"}}>
+            <button className="btn" style={{ backgroundColor: "#786670", color: "#DAC2D0", fontFamily: "'Kaisei HarunoUmi'", padding: "10px 20px", position: "relative", left: "40%" }}>
               Book Appointment
             </button>
           </div>

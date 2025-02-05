@@ -13,7 +13,7 @@ import LoginForm from "./login.jsx";
 
 function Layout() {
   const location = useLocation();
-  const hideNavbarAndFooter = location.pathname === "/registerForm" || location.pathname === "/loginForm";; // Hide on register page
+  const hideNavbarAndFooter = location.pathname === "/registerForm" || location.pathname === "/loginForm" || location.pathname === "/ourservice";; // Hide on register page
   return (
     <>
       {!hideNavbarAndFooter && <NavigationBar />}
