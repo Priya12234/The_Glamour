@@ -1,5 +1,7 @@
 import SideImage from "../Assets/Images/download (5) 2.png";
 import "../Assets/css/benefit_Component.css";
+import { Link } from "react-router-dom"; 
+
 
 function BenefitComponent() {
     return (
@@ -18,9 +20,11 @@ function BenefitComponent() {
 
                         Whether youre booking for yourself or a group, our platform is designed to enhance your salon experience, making it faster, more flexible, and personalized for your needs. Enjoy seamless scheduling, secure online payments, and exclusive discounts for members. Our advanced system also allows you to track past appointments, reschedule with ease, and receive tailored recommendations based on your preferences.
                     </p>
+                    <Link to="/appointment_form">
                     <button style={{ padding: "10px 20px", backgroundColor: "#6b5b6b", color: "white", border: "none", cursor: "pointer", fontFamily: "Kaisei HarunoUmi" }}>
                         Book Appointment
                     </button>
+                    </Link>
                 </div>
 
                 <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>

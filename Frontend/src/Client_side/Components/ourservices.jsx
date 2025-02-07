@@ -58,7 +58,11 @@ function OurServices() {
             </div>
           ))}
           <div className="text-center mt-4">
-            <button className="btn" style={{ backgroundColor: "#786670", color: "#DAC2D0", fontFamily: "'Kaisei HarunoUmi'", padding: "10px 20px", position: "relative", left: "40%" }}>
+            <button 
+              className="btn" 
+              style={{ backgroundColor: "#786670", color: "#DAC2D0", fontFamily: "'Kaisei HarunoUmi'", padding: "10px 20px", position: "relative", left: "40%" }}
+              onClick={() => navigate("/appointment_form")}
+            >
               Book Appointment
             </button>
           </div>
@@ -67,5 +71,4 @@ function OurServices() {
     </>
   );
 }
-
 export default OurServices;

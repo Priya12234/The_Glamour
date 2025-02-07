@@ -94,7 +94,9 @@ function Services() {
 
         {/* Book Appointment Button */}
         <div className="d-flex justify-content-start mt-4" style={{ paddingLeft: '200px' }}>
+          <Link to="/appointment_form">
           <button className="btn book-appointment-btn-custom">Book Appointment</button>
+          </Link>
         </div>
       </div>
       <div className="w-100 bg-dark" style={{ height: "10px" }}></div>

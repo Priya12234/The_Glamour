@@ -1,6 +1,7 @@
 .navbar-custom {
   background-color: #6b5b6b;
   margin-bottom: 0; 
+  position: sticky;
 }
 
 .brand-logo-img {
