@@ -15,12 +15,30 @@ import MyProfile from "./myprofile.jsx";
 import MyAppointments from "./Myappointments.jsx";
 import MyCart from "./mycart.jsx";
 import EditProfile from "./editprofile.jsx";
+import { UNSAFE_LocationContext } from "react-router-dom";
+
 function Layout() {
   const location = useLocation();
-  const hideNavbarAndFooter = location.pathname === "/registerForm" || location.pathname === "/loginForm" || location.pathname === "/ourservice" || location.pathname === "/appointment_form"; // Hide on register page
+
+  // Define an array of paths where Navbar and Footer should not appear
+  const hideNavbarAndFooterPaths = [
+    "/registerForm",
+    "/loginForm",
+    "/ourservice",
+    "/appointment_form",
+    "/profile",
+    "/profile/myappointment",
+    "/profile/mycart",
+    "/profile/editprofile",
+  ];
+
+  // Check if the current path matches any of the paths in the hideNavbarAndFooterPaths array
+  const shouldHideNavbarAndFooter = hideNavbarAndFooterPaths.some(path => location.pathname.startsWith(path));
+
   return (
     <>
-      {!hideNavbarAndFooter && <NavigationBar />}
+      {/* Conditionally render Navbar */}
+      {!shouldHideNavbarAndFooter && <NavigationBar />}
       <Routes>
         <Route
           path="/"
@@ -37,15 +55,19 @@ function Layout() {
         />
         <Route path="/ourservice" element={<OurServices />} />
         <Route path="/registerForm" element={<RegisterForm />} />
-        <Route path="/loginForm" element={<LoginForm />}/>
-        <Route path="/appointment_form" element={<BookingForm />}/>
+        <Route path="/loginForm" element={<LoginForm />} />
+        <Route path="/appointment_form" element={<BookingForm />} />
+
+        {/* Profile Route with nested Routes */}
         <Route path="/profile" element={<MyProfile />}>
+          <Route index element={<MyAppointments />} /> {/* Default route for MyAppointments */}
           <Route path="myappointment" element={<MyAppointments />} />
           <Route path="mycart" element={<MyCart />} />
           <Route path="editprofile" element={<EditProfile />} />
         </Route>
       </Routes>
-      {!hideNavbarAndFooter && <Footer />}
+      {/* Conditionally render Footer */}
+      {!shouldHideNavbarAndFooter && <Footer />}
     </>
   );
 }
