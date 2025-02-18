@@ -15,7 +15,6 @@ import MyProfile from "./myprofile.jsx";
 import MyAppointments from "./Myappointments.jsx";
 import MyCart from "./mycart.jsx";
 import EditProfile from "./editprofile.jsx";
-import { UNSAFE_LocationContext } from "react-router-dom";
 
 function Layout() {
   const location = useLocation();

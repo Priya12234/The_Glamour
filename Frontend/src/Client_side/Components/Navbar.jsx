@@ -16,7 +16,7 @@ function NavigationBar() {
 
     return (
         <header>
-            <nav className="navbar navbar-expand-lg navbar-dark navbar-custom py-0 d-flex">
+            <nav className="navbar navbar-expand-lg navbar-dark navbar-custom py-0 d-flex sticky-top">
                 <div className="container">
                     <a className="navbar-brand brand-logo me-auto" href="#home">
                         <img src={logo} alt="Logo" className="brand-logo-img" />

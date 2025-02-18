@@ -10,16 +10,16 @@ body {
 }
 
 .register-card-container {
-  background-color: #786670;
-  color: black;
+  background-color: #786670!important;
+  color: white !important;;
   border-radius: 10px;
   width: 80%;
   min-height: 65vh;
 }
 
 .btn-register-custom {
-  background-color: white;
-  color: black;
+  background-color: white!important;
+  color: black!important;
   padding: 0.8rem 1.5rem;
   font-size: 18px;
   border-radius: 5px;
@@ -29,12 +29,12 @@ body {
 }
 
 .btn-register-custom:hover {
-  background-color: #d3c4d3;
+  background-color: #d3c4d3!important;
 }
 
 .text-center-register a {
   text-decoration: underline;
-  color: black;
+  color: white !important;
 }
 
 @media (max-width: 768px) {

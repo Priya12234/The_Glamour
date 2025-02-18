@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for back functionality
 import Sidebar from "../Components/Sidebar"; // Import Sidebar
 import { FaArrowLeft } from "react-icons/fa"; // Import the back icon from react-icons
-import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is imported
 
 const MyProfile = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook
