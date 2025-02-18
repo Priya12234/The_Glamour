@@ -13,7 +13,7 @@ const MyAppointments = () => {
   };
 
   return (
-    <div className="container-fluid d-flex flex-wrap" style={{ backgroundColor: "#E0E0E0", minHeight: "100vh", fontFamily: "'Kaisei HarunoUmi'" }}>
+    <div className="container-fluid d-flex flex-wrap" style={{ backgroundColor: "#E0E0E0", fontFamily: "'Kaisei HarunoUmi'" }}>
       {/* Main Content */}
       <div className="flex-grow-1 p-4">
         <h2 className="mb-4">My Appointment</h2>

@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 
 const EditProfile = () => {
   const [formData, setFormData] = useState({
@@ -17,61 +17,72 @@ const EditProfile = () => {
   };
 
   return (
-    <div style={{ display: "flex", height: "100vh", backgroundColor: "#E0E0E0" , fontFamily: "'Kaisei HarunoUmi'"}}>
-      {/* Centered Form */}
-      <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center",right:"70px" ,position:"relative",bottom:"70px"}}>
-        <form onSubmit={handleSubmit} style={{ width: "400px", textAlign: "left" }}>
-          
-          <div style={{ marginBottom: "20px" }}>
-            <label style={{ fontSize: "18px", color: "#9F7E91", fontWeight: "bold" }}>Email:</label>
-            <input 
-              type="email" 
-              name="email" 
-              value={formData.email} 
-              onChange={handleChange} 
-              required 
-              className="form-control"
-              style={{ height: "40px" }}
-            />
+    <div className="container-fluid d-flex align-items-center justify-content-center" style={{ backgroundColor: "#E0E0E0", fontFamily: "'Kaisei HarunoUmi'", paddingBottom: "30px" }}>
+      <div className="row w-100">
+        
+        {/* Sidebar Space on Larger Screens */}
+        <div className="col-md-3 d-none d-md-block"></div>
+
+        {/* Centered Form with Larger Width */}
+        <div className="col-12 col-md-6">
+          {/* Title outside the form, aligned top-left */}
+          <div className="p-4 w-100">
+            <h2 className="mb-4 text-start">Edit Profile</h2>
           </div>
 
-          <div style={{ marginBottom: "20px" }}>
-            <label style={{ fontSize: "18px", color: "#9F7E91", fontWeight: "bold" }}>Name:</label>
-            <input 
-              type="text" 
-              name="name" 
-              value={formData.name} 
-              onChange={handleChange} 
-              required 
-              className="form-control"
-              style={{ height: "40px" }}
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="w-100 p-4 rounded shadow bg-white align-items-center" style={{ maxWidth: "450px" }}>
+            
+            <div className="mb-3">
+              <label className="form-label fw-bold">Email:</label>
+              <input 
+                type="email" 
+                name="email" 
+                value={formData.email} 
+                onChange={handleChange} 
+                required 
+                className="form-control"
+              />
+            </div>
 
-          <div style={{ marginBottom: "20px" }}>
-            <label style={{ fontSize: "18px", color: "#9F7E91", fontWeight: "bold" }}>Password:</label>
-            <input 
-              type="password" 
-              name="password" 
-              value={formData.password} 
-              onChange={handleChange} 
-              required 
-              className="form-control"
-              style={{ height: "40px" }}
-            />
-          </div>
+            <div className="mb-3">
+              <label className="form-label fw-bold">Name:</label>
+              <input 
+                type="text" 
+                name="name" 
+                value={formData.name} 
+                onChange={handleChange} 
+                required 
+                className="form-control"
+              />
+            </div>
 
-          <button 
-            type="submit" 
-            className="btn w-100" 
-            style={{ backgroundColor: "#806575", color: "#F5CADE", fontSize: "18px", height: "50px" }}
-          >
-            Update
-          </button>
+            <div className="mb-3">
+              <label className="form-label fw-bold">Password:</label>
+              <input 
+                type="password" 
+                name="password" 
+                value={formData.password} 
+                onChange={handleChange} 
+                required 
+                className="form-control"
+              />
+            </div>
 
-        </form>
+            <button 
+              type="submit" 
+              className="btn w-100 text-white" 
+              style={{ backgroundColor: "#806575", fontSize: "18px", height: "50px" }}
+            >
+              Update
+            </button>
+
+          </form>
+        </div>
+
+        {/* Empty Column for Right Alignment on Larger Screens */}
+        <div className="col-md-3 d-none d-md-block"></div>
+
       </div>
-
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Makeup from '../Assets/Images/Makeup.jpg';
 import Hairstyle1 from '../Assets/Images/Hairstyle1.jpg';
 import Facial from '../Assets/Images/facial2.jpg';
-
+import "../Assets/css/Products.css";
 function Services() {
   return (
     <>

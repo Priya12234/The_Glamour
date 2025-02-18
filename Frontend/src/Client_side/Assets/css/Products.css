@@ -15,7 +15,7 @@
 .card-custom {
     width: 20rem;
     height: 32rem;
-    background-color: #E0E0E0;
+    background-color: #E0E0E0!important;
     border: none !important;
     font-family: "Kaisei HarunoUmi";
     cursor: pointer;
@@ -30,18 +30,18 @@
 }
 
 .book-appointment-btn-custom {
-    background-color: #6b5b6b;
-    color: white;
-    padding: 12px 24px;
-    font-size: 18px;
-    border: none;
-    border-radius: 0%;
-    cursor: pointer;
-    transition: 0.3s;
-    font-family: "Kaisei HarunoUmi";
-    justify-content: flex-start;
-    /* Align button to the left */
+    background-color: #6b5b6b !important;
+    color: white !important;
+    padding: 12px 24px !important;
+    font-size: 18px !important;
+    border: none !important;
+    border-radius: 0% !important;
+    cursor: pointer !important;
+    transition: 0.3s !important;
+    font-family: "Kaisei HarunoUmi" !important;
+    justify-content: flex-start !important;
 }
+
 
 .book-appointment-btn-custom:hover {
     background-color: #543e58;
