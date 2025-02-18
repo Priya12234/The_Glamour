@@ -11,7 +11,10 @@ import OurServices from "./ourservices.jsx";
 import RegisterForm from "./register.jsx";
 import LoginForm from "./login.jsx";
 import BookingForm from "./appointment.jsx";
-
+import MyProfile from "./myprofile.jsx";
+import MyAppointments from "./Myappointments.jsx";
+import MyCart from "./mycart.jsx";
+import EditProfile from "./editprofile.jsx";
 function Layout() {
   const location = useLocation();
   const hideNavbarAndFooter = location.pathname === "/registerForm" || location.pathname === "/loginForm" || location.pathname === "/ourservice" || location.pathname === "/appointment_form"; // Hide on register page
@@ -36,6 +39,11 @@ function Layout() {
         <Route path="/registerForm" element={<RegisterForm />} />
         <Route path="/loginForm" element={<LoginForm />}/>
         <Route path="/appointment_form" element={<BookingForm />}/>
+        <Route path="/profile" element={<MyProfile />}>
+          <Route path="myappointment" element={<MyAppointments />} />
+          <Route path="mycart" element={<MyCart />} />
+          <Route path="editprofile" element={<EditProfile />} />
+        </Route>
       </Routes>
       {!hideNavbarAndFooter && <Footer />}
     </>

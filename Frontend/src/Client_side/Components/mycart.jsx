@@ -2,9 +2,8 @@ import { useState } from "react";
 import foundation from "../Assets/Images/foundation.png";
 import lipstick from "../Assets/Images/lipstick.png";
 import eyeshadow from "../Assets/Images/eyeshadow.png";
-import NavigationBar from "../Components/Navbar.jsx";
 
-const Cart = () => {
+const MyCart = () => {
   const [cartItems, setCartItems] = useState([
     { id: 1, name: "Foundation", size: "100 ML", price: 300, quantity: 1, image: foundation },
     { id: 2, name: "Lipstick", size: "10 g", price: 300, quantity: 2, image: lipstick },
@@ -27,31 +26,8 @@ const Cart = () => {
 
   return (
     <>
-      <NavigationBar />
       <div className="container-fluid d-flex flex-wrap" style={{ backgroundColor: "#E0E0E0" }}>
-        
-        {/* Sidebar */}
-        <div className="d-none d-md-block sidebar p-4" style={{ width: "250px", minHeight: "100vh", fontFamily: "'Kaisei HarunoUmi'", fontSize: "20px", color: "#9F7E91" }}>
-          <ul className="list-unstyled">
-            <li className="mb-3"><a href="#" className="text-dark text-decoration-none">My Appointment</a></li><hr />
-            <li className="mb-3"><a href="#" className="text-dark text-decoration-none">My Cart</a></li><hr />
-            <li className="mb-3"><a href="#" className="text-dark text-decoration-none">Edit Profile</a></li><hr />
-          </ul>
-        </div>
-
-        {/* Mobile Sidebar Button */}
-        <div className="d-md-none w-100 text-center p-2">
-          <button className="btn btn-dark" data-bs-toggle="collapse" data-bs-target="#mobileSidebar">
-            Menu
-          </button>
-          <div id="mobileSidebar" className="collapse">
-            <ul className="list-unstyled mt-3">
-              <li className="mb-2"><a href="#" className="text-dark text-decoration-none">My Appointment</a></li>
-              <li className="mb-2"><a href="#" className="text-dark text-decoration-none">My Cart</a></li>
-              <li className="mb-2"><a href="#" className="text-dark text-decoration-none">Edit Profile</a></li>
-            </ul>
-          </div>
-        </div>
+      
 
         {/* Cart Content */}
         <div className="flex-grow-1 p-4">
@@ -109,4 +85,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default MyCart;

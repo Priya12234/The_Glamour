@@ -14,30 +14,6 @@ const MyAppointments = () => {
 
   return (
     <div className="container-fluid d-flex flex-wrap" style={{ backgroundColor: "#E0E0E0", minHeight: "100vh", fontFamily: "'Kaisei HarunoUmi'" }}>
-      
-      {/* Sidebar */}
-      <div className="d-none d-md-block p-4" style={{ width: "250px", fontFamily: "'Kaisei HarunoUmi'", fontSize: "20px", color: "#9F7E91" }}>
-        <ul className="list-unstyled">
-          <li className="mb-3"><a href="#" className="text-dark text-decoration-none">My Appointment</a></li><hr />
-          <li className="mb-3"><a href="#" className="text-dark text-decoration-none">My Cart</a></li><hr />
-          <li className="mb-3"><a href="#" className="text-dark text-decoration-none">Edit Profile</a></li><hr />
-        </ul>
-      </div>
-
-      {/* Mobile Sidebar Button */}
-      <div className="d-md-none w-100 text-center p-2">
-        <button className="btn btn-dark" data-bs-toggle="collapse" data-bs-target="#mobileSidebar">
-          Menu
-        </button>
-        <div id="mobileSidebar" className="collapse">
-          <ul className="list-unstyled mt-3">
-            <li className="mb-2"><a href="#" className="text-dark text-decoration-none">My Appointment</a></li>
-            <li className="mb-2"><a href="#" className="text-dark text-decoration-none">My Cart</a></li>
-            <li className="mb-2"><a href="#" className="text-dark text-decoration-none">Edit Profile</a></li>
-          </ul>
-        </div>
-      </div>
-
       {/* Main Content */}
       <div className="flex-grow-1 p-4">
         <h2 className="mb-4">My Appointment</h2>

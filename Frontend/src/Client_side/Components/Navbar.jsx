@@ -1,8 +1,19 @@
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import "../Assets/css/Navbar.css";
 import logo from "../Assets/Images/logo-removebg-preview.png";
 
 function NavigationBar() {
+    const navigate = useNavigate();
+
+    const isLoggedIn = () => {
+        return !!localStorage.getItem("token"); // Check if token exists
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("token"); // Remove token
+        navigate("/loginForm"); // Redirect to login
+    };
+
     return (
         <header>
             <nav className="navbar navbar-expand-lg navbar-dark navbar-custom py-0 d-flex">
@@ -12,7 +23,7 @@ function NavigationBar() {
                     </a>
                     <button
                         className="navbar-toggler"
-                        type="button"   
+                        type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#navbarNav"
                         aria-controls="navbarNav"
@@ -22,9 +33,9 @@ function NavigationBar() {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav ">
+                        <ul className="navbar-nav">
                             <li className="nav-item">
-                            <Link className="nav-link" to="/">Home</Link>
+                                <Link className="nav-link" to="/">Home</Link>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="#services">Services</a>
@@ -43,12 +54,28 @@ function NavigationBar() {
                             </li>
                         </ul>
                         <ul className="navbar-nav ms-auto">
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/loginForm">Login</Link> {/* Using React Router Link */}
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/registerForm">Register</Link> {/* Using React Router Link */}
-                            </li>
+                            {isLoggedIn() ? (
+                                <>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/profile">My Profile</Link>
+                                    </li>
+                                    <li className="nav-item">
+
+                                        <button className="nav-link" onClick={handleLogout}>
+                                            Logout
+                                        </button>
+                                    </li>
+                                </>
+                            ) : (
+                                <>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/loginForm">Login</Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/registerForm">Register</Link>
+                                    </li>
+                                </>
+                            )}
                         </ul>
                     </div>
                 </div>

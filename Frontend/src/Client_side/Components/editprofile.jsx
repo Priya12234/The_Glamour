@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 
 const EditProfile = () => {
   const [formData, setFormData] = useState({
@@ -18,25 +18,6 @@ const EditProfile = () => {
 
   return (
     <div style={{ display: "flex", height: "100vh", backgroundColor: "#E0E0E0" , fontFamily: "'Kaisei HarunoUmi'"}}>
-      
-      {/* Sidebar */}
-      <div style={{ width: "250px", padding: "20px", fontSize: "20px", color: "#9F7E91" }}>
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          <li style={{ marginBottom: "20px" }}>
-            <a href="#" style={{ textDecoration: "none", color: "#9F7E91" }}>My Appointment</a>
-          </li>
-          <hr />
-          <li style={{ marginBottom: "20px" }}>
-            <a href="#" style={{ textDecoration: "none", color: "#9F7E91" }}>My Cart</a>
-          </li>
-          <hr />
-          <li>
-            <a href="#" style={{ textDecoration: "none", color: "#9F7E91" }}>Edit Profile</a>
-          </li>
-          <hr />
-        </ul>
-      </div>
-
       {/* Centered Form */}
       <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center",right:"70px" ,position:"relative",bottom:"70px"}}>
         <form onSubmit={handleSubmit} style={{ width: "400px", textAlign: "left" }}>
