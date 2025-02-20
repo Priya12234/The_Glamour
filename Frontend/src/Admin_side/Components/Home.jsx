@@ -4,10 +4,10 @@ const Home = () => {
   // const [searchTerm, setSearchTerm] = useState("");
 
   const todayAppointments = [
-    { id: 1, name: "Radhesh", service: "Haircut", date: "19-2-2015", time: "10:00 AM" },
-    { id: 2, name: "Vaibhav", service: "Facial", date: "19-2-2015", time: "11:30 AM" },
-    { id: 3, name: "Nishant", service: "Massage", date: "19-2-2015", time: "1:00 PM" },
-    { id: 4, name: "Jenil", service: "Hair Color", date: "19-2-2015", time: "3:00 PM" },
+    { id: 1, name: "Radhesh", service: "Haircut", date: "19-2-2025", time: "10:00 AM" },
+    { id: 2, name: "Vaibhav", service: "Facial", date: "19-2-2025", time: "11:30 AM" },
+    { id: 3, name: "Nishant", service: "Massage", date: "19-2-2025", time: "1:00 PM" },
+    { id: 4, name: "Jenil", service: "Hair Color", date: "19-2-2025", time: "3:00 PM" },
   ];
 
   return (

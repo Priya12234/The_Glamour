@@ -105,6 +105,7 @@ body {
 /* Sidebar Active Link */
 .sidebar-link.active {
   background-color: #C7B9AE;
+  color : #000000;
   border-left: 3px solid #C7B9AE;
   font-weight: 600;
 }
