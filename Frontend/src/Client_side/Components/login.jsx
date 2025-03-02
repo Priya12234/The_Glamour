@@ -7,6 +7,7 @@ import { useState } from "react";
 const LoginForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = (e) => {
@@ -25,27 +26,22 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center position-relative">
+    <div className="container-fluid d-flex justify-content-center align-items-center login-container">
+      {/* Back Arrow */}
       <FaArrowLeft
         className="back-arrow"
-        style={{
-          position: "absolute",
-          top: "20px",
-          left: "20px",
-          fontSize: "24px",
-          color: "#35262E",
-          cursor: "pointer"
-        }}
         onClick={() => navigate("/")}
       />
 
       <div className="row w-100">
+        {/* Left Side - Image */}
         <div className="col-md-6 d-flex justify-content-center align-items-center">
           <img src={BroImage} alt="Salon Illustration" className="img-fluid" />
         </div>
 
+        {/* Right Side - Login Form */}
         <div className="col-md-6 d-flex justify-content-center align-items-center">
-          <div className="login-card shadow w-100 min-vh-75 p-4">
+          <div className="login-card">
             <h2 className="text-center">Hello! Welcome Back</h2>
             <form onSubmit={handleLogin}>
               <div className="mb-3">
@@ -56,6 +52,18 @@ const LoginForm = () => {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="name" className="form-label">Name:</label>
+                <input
+                  type="text"
+                  className="login-form-control"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   required
                 />
               </div>
@@ -72,14 +80,12 @@ const LoginForm = () => {
                 />
               </div>
 
-              <div className="login-text-center">
-                <button type="submit" className="login-btn">
-                  Login
-                </button>
+              <div className="text-center">
+                <button type="submit" className="login-btn">Login</button>
               </div>
 
-              <p className="login-text-center mt-3">
-                Dont have an account? <a href="/register">Register Yourself</a>
+              <p className="text-center mt-3">
+                Don’t have an account? <a href="/register">Register Yourself</a>
               </p>
             </form>
           </div>

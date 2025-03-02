@@ -1,34 +1,68 @@
+/* Container */
+.login-container {
+  position: relative;
+  height: 100vh;
+  background-color: white;
+}
+
+/* Back Arrow */
+.back-arrow {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 24px;
+  color: #35262E;
+  cursor: pointer;
+}
+
+/* Login Card */
 .login-card {
   background-color: #786670;
   color: black;
-  padding: 2rem;
+  padding: 3rem; /* Increased padding for a larger box */
   border-radius: 10px;
-  min-height: 75vh; /* Increased height */
-  width: 90%; /* Increased width */
+  width: 100%;
+  max-width: 500px; /* Increased max width for a bigger form */
 }
 
+/* Input Fields */
 .login-form-control {
-  font-size: 25px;
+  width: 100%;
+  font-size: 20px;
   font-family: 'Kaisei HarunoUmi', serif;
-  padding: 0.8rem;
+  padding: 1rem; /* Increased padding */
   border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 1.5rem; /* Added more spacing between fields */
 }
 
-.login-btn-custom {
+/* Login Button */
+.login-btn {
   background-color: white;
   color: black;
   padding: 1rem 2rem;
   font-size: 20px;
+  border: none;
   border-radius: 5px;
+  width: 100%;
   transition: background-color 0.3s;
+  margin-top: 1rem; /* Added margin for better spacing */
 }
 
-.login-btn-custom:hover {
+.login-btn:hover {
   background-color: #d3c4d3;
 }
 
-.login-text-center a {
+/* Register Link */
+.text-center a {
   text-decoration: underline;
   color: black;
   font-size: 18px;
+}
+
+/* Adjustments for larger screens */
+@media (min-width: 992px) {
+  .login-card {
+    max-width: 550px; /* Further increase box size on larger screens */
+  }
 }
