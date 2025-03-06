@@ -50,6 +50,9 @@ const Home = () => {
                           <td>
                             <button className="btn btn-danger btn-sm">Cancel</button>
                           </td>
+                          <td>
+                              <button className="btn btn-info btn-sm">Postpone</button>
+                            </td>
                         </tr>
                       ))
                     ) : (

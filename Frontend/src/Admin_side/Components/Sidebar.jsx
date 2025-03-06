@@ -36,7 +36,7 @@ const Sidebar = () => {
         </li>
         <li className="sidebar-item">
           <NavLink
-            to="/AdminAddMembers"
+            to="/Appointments"
             className={({ isActive }) =>
               `sidebar-link d-flex align-items-center ${
                 isActive ? "active" : ""
