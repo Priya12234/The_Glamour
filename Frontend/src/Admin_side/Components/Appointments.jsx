@@ -1,9 +1,12 @@
 import { useState } from "react";
 
-
 const Appointments = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showPostponeModal, setShowPostponeModal] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
+  const [newDate, setNewDate] = useState("");
+  const [newTime, setNewTime] = useState("");
+  const [newAmPm, setNewAmPm] = useState("AM");
   const [selectedAppointment, setSelectedAppointment] = useState(null);
 
   const todayAppointments = [
@@ -22,9 +25,22 @@ const Appointments = () => {
     setShowModal(true);
   };
 
+  const handlePostponeClick = (appointment) => {
+    setSelectedAppointment(appointment);
+    setShowPostponeModal(true);
+  };
+
   const handleCloseModal = () => {
     setShowModal(false);
     setCancelReason("");
+    setSelectedAppointment(null);
+  };
+
+  const handleClosePostponeModal = () => {
+    setShowPostponeModal(false);
+    setNewDate("");
+    setNewTime("");
+    setNewAmPm("AM");
     setSelectedAppointment(null);
   };
 
@@ -32,6 +48,14 @@ const Appointments = () => {
     console.log("Cancellation reason:", cancelReason);
     console.log("Cancelled Appointment:", selectedAppointment);
     handleCloseModal();
+  };
+
+  const handleSendPostponement = () => {
+    const fullNewTime = `${newTime} ${newAmPm}`;
+    console.log("New Date:", newDate);
+    console.log("New Time:", fullNewTime);
+    console.log("Postponed Appointment:", selectedAppointment);
+    handleClosePostponeModal();
   };
 
   return (
@@ -71,7 +95,9 @@ const Appointments = () => {
                             </button>
                           </td>
                           <td>
-                            <button className="btn btn-info btn-sm">Postpone</button>
+                            <button className="btn btn-info btn-sm" onClick={() => handlePostponeClick(appointment)}>
+                              Postpone
+                            </button>
                           </td>
                         </tr>
                       ))
@@ -91,8 +117,8 @@ const Appointments = () => {
       </div>
 
       {showModal && (
-        <div className="modal show d-block" tabIndex="-1" role="dialog" >
-          <div className="modal-dialog" role="document" >
+        <div className="modal show d-block" tabIndex="-1" role="dialog">
+          <div className="modal-dialog" role="document">
             <div className="modal-content" style={{ backgroundColor: "#D9D9D9" }}>
               <div className="modal-header">
                 <h5 className="modal-title">Appointment Cancellation</h5>
@@ -114,7 +140,59 @@ const Appointments = () => {
                 <button type="button" className="btn" onClick={handleCloseModal}>
                   Close
                 </button>
-                <button type="button" className="btn" style={{backgroundColor:"#786670" , color:"white"}}onClick={handleSendCancellation}>
+                <button type="button" className="btn" style={{backgroundColor:"#786670", color:"white"}} onClick={handleSendCancellation}>
+                  Send
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showPostponeModal && (
+        <div className="modal show d-block" tabIndex="-1" role="dialog">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content" style={{ backgroundColor: "#D9D9D9" }}>
+              <div className="modal-header">
+                <h5 className="modal-title">Appointment Postponement</h5>
+                <button type="button" className="close" onClick={handleClosePostponeModal}>
+                  &times;
+                </button>
+              </div>
+              <div className="modal-body">
+                <p><strong>Postponing:</strong> {selectedAppointment?.name} - {selectedAppointment?.service}</p>
+                <p><strong>Old Date:</strong> {selectedAppointment?.date}</p>
+                <p><strong>Old Time:</strong> {selectedAppointment?.time}</p>
+                <label className="form-label">New Date:</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={newDate}
+                  onChange={(e) => setNewDate(e.target.value)}
+                />
+                <label className="form-label">New Time:</label>
+                <div className="input-group">
+                  <input
+                    type="time"
+                    className="form-control"
+                    value={newTime}
+                    onChange={(e) => setNewTime(e.target.value)}
+                  />
+                  <select
+                    className="form-control"
+                    value={newAmPm}
+                    onChange={(e) => setNewAmPm(e.target.value)}
+                  >
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                  </select>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn" onClick={handleClosePostponeModal}>
+                  Close
+                </button>
+                <button type="button" className="btn" style={{backgroundColor:"#786670", color:"white"}} onClick={handleSendPostponement}>
                   Send
                 </button>
               </div>

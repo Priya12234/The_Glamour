@@ -1,7 +1,12 @@
-// import { useState } from "react";
-
+import { useState } from "react";
 const Home = () => {
-  // const [searchTerm, setSearchTerm] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [showPostponeModal, setShowPostponeModal] = useState(false);
+  const [cancelReason, setCancelReason] = useState("");
+  const [newDate, setNewDate] = useState("");
+  const [newTime, setNewTime] = useState("");
+  const [newAmPm, setNewAmPm] = useState("AM");
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
 
   const todayAppointments = [
     { id: 1, name: "Radhesh", service: "Haircut", date: "19-2-2025", time: "10:00 AM" },
@@ -10,6 +15,43 @@ const Home = () => {
     { id: 4, name: "Jenil", service: "Hair Color", date: "19-2-2025", time: "3:00 PM" },
   ];
 
+  const handleCancelClick = (appointment) => {
+    setSelectedAppointment(appointment);
+    setShowModal(true);
+  };
+
+  const handlePostponeClick = (appointment) => {
+    setSelectedAppointment(appointment);
+    setShowPostponeModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setCancelReason("");
+    setSelectedAppointment(null);
+  };
+
+  const handleClosePostponeModal = () => {
+    setShowPostponeModal(false);
+    setNewDate("");
+    setNewTime("");
+    setNewAmPm("AM");
+    setSelectedAppointment(null);
+  };
+
+  const handleSendCancellation = () => {
+    console.log("Cancellation reason:", cancelReason);
+    console.log("Cancelled Appointment:", selectedAppointment);
+    handleCloseModal();
+  };
+
+  const handleSendPostponement = () => {
+    const fullNewTime = `${newTime} ${newAmPm}`;
+    console.log("New Date:", newDate);
+    console.log("New Time:", fullNewTime);
+    console.log("Postponed Appointment:", selectedAppointment);
+    handleClosePostponeModal();
+  };
   return (
     <main className="content px-3 py-4 bg-light">
       <div className="container-fluid">
@@ -48,10 +90,10 @@ const Home = () => {
                           <td>{appointment.date}</td>
                           <td>{appointment.time}</td>
                           <td>
-                            <button className="btn btn-danger btn-sm">Cancel</button>
+                            <button className="btn btn-danger btn-sm" onClick={() => handleCancelClick(appointment)}>Cancel</button>
                           </td>
                           <td>
-                              <button className="btn btn-info btn-sm">Postpone</button>
+                              <button className="btn btn-info btn-sm" onClick={() =>  handlePostponeClick(appointment)}>Postpone</button>
                             </td>
                         </tr>
                       ))
@@ -69,6 +111,91 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      {showModal && (
+        <div className="modal show d-block" tabIndex="-1" role="dialog" >
+          <div className="modal-dialog" role="document" >
+            <div className="modal-content" style={{ backgroundColor: "#D9D9D9" }}>
+              <div className="modal-header">
+                <h5 className="modal-title">Appointment Cancellation</h5>
+                <button type="button" className="close" onClick={handleCloseModal}>
+                  &times;
+                </button>
+              </div>
+              <div className="modal-body">
+                <p><strong>Canceling:</strong> {selectedAppointment?.name} - {selectedAppointment?.service}</p>
+                <label className="form-label">Describe:</label>
+                <textarea
+                  className="form-control"
+                  rows="4"
+                  value={cancelReason}
+                  onChange={(e) => setCancelReason(e.target.value)}
+                ></textarea>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn" onClick={handleCloseModal}>
+                  Close
+                </button>
+                <button type="button" className="btn" style={{backgroundColor:"#786670" , color:"white"}}onClick={handleSendCancellation}>
+                  Send
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showPostponeModal && (
+        <div className="modal show d-block" tabIndex="-1" role="dialog">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content" style={{ backgroundColor: "#D9D9D9" }}>
+              <div className="modal-header">
+                <h5 className="modal-title">Appointment Postponement</h5>
+                <button type="button" className="close" onClick={handleClosePostponeModal}>
+                  &times;
+                </button>
+              </div>
+              <div className="modal-body">
+                <p><strong>Postponing:</strong> {selectedAppointment?.name} - {selectedAppointment?.service}</p>
+                <p><strong>Old Date:</strong> {selectedAppointment?.date}</p>
+                <p><strong>Old Time:</strong> {selectedAppointment?.time}</p>
+                <label className="form-label">New Date:</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={newDate}
+                  onChange={(e) => setNewDate(e.target.value)}
+                />
+                <label className="form-label">New Time:</label>
+                <div className="input-group">
+                  <input
+                    type="time"
+                    className="form-control"
+                    value={newTime}
+                    onChange={(e) => setNewTime(e.target.value)}
+                  />
+                  <select
+                    className="form-control"
+                    value={newAmPm}
+                    onChange={(e) => setNewAmPm(e.target.value)}
+                  >
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                  </select>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn" onClick={handleClosePostponeModal}>
+                  Close
+                </button>
+                <button type="button" className="btn" style={{backgroundColor:"#786670", color:"white"}} onClick={handleSendPostponement}>
+                  Send
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 };
