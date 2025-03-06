@@ -49,14 +49,14 @@ const Sidebar = () => {
         </li>
         <li className="sidebar-item">
           <NavLink
-            to="/adminMaintenancePage"
+            to="/Users"
             className={({ isActive }) =>
               `sidebar-link ${isActive ? "active" : ""}`
             }
           >
             <i className="bi bi-person"></i>{" "}
             {/* Tools icon for Maintenance */}
-            <span>Clients</span>
+            <span>Users</span>
           </NavLink>
         </li>
         <li className="sidebar-item">

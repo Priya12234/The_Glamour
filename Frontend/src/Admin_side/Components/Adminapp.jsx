@@ -9,6 +9,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Home from "./Home";
 import Appointments from "./Appointments";
+import Users from "./Users";
 
 const Adminapp = () => {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
@@ -30,6 +31,7 @@ const Adminapp = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/appointments" element={<Appointments />} />
+              <Route path="/users" element={<Users />} />
               {/* <Route path="/task" element={<Task />} />
               <Route path="/notification" element={<Notification />} />
               <Route path="/settings" element={<Settings />} /> */}
