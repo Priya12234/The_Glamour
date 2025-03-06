@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import panaImage from "../../Client_side/Assets/Images/pana.png";
-import "../../Client_side/Assets/css/register.css";
-
+import "../Assets/css/style.css"
 const RegisterForm = () => {
   const navigate = useNavigate(); // Hook for navigation
 
@@ -36,7 +35,7 @@ const RegisterForm = () => {
         {/* Right Section: Registration Form */}
         <div className="col-md-6 d-flex justify-content-center align-items-center order-md-2 order-1">
           <div className="card register-card-container shadow p-4 w-100">
-            <h2 className="text-center">Register Yourself</h2>
+            <h2 className="text-center">Register User</h2>
             <form>
               <div className="mb-3">
                 <label htmlFor="email" className="form-label">
@@ -71,10 +70,6 @@ const RegisterForm = () => {
                   Register
                 </button>
               </div>
-
-              <p className="text-center-register mt-3">
-                Already have an account? <a href="/login">Login</a>
-              </p>
             </form>
           </div>
         </div>

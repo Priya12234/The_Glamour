@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { FaShoppingBag, FaCalendarAlt, FaTrash } from "react-icons/fa";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 
 const Button = ({ children, onClick, className }) => {
@@ -49,7 +48,7 @@ const Users = () => {
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2 className="fw-bold">Users</h2>
-       <Link to="/Register"> <Button>New User</Button></Link>
+       <Link to="/registerform"> <Button>New User</Button></Link>
       </div>
       <div className="table-responsive">
         <table className="table table-bordered text-center">

@@ -5,7 +5,7 @@ const Footer = () => {
         <div className="row text-body-secondary">
           <div className="col-6 text-start">
             <a className="text-body-secondary" href="#">
-              <strong style={{ color: "#052C65" }}>RNV</strong>
+              <strong style={{ color: "#052C65" }}>The Glamour</strong>
             </a>
           </div>
           <div className="col-6 text-end text-body-secondary d-none d-md-block">

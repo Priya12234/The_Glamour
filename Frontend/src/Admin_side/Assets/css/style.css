@@ -1,6 +1,8 @@
 /* Importing Poppins font */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi&display=swap');
+
 *,
 *::before,
 *::after {
@@ -268,5 +270,57 @@ a.sidebar-link:hover {
   .content {
     height: auto;
     margin-bottom: 0;
+  }
+}
+
+
+/* register form */
+
+.register-body {
+  font-family: 'Kaisei HarunoUmi', serif;
+  background-color: #f8f9fa;
+}
+
+.register-container {
+  font-family: 'Kaisei HarunoUmi', serif;
+}
+
+.illustration-register {
+  width: 100%;
+}
+
+.register-card-container {
+  background-color: #786670 !important;
+  color: white !important;
+  border-radius: 10px;
+  width: 80%;
+  min-height: 65vh;
+}
+
+.btn-register-custom {
+  background-color: white !important;
+  color: black !important;
+  padding: 0.8rem 1.5rem;
+  font-size: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-register-custom:hover {
+  background-color: #d3c4d3 !important;
+}
+
+.text-center-register a {
+  text-decoration: underline;
+  color: white !important;
+}
+
+@media (max-width: 768px) {
+  .register-card-container {
+    width: 90%;
+    min-height: auto;
+    padding: 1.2rem;
   }
 }

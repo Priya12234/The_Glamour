@@ -19,7 +19,6 @@ const Sidebar = () => {
           <NavLink to="/" className="navbar-brand fs-3">
             The Glamour
           </NavLink>{" "}
-          {/* Branding for Sidebar */}
         </div>
       </div>
       <ul className="sidebar-nav">
@@ -43,7 +42,7 @@ const Sidebar = () => {
               }`
             }
           >
-            <i className="bi bi-calendar-event me-2"></i> {/* User Plus icon */}
+            <i className="bi bi-calendar-event me-2"></i> 
             <span className="sidebar-text">Apointments</span>
           </NavLink>
         </li>
@@ -55,7 +54,6 @@ const Sidebar = () => {
             }
           >
             <i className="bi bi-person"></i>{" "}
-            {/* Tools icon for Maintenance */}
             <span>Users</span>
           </NavLink>
         </li>
@@ -67,10 +65,22 @@ const Sidebar = () => {
             }
           >
             <i className="bi bi-bag"></i>{" "}
-            {/* Complaints icon */}
             <span>Products</span>
           </NavLink>
         </li>
+
+        <li className="sidebar-item">
+          <NavLink
+            to="/orders"
+            className={({ isActive }) =>
+              `sidebar-link ${isActive ? "active" : ""}`
+            }
+          >
+            <i className="bi bi-box"></i>{" "}
+            <span>Orders</span>
+          </NavLink>
+        </li>
+
         <li className="sidebar-item">
           <NavLink
             to="/adminHallBookingPage"
@@ -79,7 +89,6 @@ const Sidebar = () => {
             }
           >
             <i className="bi bi-stars"></i>{" "}
-            {/* Calendar Check icon for Hall Booking */}
             <span>Services</span>
           </NavLink>
         </li>
@@ -91,69 +100,10 @@ const Sidebar = () => {
             }
           >
             <i className="bi bi-clipboard-check"></i>{" "}
-            {/* Postcard icon for Notice Board */}
             <span>Feedback</span>
           </NavLink>
         </li>
         
-        {/* <li className="sidebar-item">
-          <a
-            href="#auth"
-            className="sidebar-link has-dropdown"
-            data-bs-toggle="collapse"
-            aria-expanded="false"
-            aria-controls="auth"
-          >
-            <i className="bi bi-shield-lock"></i>{" "}
-            <span>Authentication</span>
-          </a>
-          <ul id="auth" className="sidebar-dropdown list-unstyled collapse">
-            <li className="sidebar-item">
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  `sidebar-link ${isActive ? "active" : ""}`
-                }
-              >
-                <i className="bi bi-box-arrow-in-right"></i>
-                Login
-              </NavLink>
-            </li>
-            <li className="sidebar-item">
-              <NavLink
-                to="/register"
-                className={({ isActive }) =>
-                  `sidebar-link ${isActive ? "active" : ""}`
-                }
-              >
-                <i className="bi bi-person-plus"></i> 
-                Register
-              </NavLink>
-            </li>
-          </ul>
-        </li>
-        <li className="sidebar-item">
-          <NavLink
-            to="/notification"
-            className={({ isActive }) =>
-              `sidebar-link ${isActive ? "active" : ""}`
-            }
-          >
-            <i className="bi bi-bell-fill"></i>
-            <span>Notifications</span>
-          </NavLink>
-        </li>
-        <li className="sidebar-item">
-          <NavLink
-            to="/settings"
-            className={({ isActive }) =>
-              `sidebar-link ${isActive ? "active" : ""}`
-            }
-          >
-            <i className="bi bi-gear"></i>
-            <span>Settings</span>
-          </NavLink>
-        </li> */}
       </ul>
       <div className="sidebar-footer">
         <NavLink
