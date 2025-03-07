@@ -16,7 +16,7 @@ const Sidebar = () => {
           <i className="bi bi-grid"></i> {/* Sidebar toggle icon */}
         </button>
         <div className="sidebar-logo">
-          <NavLink to="/" className="navbar-brand fs-3">
+          <NavLink to="/" className="navbar-brand fs-4">
             The Glamour
           </NavLink>{" "}
         </div>

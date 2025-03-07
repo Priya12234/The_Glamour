@@ -4,6 +4,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -14,6 +15,11 @@ import RegisterForm from "./RegisterForm";
 
 function AdminLayout() {
   const location = useLocation();
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarExpanded((prevState) => !prevState);
+  };
 
   // Define an array of paths where Sidebar, Navbar, and Footer should not appear
   const hideComponentsPaths = [
@@ -24,9 +30,14 @@ function AdminLayout() {
   const shouldHideComponents = hideComponentsPaths.some(path => location.pathname.startsWith(path));
 
   return (
-    <>
+    <div className={`wrapper ${isSidebarExpanded ? "sidebar-expanded" : ""}`}>
       {/* Conditionally render Sidebar */}
-      {!shouldHideComponents && <Sidebar />}
+      {!shouldHideComponents && (
+        <Sidebar
+          isSidebarExpanded={isSidebarExpanded}
+          toggleSidebar={toggleSidebar}
+        />
+      )}
       <div className="main">
         {/* Conditionally render Navbar */}
         {!shouldHideComponents && <Navbar />}
@@ -42,7 +53,7 @@ function AdminLayout() {
         {/* Conditionally render Footer */}
         {!shouldHideComponents && <Footer />}
       </div>
-    </>
+    </div>
   );
 }
 

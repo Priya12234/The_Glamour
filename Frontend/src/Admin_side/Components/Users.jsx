@@ -46,7 +46,7 @@ const Users = () => {
 
   return (
     <div className="container mt-4">
-      <div className="d-flex justify-content-between align-items-center mb-3">
+      <div className="d-flex justify-content-between mb-3">
         <h2 className="fw-bold">Users</h2>
        <Link to="/registerform"> <Button>New User</Button></Link>
       </div>
@@ -69,7 +69,7 @@ const Users = () => {
                 <td>{user.email}</td>
                 <td>{user.number}</td>
                 <td>
-                  <Link to="/Orders"><FaShoppingBag className="text-dark" /></Link>
+                  <Link to="/userorders"><FaShoppingBag className="text-dark" /></Link>
                 </td>
                 <td>
                   <FaCalendarAlt className="text-dark" />

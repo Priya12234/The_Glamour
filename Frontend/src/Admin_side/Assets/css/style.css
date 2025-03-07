@@ -185,6 +185,7 @@ a.sidebar-link:hover {
   padding: 1rem;
   color: white;
   font-family: "Kaisei HarunoUmi";
+  transition: margin-left 0.35s ease-in-out; /* Add transition for smooth animation */
 }
 
 .navbar-collapse {
