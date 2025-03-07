@@ -18,7 +18,7 @@ const RegisterForm = () => {
           color: "#35262E",
           cursor: "pointer"
         }}
-        onClick={() => navigate("/")} // Navigate back to the landing page
+        onClick={() => navigate("/users")} // Navigate back to the landing page
       />
 
       <div className="row w-100 justify-content-center">

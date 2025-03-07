@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [showPostponeModal, setShowPostponeModal] = useState(false);
@@ -8,12 +9,28 @@ const Home = () => {
   const [newAmPm, setNewAmPm] = useState("AM");
   const [selectedAppointment, setSelectedAppointment] = useState(null);
 
-  const todayAppointments = [
-    { id: 1, name: "Radhesh", service: "Haircut", date: "19-2-2025", time: "10:00 AM" },
+  // Sample appointments data
+  const Appointments = [
+    { id: 1, name: "Radhesh", service: "Haircut", date: "07-03-2025", time: "10:00 AM" },
     { id: 2, name: "Vaibhav", service: "Facial", date: "19-2-2025", time: "11:30 AM" },
     { id: 3, name: "Nishant", service: "Massage", date: "19-2-2025", time: "1:00 PM" },
     { id: 4, name: "Jenil", service: "Hair Color", date: "19-2-2025", time: "3:00 PM" },
+    { id: 5, name: "Jenil", service: "Hair Color", date: "07-03-2025", time: "3:00 PM" }, // This won't be displayed
   ];
+
+  // Get today's date in the same format as the appointments data
+  const getTodayDate = () => {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, "0");
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const year = today.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
+  // Filter appointments to include only today's appointments
+  const filteredAppointments = Appointments.filter(
+    (appointment) => appointment.date === getTodayDate()
+  );
 
   const handleCancelClick = (appointment) => {
     setSelectedAppointment(appointment);
@@ -52,6 +69,7 @@ const Home = () => {
     console.log("Postponed Appointment:", selectedAppointment);
     handleClosePostponeModal();
   };
+
   return (
     <main className="content px-3 py-4 bg-light">
       <div className="container-fluid">
@@ -81,8 +99,8 @@ const Home = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {todayAppointments.length > 0 ? (
-                      todayAppointments.map((appointment, index) => (
+                    {filteredAppointments.length > 0 ? (
+                      filteredAppointments.map((appointment, index) => (
                         <tr key={appointment.id}>
                           <td>{index + 1}</td>
                           <td>{appointment.name}</td>
@@ -90,11 +108,21 @@ const Home = () => {
                           <td>{appointment.date}</td>
                           <td>{appointment.time}</td>
                           <td>
-                            <button className="btn btn-danger btn-sm" onClick={() => handleCancelClick(appointment)}>Cancel</button>
+                            <button
+                              className="btn btn-danger btn-sm"
+                              onClick={() => handleCancelClick(appointment)}
+                            >
+                              Cancel
+                            </button>
                           </td>
                           <td>
-                              <button className="btn btn-info btn-sm" onClick={() =>  handlePostponeClick(appointment)}>Postpone</button>
-                            </td>
+                            <button
+                              className="btn btn-info btn-sm"
+                              onClick={() => handlePostponeClick(appointment)}
+                            >
+                              Postpone
+                            </button>
+                          </td>
                         </tr>
                       ))
                     ) : (
@@ -112,9 +140,10 @@ const Home = () => {
         </div>
       </div>
 
+      {/* Cancellation Modal */}
       {showModal && (
-        <div className="modal show d-block" tabIndex="-1" role="dialog" >
-          <div className="modal-dialog" role="document" >
+        <div className="modal show d-block" tabIndex="-1" role="dialog">
+          <div className="modal-dialog" role="document">
             <div className="modal-content" style={{ backgroundColor: "#D9D9D9" }}>
               <div className="modal-header">
                 <h5 className="modal-title">Appointment Cancellation</h5>
@@ -123,7 +152,9 @@ const Home = () => {
                 </button>
               </div>
               <div className="modal-body">
-                <p><strong>Canceling:</strong> {selectedAppointment?.name} - {selectedAppointment?.service}</p>
+                <p>
+                  <strong>Canceling:</strong> {selectedAppointment?.name} - {selectedAppointment?.service}
+                </p>
                 <label className="form-label">Describe:</label>
                 <textarea
                   className="form-control"
@@ -136,7 +167,12 @@ const Home = () => {
                 <button type="button" className="btn" onClick={handleCloseModal}>
                   Close
                 </button>
-                <button type="button" className="btn" style={{backgroundColor:"#786670" , color:"white"}}onClick={handleSendCancellation}>
+                <button
+                  type="button"
+                  className="btn"
+                  style={{ backgroundColor: "#786670", color: "white" }}
+                  onClick={handleSendCancellation}
+                >
                   Send
                 </button>
               </div>
@@ -145,6 +181,7 @@ const Home = () => {
         </div>
       )}
 
+      {/* Postponement Modal */}
       {showPostponeModal && (
         <div className="modal show d-block" tabIndex="-1" role="dialog">
           <div className="modal-dialog" role="document">
@@ -156,9 +193,15 @@ const Home = () => {
                 </button>
               </div>
               <div className="modal-body">
-                <p><strong>Postponing:</strong> {selectedAppointment?.name} - {selectedAppointment?.service}</p>
-                <p><strong>Old Date:</strong> {selectedAppointment?.date}</p>
-                <p><strong>Old Time:</strong> {selectedAppointment?.time}</p>
+                <p>
+                  <strong>Postponing:</strong> {selectedAppointment?.name} - {selectedAppointment?.service}
+                </p>
+                <p>
+                  <strong>Old Date:</strong> {selectedAppointment?.date}
+                </p>
+                <p>
+                  <strong>Old Time:</strong> {selectedAppointment?.time}
+                </p>
                 <label className="form-label">New Date:</label>
                 <input
                   type="date"
@@ -188,7 +231,12 @@ const Home = () => {
                 <button type="button" className="btn" onClick={handleClosePostponeModal}>
                   Close
                 </button>
-                <button type="button" className="btn" style={{backgroundColor:"#786670", color:"white"}} onClick={handleSendPostponement}>
+                <button
+                  type="button"
+                  className="btn"
+                  style={{ backgroundColor: "#786670", color: "white" }}
+                  onClick={handleSendPostponement}
+                >
                   Send
                 </button>
               </div>
