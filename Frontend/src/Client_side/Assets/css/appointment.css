@@ -10,7 +10,7 @@ body {
 
 /* Left Section: Image */
 .left-section {
-  background-color: #ffffff !important;
+  background-color: #c7c6c6 !important;
   flex: 1;
   display: flex;
   align-items: center;
@@ -25,7 +25,7 @@ body {
 
 /* Right Section: Form */
 .right-section {
-  background-color: #786670 ; /* Updated background color */
+  background-color: #9a8390 ; /* Updated background color */
 
   flex: 1;
   display: flex;
