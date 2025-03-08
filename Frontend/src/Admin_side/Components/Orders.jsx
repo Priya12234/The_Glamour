@@ -1,57 +1,57 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
-import { FaCheck, FaClock, FaTimes } from "react-icons/fa";
+import { FaCheck, FaClock } from "react-icons/fa";
+import lipglosses from "../Assets/image/lipglosses.jpg";
+import Lipstick from "../Assets/image/lipstick.png";
+import Primer from "../Assets/image/Primer.jpg";
+
+const orders = [
+  {
+    id: 1,
+    name: "Priya Chauhan",
+    number: "9999999999",
+    product: "Lipglosses",
+    quantity: 2,
+    image: lipglosses,
+    price: "300/-",
+    totalPrice: "600/-",
+    status: "Delivered",
+  },
+  {
+    id: 2,
+    name: "Priya Chauhan",
+    number: "9999999999",
+    product: "Lipstick",
+    quantity: 2,
+    image: Lipstick,
+    price: "300/-",
+    totalPrice: "600/-",
+    status: "Pending",
+  },
+  {
+    id: 3,
+    name: "Priya Chauhan",
+    number: "9999999999",
+    product: "Primer",
+    quantity: 2,
+    image: Primer,
+    price: "300/-",
+    totalPrice: "600/-",
+    status: "Pending",
+  },
+];
 
 const Orders = () => {
-  const user = {
-    name: "Priya Chauhan",
-    email: "pchauhan862@rku.ac.in",
-    number: "9999999999",
-  };
-
-  const orders = [
-    {
-      id: 1,
-      product: "Foundation",
-      quantity: 2,
-      image: "https://via.placeholder.com/40", // Replace with actual image URL
-      price: "300/-",
-      totalPrice: "600/-",
-      status: "Delivered",
-    },
-    {
-      id: 2,
-      product: "Foundation",
-      quantity: 2,
-      image: "https://via.placeholder.com/40", // Replace with actual image URL
-      price: "300/-",
-      totalPrice: "600/-",
-      status: "Pending",
-    },
-  ];
-
   return (
-    <div className="container mt-4">
-      <h3 className="fw-bold">Users</h3>
-
-      {/* User Info Card */}
-      <div className="p-3 mt-3" style={{ backgroundColor: "#E3E3E3", borderRadius: "8px" }}>
-        <p>
-          <strong>Name:</strong> {user.name}
-          <br />
-          <strong>Email:</strong> <a href={`mailto:${user.email}`}>{user.email}</a>
-          <br />
-          <strong>Number:</strong> {user.number}
-        </p>
-      </div>
-
-      {/* Orders Table */}
-      <h5 className="fw-bold mt-4">Orders:</h5>
-      <div className="table-responsive">
-        <table className="table table-bordered text-center">
-          <thead style={{ backgroundColor: "#A5909C", color: "white" }}>
+    <div className="d-flex">
+      <div className="container p-4">
+       
+        <h4>Orders</h4>
+        <table className="table table-bordered mt-3">
+          <thead className="table-secondary">
             <tr>
               <th>No.</th>
+              <th>Name</th>
+              <th>Number</th>
               <th>Product</th>
               <th>Quantity</th>
               <th>Image</th>
@@ -65,28 +65,33 @@ const Orders = () => {
             {orders.map((order, index) => (
               <tr key={order.id}>
                 <td>{index + 1}</td>
+                <td>{order.name}</td>
+                <td>{order.number}</td>
                 <td>{order.product}</td>
                 <td>{order.quantity}</td>
                 <td>
-                  <img src={order.image} alt={order.product} style={{ width: "40px", borderRadius: "5px" }} />
+                  <img 
+                    src={order.image} 
+                    alt={order.product} 
+                    className="product-img" 
+                    style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "5px" }}
+                  />
                 </td>
                 <td>{order.price}</td>
                 <td>{order.totalPrice}</td>
                 <td>
                   {order.status === "Delivered" ? (
-                    <span className="text-success">
-                      {order.status} <FaCheck />
-                    </span>
+                    <>
+                      Delivered <FaCheck className="text-success ms-2" />
+                    </>
                   ) : (
-                    <span className="text-warning">
-                      {order.status} <FaClock />
-                    </span>
+                    <>
+                      Pending <FaClock className="text-warning ms-2" />
+                    </>
                   )}
                 </td>
                 <td>
-                  <button className="btn btn-danger btn-sm">
-                    <FaTimes /> Cancel
-                  </button>
+                  <button className="btn btn-danger btn-sm">Cancel</button>
                 </td>
               </tr>
             ))}

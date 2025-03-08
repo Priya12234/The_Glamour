@@ -21,98 +21,35 @@ const Sidebar = () => {
           </NavLink>
         </div>
       </div>
+
       <ul className="sidebar-nav">
-        <li className="sidebar-item">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `sidebar-link ${isActive ? "active" : ""}`
-            }
-          >
-            <i className="bi bi-house-door me-2"></i> {/* Home icon */}
-            <span>Home</span>
-          </NavLink>
-        </li>
-        <li className="sidebar-item">
-          <NavLink
-            to="/appointments"
-            className={({ isActive }) =>
-              `sidebar-link ${isActive ? "active" : ""}`
-            }
-          >
-            <i className="bi bi-calendar-event me-2"></i> 
-            <span>Appointments</span>
-          </NavLink>
-        </li>
-        <li className="sidebar-item">
-          <NavLink
-            to="/users"
-            className={({ isActive }) =>
-              `sidebar-link ${isActive ? "active" : ""}`
-            }
-          >
-            <i className="bi bi-person"></i> 
-            <span>Users</span>
-          </NavLink>
-        </li>
-        <li className="sidebar-item">
-          <NavLink
-            to="/product"
-            className={({ isActive }) =>
-              `sidebar-link ${isActive ? "active" : ""}`
-            }
-          >
-            <i className="bi bi-bag"></i> 
-            <span>Products</span>
-          </NavLink>
-        </li>
-        <li className="sidebar-item">
-          <NavLink
-            to="/orders"
-            className={({ isActive }) =>
-              `sidebar-link ${isActive ? "active" : ""}`
-            }
-          >
-            <i className="bi bi-box"></i> 
-            <span>Orders</span>
-          </NavLink>
-        </li>
-        <li className="sidebar-item">
-          <NavLink
-            to="/services"
-            className={({ isActive }) =>
-              `sidebar-link ${isActive ? "active" : ""}`
-            }
-          >
-            <i className="bi bi-stars"></i> 
-            <span>Services</span>
-          </NavLink>
-        </li>
-        <li className="sidebar-item">
-          <NavLink
-            to="/feedbacks"
-            className={({ isActive }) =>
-              `sidebar-link ${isActive ? "active" : ""}`
-            }
-          >
-            <i className="bi bi-clipboard-check"></i> 
-            <span>Feedback</span>
-          </NavLink>
-        </li>
+        <SidebarItem to="/" icon="bi-house-door" label="Home" />
+        <SidebarItem to="/appointments" icon="bi-calendar-event" label="Appointments" />
+        <SidebarItem to="/users" icon="bi-person" label="Users" />
+        <SidebarItem to="/product" icon="bi-bag" label="Products" />
+        <SidebarItem to="/orders" icon="bi-box" label="Orders" /> {/* ✅ Updated Orders label */}
+        <SidebarItem to="/services" icon="bi-stars" label="Services" />
+        <SidebarItem to="/feedbacks" icon="bi-clipboard-check" label="Feedback" />
       </ul>
+
       <div className="sidebar-footer">
-        <NavLink
-          to="/logout"
-          className={({ isActive }) =>
-            `sidebar-link ${isActive ? "active" : ""}`
-          }
-        >
-          <i className="bi bi-box-arrow-left"></i> {/* Logout icon */}
-          <span>Logout</span>
-        </NavLink>
+        <SidebarItem to="/logout" icon="bi-box-arrow-left" label="Logout" />
       </div>
     </aside>
   );
 };
+
+// ✅ Extracted SidebarItem as a reusable component
+const SidebarItem = ({ to, icon, label }) => (
+  <li className="sidebar-item">
+    <NavLink
+      to={to}
+      className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}
+    >
+      <i className={`bi ${icon} me-2`}></i> 
+      <span>{label}</span>
+    </NavLink>
+  </li>
+);
 
 export default Sidebar;

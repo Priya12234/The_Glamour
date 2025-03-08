@@ -9,6 +9,7 @@ import Appointments from "./Appointments";
 import Footer from "./Footer";
 import Home from "./Home";
 import Navbar from "./Navbar";
+import Orders from "./Orders"; // ✅ Import Orders Component
 import Product from "./Product";
 import RegisterForm from "./RegisterForm";
 import Sidebar from "./Sidebar";
@@ -22,13 +23,13 @@ function AdminLayout() {
     setIsSidebarExpanded((prevState) => !prevState);
   };
 
-  // Define an array of paths where Sidebar, Navbar, and Footer should not appear
-  const hideComponentsPaths = [
-    "/registerform", // Add more paths if needed
-  ];
+  // Define paths where Sidebar, Navbar, and Footer should not appear
+  const hideComponentsPaths = ["/registerform"];
 
-  // Check if the current path matches any of the paths in the hideComponentsPaths array
-  const shouldHideComponents = hideComponentsPaths.some(path => location.pathname.startsWith(path));
+  // Check if the current path matches any paths in hideComponentsPaths array
+  const shouldHideComponents = hideComponentsPaths.some(path =>
+    location.pathname.startsWith(path)
+  );
 
   return (
     <div className={`wrapper ${isSidebarExpanded ? "sidebar-expanded" : ""}`}>
@@ -49,6 +50,7 @@ function AdminLayout() {
             <Route path="/users" element={<Users />} />
             <Route path="/registerform" element={<RegisterForm />} />
             <Route path="/product" element={<Product />} />
+            <Route path="/orders" element={<Orders />} /> {/* ✅ Added Orders Route */}
             {/* Add more routes as needed */}
           </Routes>
         </main>
@@ -59,8 +61,7 @@ function AdminLayout() {
   );
 }
 
-
-function AdminApp (){
+function AdminApp() {
   return (
     <Router>
       <AdminLayout />

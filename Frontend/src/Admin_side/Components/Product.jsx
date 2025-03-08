@@ -69,7 +69,7 @@ const Product = () => {
       
       {/* Main Content */}
       <div className="container-fluid p-4">
-        <h2 className="text-center mb-4">Welcome Admin!</h2>
+       
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h4>Products</h4>
           <button className="btn btn-secondary">New Product</button>
