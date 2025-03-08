@@ -14,6 +14,7 @@ import Product from "./Product";
 import RegisterForm from "./RegisterForm";
 import Sidebar from "./Sidebar";
 import Users from "./Users";
+import Services from "./Services"; // ✅ Import Services Component
 
 function AdminLayout() {
   const location = useLocation();
@@ -50,7 +51,8 @@ function AdminLayout() {
             <Route path="/users" element={<Users />} />
             <Route path="/registerform" element={<RegisterForm />} />
             <Route path="/product" element={<Product />} />
-            <Route path="/orders" element={<Orders />} /> {/* ✅ Added Orders Route */}
+            <Route path="/orders" element={<Orders />} /> {/* ✅ Orders Route */}
+            <Route path="/services" element={<Services />} /> {/* ✅ Services Route */}
             {/* Add more routes as needed */}
           </Routes>
         </main>

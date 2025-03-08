@@ -27,8 +27,8 @@ const Sidebar = () => {
         <SidebarItem to="/appointments" icon="bi-calendar-event" label="Appointments" />
         <SidebarItem to="/users" icon="bi-person" label="Users" />
         <SidebarItem to="/product" icon="bi-bag" label="Products" />
-        <SidebarItem to="/orders" icon="bi-box" label="Orders" /> {/* ✅ Updated Orders label */}
-        <SidebarItem to="/services" icon="bi-stars" label="Services" />
+        <SidebarItem to="/orders" icon="bi-box" label="Orders" />
+        <SidebarItem to="/services" icon="bi-stars" label="Services" /> {/* ✅ Services Page Added */}
         <SidebarItem to="/feedbacks" icon="bi-clipboard-check" label="Feedback" />
       </ul>
 
