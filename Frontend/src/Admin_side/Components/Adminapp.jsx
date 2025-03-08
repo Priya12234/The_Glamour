@@ -6,15 +6,16 @@ import {
   useLocation
 } from "react-router-dom";
 import Appointments from "./Appointments";
+import Feedback from "./Feedback"; // ✅ Import Feedback Component
 import Footer from "./Footer";
 import Home from "./Home";
 import Navbar from "./Navbar";
 import Orders from "./Orders"; // ✅ Import Orders Component
 import Product from "./Product";
 import RegisterForm from "./RegisterForm";
+import Services from "./Services"; // ✅ Import Services Component
 import Sidebar from "./Sidebar";
 import Users from "./Users";
-import Services from "./Services"; // ✅ Import Services Component
 
 function AdminLayout() {
   const location = useLocation();
@@ -53,7 +54,7 @@ function AdminLayout() {
             <Route path="/product" element={<Product />} />
             <Route path="/orders" element={<Orders />} /> {/* ✅ Orders Route */}
             <Route path="/services" element={<Services />} /> {/* ✅ Services Route */}
-            {/* Add more routes as needed */}
+            <Route path="/feedbacks" element={<Feedback />} /> {/* ✅ Feedback Route Added */}
           </Routes>
         </main>
         {/* Conditionally render Footer */}

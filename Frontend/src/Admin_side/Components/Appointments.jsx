@@ -14,10 +14,10 @@ const Appointments = () => {
     { id: 2, name: "Drashti", service: "Facial", date: "19-2-2025", time: "11:30 AM" },
     { id: 3, name: "Priya", service: "Massage", date: "19-2-2025", time: "1:00 PM" },
     { id: 4, name: "Isha", service: "Hair Color", date: "19-2-2025", time: "3:00 PM" },
-    { id: 5, name: "Radhesh", service: "Haircut", date: "19-2-2025", time: "10:00 AM" },
-    { id: 6, name: "Vaibhav", service: "Facial", date: "19-2-2025", time: "11:30 AM" },
-    { id: 7, name: "Nishant", service: "Massage", date: "19-2-2025", time: "1:00 PM" },
-    { id: 8, name: "Jenil", service: "Hair Color", date: "19-2-2025", time: "3:00 PM" },
+    { id: 5, name: "Drashti", service: "Haircut", date: "19-2-2025", time: "10:00 AM" },
+    { id: 6, name: "Priya", service: "Facial", date: "19-2-2025", time: "11:30 AM" },
+    { id: 7, name: "Isha", service: "Massage", date: "19-2-2025", time: "1:00 PM" },
+    { id: 8, name: "Drashti", service: "Hair Color", date: "19-2-2025", time: "3:00 PM" },
   ];
 
   const handleCancelClick = (appointment) => {

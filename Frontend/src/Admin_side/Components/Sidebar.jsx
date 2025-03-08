@@ -28,8 +28,8 @@ const Sidebar = () => {
         <SidebarItem to="/users" icon="bi-person" label="Users" />
         <SidebarItem to="/product" icon="bi-bag" label="Products" />
         <SidebarItem to="/orders" icon="bi-box" label="Orders" />
-        <SidebarItem to="/services" icon="bi-stars" label="Services" /> {/* ✅ Services Page Added */}
-        <SidebarItem to="/feedbacks" icon="bi-clipboard-check" label="Feedback" />
+        <SidebarItem to="/services" icon="bi-stars" label="Services" />
+        <SidebarItem to="/feedbacks" icon="bi-clipboard-check" label="Feedback" /> {/* ✅ Feedback Page Added */}
       </ul>
 
       <div className="sidebar-footer">
@@ -39,7 +39,7 @@ const Sidebar = () => {
   );
 };
 
-// ✅ Extracted SidebarItem as a reusable component
+// ✅ Reusable Sidebar Item Component
 const SidebarItem = ({ to, icon, label }) => (
   <li className="sidebar-item">
     <NavLink

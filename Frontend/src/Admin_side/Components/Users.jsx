@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaShoppingBag, FaCalendarAlt, FaTrash } from "react-icons/fa";
+import { FaCalendarAlt, FaShoppingBag, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Button = ({ children, onClick, className }) => {
@@ -18,8 +18,8 @@ const Users = () => {
       number: "9999999999",
     },
     {
-      name: "Priya Chauhan",
-      email: "pchauhan862@rku.ac.in",
+      name: "Drashti chag",
+      email: "dchag730@rku.ac.in",
       number: "9999999999",
     },
     {
@@ -28,13 +28,13 @@ const Users = () => {
       number: "9999999999",
     },
     {
-      name: "Priya Chauhan",
-      email: "pchauhan862@rku.ac.in",
+      name: "Isha Tank",
+      email: "itank862@rku.ac.in",
       number: "9999999999",
     },
     {
-      name: "Priya Chauhan",
-      email: "pchauhan862@rku.ac.in",
+      name: "Drashti chag",
+      email: "dchag730@rku.ac.in",
       number: "9999999999",
     },
   ]);
