@@ -18,7 +18,7 @@ const Sidebar = () => {
         <div className="sidebar-logo">
           <NavLink to="/" className="navbar-brand fs-4">
             The Glamour
-          </NavLink>{" "}
+          </NavLink>
         </div>
       </div>
       <ul className="sidebar-nav">
@@ -35,40 +35,37 @@ const Sidebar = () => {
         </li>
         <li className="sidebar-item">
           <NavLink
-            to="/Appointments"
-            className={({ isActive }) =>
-              `sidebar-link d-flex align-items-center ${
-                isActive ? "active" : ""
-              }`
-            }
-          >
-            <i className="bi bi-calendar-event me-2"></i> 
-            <span className="sidebar-text">Apointments</span>
-          </NavLink>
-        </li>
-        <li className="sidebar-item">
-          <NavLink
-            to="/Users"
+            to="/appointments"
             className={({ isActive }) =>
               `sidebar-link ${isActive ? "active" : ""}`
             }
           >
-            <i className="bi bi-person"></i>{" "}
+            <i className="bi bi-calendar-event me-2"></i> 
+            <span>Appointments</span>
+          </NavLink>
+        </li>
+        <li className="sidebar-item">
+          <NavLink
+            to="/users"
+            className={({ isActive }) =>
+              `sidebar-link ${isActive ? "active" : ""}`
+            }
+          >
+            <i className="bi bi-person"></i> 
             <span>Users</span>
           </NavLink>
         </li>
         <li className="sidebar-item">
           <NavLink
-            to="/adminComplaints"
+            to="/product"
             className={({ isActive }) =>
               `sidebar-link ${isActive ? "active" : ""}`
             }
           >
-            <i className="bi bi-bag"></i>{" "}
+            <i className="bi bi-bag"></i> 
             <span>Products</span>
           </NavLink>
         </li>
-
         <li className="sidebar-item">
           <NavLink
             to="/orders"
@@ -76,34 +73,32 @@ const Sidebar = () => {
               `sidebar-link ${isActive ? "active" : ""}`
             }
           >
-            <i className="bi bi-box"></i>{" "}
+            <i className="bi bi-box"></i> 
             <span>Orders</span>
           </NavLink>
         </li>
-
         <li className="sidebar-item">
           <NavLink
-            to="/adminHallBookingPage"
+            to="/services"
             className={({ isActive }) =>
               `sidebar-link ${isActive ? "active" : ""}`
             }
           >
-            <i className="bi bi-stars"></i>{" "}
+            <i className="bi bi-stars"></i> 
             <span>Services</span>
           </NavLink>
         </li>
         <li className="sidebar-item">
           <NavLink
-            to="/adminNoticeBoardPage"
+            to="/feedbacks"
             className={({ isActive }) =>
               `sidebar-link ${isActive ? "active" : ""}`
             }
           >
-            <i className="bi bi-clipboard-check"></i>{" "}
+            <i className="bi bi-clipboard-check"></i> 
             <span>Feedback</span>
           </NavLink>
         </li>
-        
       </ul>
       <div className="sidebar-footer">
         <NavLink

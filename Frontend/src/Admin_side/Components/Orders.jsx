@@ -1,6 +1,6 @@
-import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FaCheck, FaTimes, FaClock } from "react-icons/fa";
+import React from "react";
+import { FaCheck, FaClock, FaTimes } from "react-icons/fa";
 
 const Orders = () => {
   const user = {

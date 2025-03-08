@@ -1,17 +1,18 @@
+import { useState } from "react";
 import {
+  Route,
   BrowserRouter as Router,
   Routes,
-  Route,
-  useLocation,
+  useLocation
 } from "react-router-dom";
-import { useState } from "react";
-import Sidebar from "./Sidebar";
-import Navbar from "./Navbar";
+import Appointments from "./Appointments";
 import Footer from "./Footer";
 import Home from "./Home";
-import Appointments from "./Appointments";
-import Users from "./Users";
+import Navbar from "./Navbar";
+import Product from "./Product";
 import RegisterForm from "./RegisterForm";
+import Sidebar from "./Sidebar";
+import Users from "./Users";
 
 function AdminLayout() {
   const location = useLocation();
@@ -47,6 +48,7 @@ function AdminLayout() {
             <Route path="/appointments" element={<Appointments />} />
             <Route path="/users" element={<Users />} />
             <Route path="/registerform" element={<RegisterForm />} />
+            <Route path="/product" element={<Product />} />
             {/* Add more routes as needed */}
           </Routes>
         </main>
@@ -57,7 +59,8 @@ function AdminLayout() {
   );
 }
 
-function AdminApp() {
+
+function AdminApp (){
   return (
     <Router>
       <AdminLayout />
