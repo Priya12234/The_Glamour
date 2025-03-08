@@ -5,7 +5,10 @@ import Eyeshadow from "../Assets/image/eyeshadow.png";
 import Foundation from "../Assets/image/foundation.png";
 import lipglosses from "../Assets/image/lipglosses.jpg";
 import Lipstick from "../Assets/image/lipstick.png";
+import Mehndi from "../Assets/image/Mehndi.jpg";
+import Nail from "../Assets/image/Nail.png";
 import Primer from "../Assets/image/Primer.jpg";
+
 
 const products = [
   {
@@ -46,17 +49,18 @@ const products = [
       price: "300/-",
       image: Eyeliner,
     },
+  
     {
-      name: "Foundation",
+      name: "Mehndi",
       volume: "100ml",
       price: "300/-",
-      image: "/Frontend/src/Client_side/Assets/Images/lipstick.png",
+      image: Mehndi,
     },
     {
-      name: "Foundation",
+      name: "Nail",
       volume: "100ml",
       price: "300/-",
-      image: "/Frontend/src/Client_side/Assets/Images/lipstick.png",
+      image: Nail,
     },
   ];
   
@@ -79,7 +83,8 @@ const Product = () => {
           {products.map((product, index) => (
             <div key={index} className="col-md-3 mb-4">
               <div className="card text-center p-2 shadow-sm">
-                <img src={product.image} alt={product.name} className="card-img-top" style={{ height: "150px" }} />
+              <img src={product.image} alt={product.name} className="card-img-top" style={{ height: "200px", width: "70%", objectFit: "cover", borderRadius: "5px" }} />
+               
                 <div className="card-body">
                   <h6>{product.name}</h6>
                   <p>{product.volume}</p>
