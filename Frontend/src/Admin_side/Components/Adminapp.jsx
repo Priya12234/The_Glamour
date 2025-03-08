@@ -16,6 +16,7 @@ import RegisterForm from "./RegisterForm";
 import Services from "./Services"; 
 import Sidebar from "./Sidebar";
 import Users from "./Users";
+import UserOrders from "./UserOrders";
 
 function AdminLayout() {
   const location = useLocation();
@@ -52,9 +53,10 @@ function AdminLayout() {
             <Route path="/users" element={<Users />} />
             <Route path="/registerform" element={<RegisterForm />} />
             <Route path="/product" element={<Product />} />
-            <Route path="/orders" element={<Orders />} /> {/* ✅ Orders Route */}
-            <Route path="/services" element={<Services />} /> {/* ✅ Services Route */}
-            <Route path="/feedbacks" element={<Feedback />} /> {/* ✅ Feedback Route Added */}
+            <Route path="/orders" element={<Orders />} /> 
+            <Route path="/services" element={<Services />} /> 
+            <Route path="/feedbacks" element={<Feedback />} /> 
+            <Route path="/userorders/:userName/:userEmail/:userNumber" element={<UserOrders />} />
           </Routes>
         </main>
         {/* Conditionally render Footer */}
