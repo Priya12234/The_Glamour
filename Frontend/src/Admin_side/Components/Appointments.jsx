@@ -155,8 +155,8 @@ const Appointments = () => {
             <div className="modal-content" style={{ backgroundColor: "#D9D9D9" }}>
               <div className="modal-header">
                 <h5 className="modal-title">Appointment Postponement</h5>
-                <button type="button" className="close" onClick={handleClosePostponeModal}>
-                  &times;
+                <button type="button" className="btn p-0 boarder-0" onClick={handleClosePostponeModal}>
+                  <i className="bi bi-x-lg"></i>
                 </button>
               </div>
               <div className="modal-body">

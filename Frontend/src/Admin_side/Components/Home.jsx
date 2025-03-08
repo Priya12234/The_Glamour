@@ -84,7 +84,7 @@ const Home = () => {
           <div className="col-12">
             <div className="card shadow-sm border-0">
               <div className="card-header bg-white py-3">
-                <h5 className="mb-0 fw-bold">Today's Appointments</h5>
+                <h5 className="mb-0 fw-bold">Todays Appointments</h5>
               </div>
               <div className="card-body">
                 <table className="table table-striped table-hover">
