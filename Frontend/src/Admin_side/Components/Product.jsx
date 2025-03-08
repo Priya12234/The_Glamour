@@ -76,7 +76,7 @@ const Product = () => {
        
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h4>Products</h4>
-          <button className="btn btn-secondary">New Product</button>
+          <button className="btn btn-secondary" style={{ backgroundColor: "#A5909C", color: "black", border: "none" , fontFamily: "'Kaisei HarunoUmi'"}}>New Product</button>
         </div>
         
         <div className="row">
