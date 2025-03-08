@@ -72,8 +72,9 @@ const Users = () => {
                   <Link to="/userorders"><FaShoppingBag className="text-dark" /></Link>
                 </td>
                 <td>
+                <Link to="/userappointments">
                   <FaCalendarAlt className="text-dark" />
-                </td>
+               </Link> </td>
                 <td>
                   <button className="btn btn-link text-danger" onClick={() => handleDelete(index)}>
                     <FaTrash />

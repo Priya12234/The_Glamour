@@ -16,6 +16,8 @@ import RegisterForm from "./RegisterForm";
 import Services from "./Services"; // ✅ Import Services Component
 import Sidebar from "./Sidebar";
 import Users from "./Users";
+import User_Orders from "./User_Orders";
+import UserAppointments from "./User_Appointments";
 
 function AdminLayout() {
   const location = useLocation();
@@ -54,7 +56,10 @@ function AdminLayout() {
             <Route path="/product" element={<Product />} />
             <Route path="/orders" element={<Orders />} /> {/* ✅ Orders Route */}
             <Route path="/services" element={<Services />} /> {/* ✅ Services Route */}
-            <Route path="/feedbacks" element={<Feedback />} /> {/* ✅ Feedback Route Added */}
+            <Route path="/feedbacks" element={<Feedback />} />
+             {/* ✅ Feedback Route Added */}
+            <Route path="/userorders" element={<User_Orders />} />
+            <Route path="/userappointments" element={<UserAppointments />} /> {/* ✅ User Appointments Route */}
           </Routes>
         </main>
         {/* Conditionally render Footer */}

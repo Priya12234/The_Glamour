@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { FaCheck, FaClock, FaTimes } from "react-icons/fa";
 
-const Orders = () => {
+const User_Orders = () => {
   const user = {
     name: "Priya Chauhan",
     email: "pchauhan862@rku.ac.in",
@@ -97,4 +97,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default User_Orders;
