@@ -122,8 +122,8 @@ const Appointments = () => {
             <div className="modal-content" style={{ backgroundColor: "#D9D9D9" }}>
               <div className="modal-header">
                 <h5 className="modal-title">Appointment Cancellation</h5>
-                <button type="button" className="close" onClick={handleCloseModal}>
-                  &times;
+                <button type="button" className="btn" onClick={handleCloseModal}>
+                <i className="bi bi-x-lg"></i>
                 </button>
               </div>
               <div className="modal-body">

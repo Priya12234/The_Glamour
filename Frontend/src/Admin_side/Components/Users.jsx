@@ -74,7 +74,7 @@ const Users = () => {
                   </Link>
                 </td>
                 <td>
-                <Link to="/userappointments">
+                <Link to={`/userappointments/${user.name}/${user.email}/${user.number}`}>
                   <FaCalendarAlt className="text-dark" />
                </Link> </td>
                 <td>

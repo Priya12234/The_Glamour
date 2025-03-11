@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import Eyeliner from "../Assets/image/Eyeliner.jpg";
 import Eyeshadow from "../Assets/image/eyeshadow.png";
@@ -9,88 +9,74 @@ import Mehndi from "../Assets/image/Mehndi.jpg";
 import Nail from "../Assets/image/Nail.png";
 import Primer from "../Assets/image/Primer.jpg";
 
+const productsData = [
+  { name: "Foundation", volume: "100ml", price: "300/-", image: Foundation },
+  { name: "Lipstick", volume: "50ml", price: "250/-", image: Lipstick },
+  { name: "EyeShadow", volume: "100ml", price: "300/-", image: Eyeshadow },
+  { name: "lipglosses", volume: "100ml", price: "300/-", image: lipglosses },
+  { name: "Primer", volume: "100ml", price: "300/-", image: Primer },
+  { name: "Eyeliner", volume: "100ml", price: "300/-", image: Eyeliner },
+  { name: "Mehndi", volume: "100ml", price: "300/-", image: Mehndi },
+  { name: "Nail", volume: "100ml", price: "300/-", image: Nail },
+];
 
-const products = [
-  {
-    name: "Foundation",
-    volume: "100ml",
-    price: "300/-",
-    image: Foundation,
-  },
-  {
-    name: "Lipstick",
-    volume: "50ml",
-    price: "250/-",
-    image: Lipstick, // Correct path from public folder
-  },
-
-
-    {
-      name: "EyeShadow",
-      volume: "100ml",
-      price: "300/-",
-      image: Eyeshadow,
-    },
-    {
-      name: "lipglosses",
-      volume: "100ml",
-      price: "300/-",
-      image: lipglosses,
-    },
-    {
-      name: "Primer",
-      volume: "100ml",
-      price: "300/-",
-      image: Primer,
-    },
-    {
-      name: "Eyeliner",
-      volume: "100ml",
-      price: "300/-",
-      image: Eyeliner,
-    },
-  
-    {
-      name: "Mehndi",
-      volume: "100ml",
-      price: "300/-",
-      image: Mehndi,
-    },
-    {
-      name: "Nail",
-      volume: "100ml",
-      price: "300/-",
-      image: Nail,
-    },
-  ];
-  
-  
 const Product = () => {
+  const [products, setProducts] = useState(productsData);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showNewProductModal, setShowNewProductModal] = useState(false);
+  const [newProduct, setNewProduct] = useState({ name: "", volume: "", price: "", image: null });
+
+  const handleEditClick = (product) => {
+    setSelectedProduct(product);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSelectedProduct((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleNewProductChange = (e) => {
+    const { name, value, files } = e.target;
+    if (files) {
+      setNewProduct((prev) => ({ ...prev, image: URL.createObjectURL(files[0]) }));
+    } else {
+      setNewProduct((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const handleUpdate = () => {
+    setProducts((prevProducts) =>
+      prevProducts.map((prod) =>
+        prod.name === selectedProduct.name ? selectedProduct : prod
+      )
+    );
+    setSelectedProduct(null);
+  };
+
+  const handleAddProduct = () => {
+    setProducts([...products, newProduct]);
+    setShowNewProductModal(false);
+  };
+
   return (
     <div className="d-flex">
-      {/* Sidebar */}
-      
-      
-      {/* Main Content */}
       <div className="container-fluid p-4">
-       
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h4>Products</h4>
-          <button className="btn btn-secondary" style={{ backgroundColor: "#A5909C", color: "black", border: "none" , fontFamily: "'Kaisei HarunoUmi'"}}>New Product</button>
+          <button className="btn btn-secondary" style={{ backgroundColor: "#A5909C", color: "black", border: "none" }} onClick={() => setShowNewProductModal(true)}>New Product</button>
         </div>
-        
+
         <div className="row">
           {products.map((product, index) => (
             <div key={index} className="col-md-3 mb-4">
               <div className="card text-center p-2 shadow-sm">
-              <img src={product.image} alt={product.name} className="card-img-top" style={{ height: "200px", width: "70%", objectFit: "cover", borderRadius: "5px" }} />
-               
+                <img src={product.image} alt={product.name} className="card-img-top" style={{ height: "200px", width: "70%", objectFit: "cover", borderRadius: "5px" }} />
                 <div className="card-body">
                   <h6>{product.name}</h6>
                   <p>{product.volume}</p>
                   <p className="fw-bold">MRP: {product.price}</p>
                   <div className="d-flex justify-content-center gap-2">
-                    <button className="btn btn-success btn-sm"><FaEdit /></button>
+                    <button className="btn btn-success btn-sm" onClick={() => handleEditClick(product)}><FaEdit /></button>
                     <button className="btn btn-danger btn-sm"><FaTrash /></button>
                   </div>
                 </div>
@@ -98,6 +84,28 @@ const Product = () => {
             </div>
           ))}
         </div>
+
+        {showNewProductModal && (
+          <div className="modal d-block" style={{ background: "rgba(0, 0, 0, 0.5)" }}>
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content p-4">
+                <h4>New Product</h4>
+                <label>Name:</label>
+                <input type="text" name="name" value={newProduct.name} onChange={handleNewProductChange} className="form-control" />
+                <label>Quantity (ml/gm):</label>
+                <input type="text" name="volume" value={newProduct.volume} onChange={handleNewProductChange} className="form-control" />
+                <label>Price:</label>
+                <input type="text" name="price" value={newProduct.price} onChange={handleNewProductChange} className="form-control" />
+                <label>Image:</label>
+                <input type="file" onChange={handleNewProductChange} className="form-control" />
+                <div className="d-flex justify-content-end mt-3">
+                  <button className="btn btn-secondary me-2" style={{ backgroundColor: "#A5909C", color: "black" }} onClick={() => setShowNewProductModal(false)}>Cancel</button>
+                  <button className="btn btn-primary" style={{ backgroundColor: "#A5909C", color: "black" }} onClick={handleAddProduct}>Upload</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
