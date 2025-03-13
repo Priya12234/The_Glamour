@@ -27,7 +27,7 @@ const Product = () => {
   const [newProduct, setNewProduct] = useState({ name: "", volume: "", price: "", image: null });
 
   const handleEditClick = (product) => {
-    setSelectedProduct(product);
+    setSelectedProduct({ ...product });
   };
 
   const handleInputChange = (e) => {
@@ -35,13 +35,19 @@ const Product = () => {
     setSelectedProduct((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleNewProductChange = (e) => {
-    const { name, value, files } = e.target;
-    if (files) {
-      setNewProduct((prev) => ({ ...prev, image: URL.createObjectURL(files[0]) }));
-    } else {
-      setNewProduct((prev) => ({ ...prev, [name]: value }));
-    }
+  const handleNewProductInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewProduct((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageChange = (e) => {
+    setNewProduct((prev) => ({ ...prev, image: URL.createObjectURL(e.target.files[0]) }));
+  };
+
+  const handleAddProduct = () => {
+    setProducts([...products, newProduct]);
+    setNewProduct({ name: "", volume: "", price: "", image: null });
+    setShowNewProductModal(false);
   };
 
   const handleUpdate = () => {
@@ -53,17 +59,12 @@ const Product = () => {
     setSelectedProduct(null);
   };
 
-  const handleAddProduct = () => {
-    setProducts([...products, newProduct]);
-    setShowNewProductModal(false);
-  };
-
   return (
     <div className="d-flex">
       <div className="container-fluid p-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h4>Products</h4>
-          <button className="btn btn-secondary" style={{ backgroundColor: "#A5909C", color: "black", border: "none" }} onClick={() => setShowNewProductModal(true)}>New Product</button>
+          <button className="btn btn-secondary" style={{ backgroundColor: "#A5909C", color: "black", border: "none", fontFamily: "'Kaisei HarunoUmi'" }} onClick={() => setShowNewProductModal(true)}>New Product</button>
         </div>
 
         <div className="row">
@@ -85,22 +86,42 @@ const Product = () => {
           ))}
         </div>
 
+        {selectedProduct && (
+          <div className="modal d-block" style={{ background: "rgba(0, 0, 0, 0.5)" }}>
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content p-4">
+                <h4>Edit Product</h4>
+                <label>Name:</label>
+                <input type="text" name="name" value={selectedProduct.name} onChange={handleInputChange} className="form-control" />
+                <label>Quantity (ml/gm):</label>
+                <input type="text" name="volume" value={selectedProduct.volume} onChange={handleInputChange} className="form-control" />
+                <label>Price:</label>
+                <input type="text" name="price" value={selectedProduct.price} onChange={handleInputChange} className="form-control" />
+                <div className="d-flex justify-content-end mt-3">
+                  <button className="btn btn-secondary me-2" style={{ backgroundColor: "#A5909C", color: "black", border: "none", fontFamily: "'Kaisei HarunoUmi'" }} onClick={() => setSelectedProduct(null)}>Cancel</button>
+                  <button className="btn btn-primary" style={{ backgroundColor: "#A5909C", color: "black", border: "none", fontFamily: "'Kaisei HarunoUmi'" }} onClick={handleUpdate}>Update</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {showNewProductModal && (
           <div className="modal d-block" style={{ background: "rgba(0, 0, 0, 0.5)" }}>
             <div className="modal-dialog modal-dialog-centered">
               <div className="modal-content p-4">
                 <h4>New Product</h4>
                 <label>Name:</label>
-                <input type="text" name="name" value={newProduct.name} onChange={handleNewProductChange} className="form-control" />
+                <input type="text" name="name" value={newProduct.name} onChange={handleNewProductInputChange} className="form-control" />
                 <label>Quantity (ml/gm):</label>
-                <input type="text" name="volume" value={newProduct.volume} onChange={handleNewProductChange} className="form-control" />
+                <input type="text" name="volume" value={newProduct.volume} onChange={handleNewProductInputChange} className="form-control" />
                 <label>Price:</label>
-                <input type="text" name="price" value={newProduct.price} onChange={handleNewProductChange} className="form-control" />
+                <input type="text" name="price" value={newProduct.price} onChange={handleNewProductInputChange} className="form-control" />
                 <label>Image:</label>
-                <input type="file" onChange={handleNewProductChange} className="form-control" />
+                <input type="file" onChange={handleImageChange} className="form-control" />
                 <div className="d-flex justify-content-end mt-3">
-                  <button className="btn btn-secondary me-2" style={{ backgroundColor: "#A5909C", color: "black" }} onClick={() => setShowNewProductModal(false)}>Cancel</button>
-                  <button className="btn btn-primary" style={{ backgroundColor: "#A5909C", color: "black" }} onClick={handleAddProduct}>Upload</button>
+                  <button className="btn btn-secondary me-2" style={{ backgroundColor: "#A5909C", color: "black", border: "none", fontFamily: "'Kaisei HarunoUmi'" }} onClick={() => setShowNewProductModal(false)}>Cancel</button>
+                  <button className="btn btn-primary" style={{ backgroundColor: "#A5909C", color: "black", border: "none", fontFamily: "'Kaisei HarunoUmi'" }} onClick={handleAddProduct}>Add</button>
                 </div>
               </div>
             </div>
