@@ -52,6 +52,13 @@ const RegisterForm = () => {
               </div>
 
               <div className="mb-3">
+                <label htmlFor="number" className="form-label">
+                  Phone Number:
+                </label>
+                <input type="text" className="form-control" id="number" />
+              </div>
+
+              <div className="mb-3">
                 <label htmlFor="password" className="form-label">
                   Password:
                 </label>

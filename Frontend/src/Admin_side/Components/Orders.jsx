@@ -1,4 +1,3 @@
-import React from "react";
 import { FaCheck, FaClock } from "react-icons/fa";
 import lipglosses from "../Assets/image/lipglosses.jpg";
 import Lipstick from "../Assets/image/lipstick.png";

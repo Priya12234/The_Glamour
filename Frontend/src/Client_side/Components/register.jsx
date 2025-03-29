@@ -4,7 +4,7 @@ import panaImage from "../Assets/Images/pana.png";
 import "../Assets/css/register.css";
 
 const RegisterForm = () => {
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100 position-relative">
@@ -19,11 +19,11 @@ const RegisterForm = () => {
           color: "#35262E",
           cursor: "pointer"
         }}
-        onClick={() => navigate("/")} // Navigate back to the landing page
+        onClick={() => navigate("/")}
       />
 
       <div className="row w-100 justify-content-center">
-        
+
         {/* Left Section: Illustration */}
         <div className="col-md-6 d-flex justify-content-center align-items-center order-md-1 order-0">
           <img
@@ -53,6 +53,13 @@ const RegisterForm = () => {
               </div>
 
               <div className="mb-3">
+                <label htmlFor="number" className="form-label">
+                  Phone Number:
+                </label>
+                <input type="text" className="form-control" id="number" />
+              </div>
+
+              <div className="mb-3">
                 <label htmlFor="password" className="form-label">
                   Password:
                 </label>
@@ -72,13 +79,12 @@ const RegisterForm = () => {
                 </button>
               </div>
 
-              <p className="text-center-register mt-3">
-                Already have an account? <a href="/login">Login</a>
+              <p className="text-center-register mt-3" >
+                Already have an account? <a href="/loginForm">Login</a>
               </p>
             </form>
           </div>
         </div>
-
       </div>
     </div>
   );

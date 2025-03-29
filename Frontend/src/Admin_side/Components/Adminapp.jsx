@@ -17,7 +17,7 @@ import Services from "./Services";
 import Sidebar from "./Sidebar";
 import Users from "./Users";
 import UserOrders from "./UserOrders";
-import UserAppointments from "./User_Appointments";
+import UserAppointments from "./UserAppointments";
 
 function AdminLayout() {
   const location = useLocation();
