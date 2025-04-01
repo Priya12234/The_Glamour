@@ -6,12 +6,12 @@ const PORT = process.env.PORT || 5000;
 
 // Import routes
 const authRoutes = require("./src/Auth/authRoutes");
-const appointmentRoutes = require("./src/Appointment/appointmentRoutes");
-const productRoutes = require("./src/Product/productsRoutes");
-const orderRoutes = require("./src/Order/orderRoutes");
-const serviceRouters = require("./src/Services/servicesRoutes");
+// const appointmentRoutes = require("./src/Appointment/appointmentRoutes");
+// const productRoutes = require("./src/Product/productsRoutes");
+// const orderRoutes = require("./src/Order/orderRoutes");
+// const serviceRouters = require("./src/Services/servicesRoutes");
+// // const feedbackRoutes = require("./src/Feedback/feedbackRoutes");
 // const feedbackRoutes = require("./src/Feedback/feedbackRoutes");
-const feedbackRoutes = require("./src/Feedback/feedbackRoutes");
 
 // Initialize the app
 const app = express();
@@ -22,11 +22,11 @@ app.use(cors());
 
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/appointments", appointmentRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/services", serviceRouters);
-app.use("/api/feedback", feedbackRoutes);
+// app.use("/api/appointments", appointmentRoutes);
+// app.use("/api/products", productRoutes);
+// app.use("/api/orders", orderRoutes);
+// app.use("/api/services", serviceRouters);
+// app.use("/api/feedback", feedbackRoutes);
 
 // Define a simple route
 app.get("/", (req, res) => {
