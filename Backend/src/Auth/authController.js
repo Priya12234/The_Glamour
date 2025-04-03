@@ -94,6 +94,46 @@ const authController = {
       });
     }
   },
+  // Add this to your authController
+updateProfile: async (req, res) => {
+  try {
+    const { userId } = req.user;
+    const { email, name, number, password } = req.body;
+
+    // First get current user data
+    const currentUser = await db.query(
+      "SELECT * FROM Users WHERE userid = $1",
+      [userId]
+    );
+
+    if (currentUser.rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update only the fields that were provided
+    const updateData = {
+      email: email || currentUser.rows[0].email,
+      name: name || currentUser.rows[0].name,
+      number: number || currentUser.rows[0].number,
+      password: password ? await bcrypt.hash(password, 10) : currentUser.rows[0].password
+    };
+
+    const updatedUser = await db.query(
+      "UPDATE Users SET email = $1, name = $2, number = $3, password = $4 WHERE userid = $5 RETURNING userid, email, name, number",
+      [updateData.email, updateData.name, updateData.number, updateData.password, userId]
+    );
+
+    res.json({
+      message: "Profile updated successfully",
+      user: updatedUser.rows[0]
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Profile update failed",
+      error: error.message,
+    });
+  }
+}
 };
 
 module.exports = authController;
