@@ -26,13 +26,18 @@ const RegisterForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Clear previous errors
+    setError('');
+  
     // Basic validation
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-
+  
     try {
+      console.log('Attempting to register user:', formData.email); // Debug log
+      
       const response = await fetch('http://localhost:3000/api/auth/register', {
         method: 'POST',
         headers: {
@@ -45,17 +50,28 @@ const RegisterForm = () => {
           password: formData.password
         }),
       });
-
+  
+      console.log('Response status:', response.status); // Debug log
+      
       const data = await response.json();
-
+      console.log('Response data:', data); // Debug log
+  
       if (!response.ok) {
-        throw new Error(data.error || 'Registration failed');
+        // Show server-side validation errors if available
+        if (data.errors) {
+          setError(data.errors.map(err => err.msg).join(', '));
+        } else if (data.message) {
+          setError(data.message);
+        } else {
+          setError('Registration failed: ' + JSON.stringify(data));
+        }
+        return;
       }
-
-      // Registration successful
-      navigate('/login'); // Redirect to login page
+  
+      navigate('/login');
     } catch (err) {
-      setError(err.message);
+      console.error('Registration error:', err);
+      setError(err.message || 'Failed to connect to server');
     }
   };
 

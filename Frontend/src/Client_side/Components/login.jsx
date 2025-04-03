@@ -6,22 +6,59 @@ import { useState } from "react";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
+    setIsLoading(true);
 
-    // Static user credentials
-    const validEmail = "user@example.com";
-    const validPassword = "password123";
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        }),
+      });
 
-    if (email === validEmail && password === validPassword) {
-      localStorage.setItem("token", "fakeAuthToken"); // Simulate authentication
-      navigate("/"); // Redirect to homepage
-    } else {
-      alert("Invalid email or password");
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      // Store the token in localStorage
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify({
+        userid: data.userid,
+        email: data.email,
+        name: data.name
+      }));
+
+      // Redirect to home page
+      navigate('/');
+    } catch (err) {
+      console.error('Login error:', err);
+      setError(err.message || 'Login failed. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -43,6 +80,13 @@ const LoginForm = () => {
         <div className="col-md-6 d-flex justify-content-center align-items-center">
           <div className="login-card">
             <h2 className="text-center">Hello! Welcome Back</h2>
+            
+            {error && (
+              <div className="alert alert-danger" role="alert">
+                {error}
+              </div>
+            )}
+
             <form onSubmit={handleLogin}>
               <div className="mb-3">
                 <label htmlFor="email" className="form-label">Email:</label>
@@ -50,20 +94,8 @@ const LoginForm = () => {
                   type="email"
                   className="login-form-control"
                   id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="mb-3">
-                <label htmlFor="name" className="form-label">Name:</label>
-                <input
-                  type="text"
-                  className="login-form-control"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={formData.email}
+                  onChange={handleChange}
                   required
                 />
               </div>
@@ -74,18 +106,24 @@ const LoginForm = () => {
                   type="password"
                   className="login-form-control"
                   id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={formData.password}
+                  onChange={handleChange}
                   required
                 />
               </div>
 
               <div className="text-center">
-                <button type="submit" className="login-btn">Login</button>
+                <button 
+                  type="submit" 
+                  className="login-btn"
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Logging in...' : 'Login'}
+                </button>
               </div>
 
               <p className="text-center mt-3">
-                Don’t have an account? <a href="/registerForm">Register Yourself</a>
+                Dont have an account? <a href="/registerForm">Register Yourself</a>
               </p>
             </form>
           </div>
