@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 5000;
 
 // Import routes
 const authRoutes = require("./src/Auth/authRoutes");
-// const appointmentRoutes = require("./src/Appointment/appointmentRoutes");
+const appointmentRoutes = require("./src/Appointment/appointmentRoutes");
 // const productRoutes = require("./src/Product/productsRoutes");
 // const orderRoutes = require("./src/Order/orderRoutes");
 // const serviceRouters = require("./src/Services/servicesRoutes");
@@ -22,7 +22,7 @@ app.use(cors());
 
 // Routes
 app.use("/api/auth", authRoutes);
-// app.use("/api/appointments", appointmentRoutes);
+app.use("/api/appointments", appointmentRoutes);
 // app.use("/api/products", productRoutes);
 // app.use("/api/orders", orderRoutes);
 // app.use("/api/services", serviceRouters);
