@@ -11,7 +11,7 @@ import OurServices from "./ourservices.jsx";
 import RegisterForm from "./register.jsx";
 import LoginForm from "./login.jsx";
 import BookingForm from "./appointment.jsx";
-import MyProfile from "./myprofile.jsx";
+import MyProfile from "./Myprofile.jsx";
 import MyAppointments from "./Myappointments.jsx";
 import MyCart from "./mycart.jsx";
 import EditProfile from "./editprofile.jsx";

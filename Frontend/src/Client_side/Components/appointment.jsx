@@ -15,6 +15,7 @@ function BookingForm() {
   const [time, setTime] = useState({ hours: '', minutes: '', amPm: 'AM' });
   const [details, setDetails] = useState('');
   const [totalPayment, setTotalPayment] = useState(0);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   // Service price map
   const servicePrices = {
@@ -40,9 +41,99 @@ function BookingForm() {
     }
   }, [service]);
 
+  // Load Razorpay script dynamically
+  useEffect(() => {
+    const loadScript = (src) => {
+      return new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = () => {
+          resolve(true);
+        };
+        script.onerror = () => {
+          resolve(false);
+        };
+        document.body.appendChild(script);
+      });
+    };
+
+    loadScript('https://checkout.razorpay.com/v1/checkout.js');
+  }, []);
+
+  // Handle Razorpay payment
+  const initiatePayment = async () => {
+    setIsProcessing(true);
+    
+    try {
+      // In a real app, you would call your backend API to create an order
+      // For demo purposes, we'll simulate this with frontend-only code
+      const options = {
+        key: 'rzp_test_vsPKBYMOs5z55L', // Replace with your Razorpay key
+        amount: totalPayment * 100, // Razorpay uses paise (1 INR = 100 paise)
+        currency: 'USD',
+        name: 'Appointment Booking',
+        description: `Payment for ${service} service`,
+        image: '', // Add your logo URL here
+        order_id: '', // This comes from your backend in a real app
+        handler: function(response) {
+          alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
+          // Here you would typically send the payment details to your backend
+          console.log('Payment successful:', response);
+          
+          // Reset form after successful payment
+          setEmail('');
+          setFullName('');
+          setPhoneNumber('');
+          setService('');
+          setDate('');
+          setTime({ hours: '', minutes: '', amPm: 'AM' });
+          setDetails('');
+          setTotalPayment(0);
+          
+          // Navigate to success page or home
+          navigate('/profile');
+        },
+        prefill: {
+          name: fullName,
+          email: email,
+          contact: phoneNumber
+        },
+        notes: {
+          address: 'Appointment Booking',
+          service: service,
+          appointment: `${date} at ${time.hours}:${time.minutes} ${time.amPm}`
+        },
+        theme: {
+          color: '#6b5b6b'
+        }
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (error) {
+      console.error('Payment error:', error);
+      alert('Payment failed. Please try again.');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   // Handle form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    
+    // Validate form fields
+    if (!email || !fullName || !phoneNumber || !service || !date || !time.hours || !time.minutes) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    // Validate time
+    if (time.hours < 1 || time.hours > 12 || time.minutes < 0 || time.minutes > 59) {
+      alert('Please enter a valid time');
+      return;
+    }
+
     console.log('Form Submitted:', {
       email,
       fullName,
@@ -53,6 +144,9 @@ function BookingForm() {
       details,
       totalPayment,
     });
+
+    // Initiate payment
+    await initiatePayment();
   };
 
   return (
@@ -152,7 +246,9 @@ function BookingForm() {
                 </div>
 
                 {/* Submit Button */}
-                <button type="submit" className="btn btn-light w-100 fw-bold">Pay Now</button>
+                <button type="submit" className="btn btn-light w-100 fw-bold" disabled={isProcessing}>
+                  {isProcessing ? 'Processing...' : 'Pay Now'}
+                </button>
               </form>
             </div>
           </div>
