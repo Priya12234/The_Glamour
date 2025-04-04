@@ -1,158 +1,196 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import bro1Image from '../Assets/Images/bro1.png';
 import { FaArrowLeft } from "react-icons/fa";
+import axios from 'axios';
 
 function BookingForm() {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phoneNumber: '',
+    service: '',
+    date: '',
+    time: { hours: '', minutes: '', amPm: 'AM' },
+    details: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  // State variables for form fields
-  const [email, setEmail] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [service, setService] = useState('');
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState({ hours: '', minutes: '', amPm: 'AM' });
-  const [details, setDetails] = useState('');
-  const [totalPayment, setTotalPayment] = useState(0);
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  // Service price map
-  const servicePrices = {
-    makeup: 50,
-    haircut: 30,
-    massage: 40,
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Handle changes for each input field
-  const handleInputChange = (setter) => (event) => setter(event.target.value);
-
-  const handleTimeChange = (event) => {
-    const { name, value } = event.target;
-    setTime({ ...time, [name]: value });
+  const handleTimeChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      time: { ...prev.time, [name]: value }
+    }));
   };
 
-  // Calculate total payment based on selected service
-  useEffect(() => {
-    if (service) {
-      setTotalPayment(servicePrices[service] || 0);
-    } else {
-      setTotalPayment(0);
+  const validateForm = () => {
+    // Check required fields
+    if (!formData.name || !formData.email || !formData.phoneNumber || 
+        !formData.service || !formData.date || 
+        !formData.time.hours || !formData.time.minutes) {
+      setError('Please fill in all required fields');
+      return false;
     }
-  }, [service]);
 
-  // Load Razorpay script dynamically
-  useEffect(() => {
-    const loadScript = (src) => {
-      return new Promise((resolve) => {
-        const script = document.createElement('script');
-        script.src = src;
-        script.onload = () => {
-          resolve(true);
-        };
-        script.onerror = () => {
-          resolve(false);
-        };
-        document.body.appendChild(script);
-      });
-    };
-
-    loadScript('https://checkout.razorpay.com/v1/checkout.js');
-  }, []);
-
-  // Handle Razorpay payment
-  const initiatePayment = async () => {
-    setIsProcessing(true);
-    
-    try {
-      // In a real app, you would call your backend API to create an order
-      // For demo purposes, we'll simulate this with frontend-only code
-      const options = {
-        key: 'rzp_test_vsPKBYMOs5z55L', // Replace with your Razorpay key
-        amount: totalPayment * 100, // Razorpay uses paise (1 INR = 100 paise)
-        currency: 'USD',
-        name: 'Appointment Booking',
-        description: `Payment for ${service} service`,
-        image: '', // Add your logo URL here
-        order_id: '', // This comes from your backend in a real app
-        handler: function(response) {
-          alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
-          // Here you would typically send the payment details to your backend
-          console.log('Payment successful:', response);
-          
-          // Reset form after successful payment
-          setEmail('');
-          setFullName('');
-          setPhoneNumber('');
-          setService('');
-          setDate('');
-          setTime({ hours: '', minutes: '', amPm: 'AM' });
-          setDetails('');
-          setTotalPayment(0);
-          
-          // Navigate to success page or home
-          navigate('/profile');
-        },
-        prefill: {
-          name: fullName,
-          email: email,
-          contact: phoneNumber
-        },
-        notes: {
-          address: 'Appointment Booking',
-          service: service,
-          appointment: `${date} at ${time.hours}:${time.minutes} ${time.amPm}`
-        },
-        theme: {
-          color: '#6b5b6b'
-        }
-      };
-
-      const razorpay = new window.Razorpay(options);
-      razorpay.open();
-    } catch (error) {
-      console.error('Payment error:', error);
-      alert('Payment failed. Please try again.');
-    } finally {
-      setIsProcessing(false);
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return false;
     }
-  };
 
-  // Handle form submission
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    
-    // Validate form fields
-    if (!email || !fullName || !phoneNumber || !service || !date || !time.hours || !time.minutes) {
-      alert('Please fill in all required fields');
-      return;
+    // Validate phone number (10-15 digits)
+    const phoneRegex = /^[0-9]{10,15}$/;
+    if (!phoneRegex.test(formData.phoneNumber)) {
+      setError('Please enter a valid phone number (10-15 digits)');
+      return false;
     }
 
     // Validate time
-    if (time.hours < 1 || time.hours > 12 || time.minutes < 0 || time.minutes > 59) {
-      alert('Please enter a valid time');
+    const hours = parseInt(formData.time.hours);
+    const minutes = parseInt(formData.time.minutes);
+    
+    if (isNaN(hours)) {
+      setError('Please enter valid hours (1-12)');
+      return false;
+    }
+
+    if (isNaN(minutes)) {
+      setError('Please enter valid minutes (0-59)');
+      return false;
+    }
+
+    if (hours < 1 || hours > 12) {
+      setError('Hours must be between 1 and 12');
+      return false;
+    }
+
+    if (minutes < 0 || minutes > 59) {
+      setError('Minutes must be between 0 and 59');
+      return false;
+    }
+
+    // Validate date is in the future
+    const selectedDate = new Date(formData.date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (selectedDate < today) {
+      setError('Please select a future date');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    if (!validateForm()) {
       return;
     }
 
-    console.log('Form Submitted:', {
-      email,
-      fullName,
-      phoneNumber,
-      service,
-      date,
-      time,
-      details,
-      totalPayment,
-    });
+    setIsSubmitting(true);
 
-    // Initiate payment
-    await initiatePayment();
+    try {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+
+      // Format time with leading zero for minutes
+      const formattedTime = `${formData.time.hours}:${String(formData.time.minutes).padStart(2, '0')} ${formData.time.amPm}`;
+      
+      const response = await axios.post(
+        'http://localhost:3000/api/appointments',
+        {
+          name: formData.name,
+          service: formData.service,
+          date: formData.date,
+          time: formattedTime,
+          details: formData.details,
+          contactInfo: {
+            email: formData.email,
+            phone: formData.phoneNumber
+          }
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      setSuccess('Appointment booked successfully!');
+      
+      // Reset form after successful submission
+      setFormData({
+        name: '',
+        email: '',
+        phoneNumber: '',
+        service: '',
+        date: '',
+        time: { hours: '', minutes: '', amPm: 'AM' },
+        details: ''
+      });
+
+      // Redirect after 2 seconds
+      setTimeout(() => {
+        navigate('/profile', { 
+          state: { 
+            message: 'Appointment booked successfully!',
+            appointment: response.data.appointment 
+          } 
+        });
+      }, 2000);
+
+    } catch (err) {
+      let errorMessage = 'Failed to book appointment';
+      
+      if (err.response) {
+        if (err.response.status === 401) {
+          errorMessage = 'Session expired. Please login again.';
+          localStorage.removeItem('token');
+          setTimeout(() => navigate('/login'), 1500);
+        } else if (err.response.status === 400) {
+          errorMessage = err.response.data.message || 'Invalid request data';
+        } else if (err.response.status === 409) {
+          errorMessage = 'This time slot is already booked. Please choose another time.';
+        } else {
+          errorMessage = err.response.data.message || 
+                       err.response.data.error || 
+                       errorMessage;
+        }
+      } else if (err.request) {
+        errorMessage = 'No response from server - please try again later';
+      } else {
+        errorMessage = err.message || errorMessage;
+      }
+
+      setError(errorMessage);
+      console.error('Booking error:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <>
       <div className="container-fluid p-5" style={{position: "relative" }}>
-        {/* Back Arrow */}
         <FaArrowLeft
           className="back-arrow"
           style={{
@@ -163,43 +201,94 @@ function BookingForm() {
             color: "#35262E",
             cursor: "pointer"
           }}
-          onClick={() => navigate("/")} // Navigate back to the landing page
+          onClick={() => navigate("/feedback")}
         />
 
         <div className="container p-3 p-md-5" style={{ fontFamily: "'Kaisei HarunoUmi', serif", color: "white" }}>
           <div className="row w-100 align-items-center">
-            {/* Left Section: Illustration */}
             <div className="col-md-6 text-center">
               <img src={bro1Image} alt="Salon Illustration" className="img-fluid" />
             </div>
 
-            {/* Right Section: Form */}
             <div className="right-form col-md-6 mx-auto" style={{ background: "#6b5b6b" }}>
               <form className="p-4 shadow-lg rounded" onSubmit={handleSubmit}>
-                <h2 className="text-center">Book Your Appointment</h2>
+                <h2 className="text-center mb-4">Book Your Appointment</h2>
+
+                {error && (
+                  <div className="alert alert-danger alert-dismissible fade show">
+                    {error}
+                    <button 
+                      type="button" 
+                      className="btn-close" 
+                      onClick={() => setError('')}
+                    ></button>
+                  </div>
+                )}
+
+                {success && (
+                  <div className="alert alert-success alert-dismissible fade show">
+                    {success}
+                    <button 
+                      type="button" 
+                      className="btn-close" 
+                      onClick={() => setSuccess('')}
+                    ></button>
+                  </div>
+                )}
+
+                {/* Name */}
+                <div className="mb-3">
+                  <label className="form-label">Full Name *</label>
+                  <input 
+                    type="text" 
+                    name="name"
+                    className="form-control" 
+                    value={formData.name} 
+                    onChange={handleInputChange} 
+                    required 
+                    disabled={isSubmitting}
+                  />
+                </div>
 
                 {/* Email */}
                 <div className="mb-3">
-                  <label className="form-label" htmlFor="email">Email:</label>
-                  <input type="email" id="email" className="form-control" value={email} onChange={handleInputChange(setEmail)} required />
+                  <label className="form-label">Email *</label>
+                  <input 
+                    type="email" 
+                    name="email"
+                    className="form-control" 
+                    value={formData.email} 
+                    onChange={handleInputChange} 
+                    required 
+                    disabled={isSubmitting}
+                  />
                 </div>
 
-                {/* Full Name */}
+                {/* Phone */}
                 <div className="mb-3">
-                  <label className="form-label" htmlFor="fullName">Full Name:</label>
-                  <input type="text" id="fullName" className="form-control" value={fullName} onChange={handleInputChange(setFullName)} required />
+                  <label className="form-label">Phone Number *</label>
+                  <input 
+                    type="tel" 
+                    name="phoneNumber"
+                    className="form-control" 
+                    value={formData.phoneNumber} 
+                    onChange={handleInputChange} 
+                    required 
+                    disabled={isSubmitting}
+                  />
                 </div>
 
-                {/* Phone Number */}
+                {/* Service */}
                 <div className="mb-3">
-                  <label className="form-label" htmlFor="phoneNumber">Phone Number:</label>
-                  <input type="tel" id="phoneNumber" className="form-control" value={phoneNumber} onChange={handleInputChange(setPhoneNumber)} required />
-                </div>
-
-                {/* Service Selection */}
-                <div className="mb-3">
-                  <label className="form-label" htmlFor="service">Service You Would Like to Book:</label>
-                  <select id="service" className="form-select" value={service} onChange={handleInputChange(setService)} required>
+                  <label className="form-label">Service *</label>
+                  <select 
+                    name="service"
+                    className="form-select" 
+                    value={formData.service} 
+                    onChange={handleInputChange} 
+                    required
+                    disabled={isSubmitting}
+                  >
                     <option value="">Select a service</option>
                     <option value="makeup">Makeup</option>
                     <option value="haircut">Haircut</option>
@@ -207,47 +296,92 @@ function BookingForm() {
                   </select>
                 </div>
 
-                {/* Appointment Date */}
+                {/* Date */}
                 <div className="mb-3">
-                  <label className="form-label" htmlFor="appointmentDate">Preferred Appointment Date:</label>
+                  <label className="form-label">Date *</label>
                   <input
                     type="date"
-                    id="appointmentDate"
+                    name="date"
                     className="form-control"
-                    value={date}
-                    onChange={handleInputChange(setDate)}
+                    value={formData.date}
+                    onChange={handleInputChange}
                     required
+                    min={new Date().toISOString().split('T')[0]}
+                    disabled={isSubmitting}
                   />
                 </div>
 
-                {/* Appointment Time */}
+                {/* Time */}
                 <div className="mb-3">
-                  <label className="form-label">Preferred Appointment Time:</label>
+                  <label className="form-label">Time *</label>
                   <div className="d-flex align-items-center gap-2">
-                    <input type="number" name="hours" className="form-control" value={time.hours} onChange={handleTimeChange} min="1" max="12" required placeholder="HH" />
+                    <input 
+                      type="number" 
+                      name="hours" 
+                      className="form-control" 
+                      value={formData.time.hours} 
+                      onChange={handleTimeChange} 
+                      min="1" 
+                      max="12" 
+                      required 
+                      placeholder="HH" 
+                      disabled={isSubmitting}
+                    />
                     :
-                    <input type="number" name="minutes" className="form-control" value={time.minutes} onChange={handleTimeChange} min="0" max="59" required placeholder="MM" />
-                    <select name="amPm" className="form-select w-auto" value={time.amPm} onChange={handleTimeChange}>
+                    <input 
+                      type="number" 
+                      name="minutes" 
+                      className="form-control" 
+                      value={formData.time.minutes} 
+                      onChange={handleTimeChange} 
+                      min="0" 
+                      max="59" 
+                      required 
+                      placeholder="MM" 
+                      disabled={isSubmitting}
+                    />
+                    <select 
+                      name="amPm" 
+                      className="form-select w-auto" 
+                      value={formData.time.amPm} 
+                      onChange={handleTimeChange}
+                      disabled={isSubmitting}
+                    >
                       <option value="AM">AM</option>
                       <option value="PM">PM</option>
                     </select>
                   </div>
                 </div>
 
-                {/* Other Details */}
-                <div className="mb-3">
-                  <label className="form-label" htmlFor="details">Other Details:</label>
-                  <textarea id="details" className="form-control" value={details} onChange={handleInputChange(setDetails)} rows="3"></textarea>
-                </div>
-
-                {/* Payment Information */}
-                <div className="mb-3">
-                  <label className="form-label fw-bold">Your Total Payment is: ${totalPayment}</label>
+                {/* Details */}
+                <div className="mb-4">
+                  <label className="form-label">Additional Details</label>
+                  <textarea 
+                    name="details"
+                    className="form-control" 
+                    value={formData.details} 
+                    onChange={handleInputChange} 
+                    rows="3"
+                    disabled={isSubmitting}
+                  ></textarea>
                 </div>
 
                 {/* Submit Button */}
-                <button type="submit" className="btn btn-light w-100 fw-bold" disabled={isProcessing}>
-                  {isProcessing ? 'Processing...' : 'Pay Now'}
+                <button 
+                  type="submit" 
+                  className="btn btn-light w-100 fw-bold" 
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <span 
+                        className="spinner-border spinner-border-sm me-2" 
+                        role="status" 
+                        aria-hidden="true"
+                      ></span>
+                      Booking...
+                    </>
+                  ) : 'Book Appointment'}
                 </button>
               </form>
             </div>
