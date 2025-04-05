@@ -3,11 +3,14 @@ const router = express.Router();
 const feedbackController = require("./feedbackController");
 const { verifyToken } = require("../Auth/jwtUtils");
 
+router.get("/displayed", feedbackController.getDisplayedFeedback);
+
 // Verify token middleware
 router.use(verifyToken);
 
-// Create a new feedback status
+// Create a new feedback 
 router.post("/", feedbackController.createFeedback);
+
 
 // Get all feedback statuses (admin view)
 router.get("/", feedbackController.getAllFeedback);
