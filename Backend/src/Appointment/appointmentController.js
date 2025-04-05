@@ -59,8 +59,8 @@ const appointmentController = {
           date,
           time,
           details || null,
-          contact_email || null,
-          contact_phone || null
+          contact_email,
+          contact_phone
         ]
       );
 
@@ -116,7 +116,7 @@ const appointmentController = {
   // Get single appointment by ID
   getUserAppointmentsById: async (req, res) => {
     try {
-      const { appointmentId } = req.params;
+      const { id } = req.params;
       const userId = req.user.userId;
 
       const appointment = await db.query(
@@ -125,8 +125,8 @@ const appointmentController = {
           details, contact_email, contact_phone,
           created_at, updated_at
          FROM Appointments 
-         WHERE userid = $1 AND appointmentid = $2`,
-        [userId, appointmentId]
+         WHERE appointmentid = $1 AND userid = $2`,
+        [id, userId]
       );
 
       if (appointment.rows.length === 0) {
@@ -136,7 +136,7 @@ const appointmentController = {
         });
       }
 
-      return res.json({
+      return res.status(200).json({
         success: true,
         appointment: appointment.rows[0]
       });

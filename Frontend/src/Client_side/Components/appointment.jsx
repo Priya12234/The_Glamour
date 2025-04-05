@@ -114,6 +114,17 @@ function BookingForm() {
       // Format time with leading zero for minutes
       const formattedTime = `${formData.time.hours}:${String(formData.time.minutes).padStart(2, '0')} ${formData.time.amPm}`;
       
+      // Debug: Log the data being sent
+      console.log('Submitting appointment data:', {
+        name: formData.name,
+        service: formData.service,
+        date: formData.date,
+        time: formattedTime,
+        details: formData.details,
+        contact_email: formData.email,
+        contact_phone: formData.phoneNumber
+      });
+
       const response = await axios.post(
         'http://localhost:3000/api/appointments',
         {
@@ -122,10 +133,8 @@ function BookingForm() {
           date: formData.date,
           time: formattedTime,
           details: formData.details,
-          contactInfo: {
-            email: formData.email,
-            phone: formData.phoneNumber
-          }
+          contact_email: formData.email,  // Changed to top-level
+          contact_phone: formData.phoneNumber  // Changed to top-level
         },
         {
           headers: {
