@@ -1,43 +1,66 @@
-import  { useState } from "react";
-import Foundation from "../Assets/Images/foundation.png";
-import Lipstick from "../Assets/Images/lipstick.png";
-import Eyeshadow from "../Assets/Images/eyeshadow.png";
+import { useState, useEffect } from "react";
 import "../Assets/css/Products.css";
 
 function Products() {
     const [modalShow, setModalShow] = useState(false);
     const [modalContent, setModalContent] = useState({
-        image: "",
-        title: "",
-        subtitle: "",
-        description: ""
+        product_image: "",
+        product_name: "",
+        product_weight: "",
+        price: ""
     });
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const products = [
-        {
-            image: Foundation,
-            title: "Foundation",
-            subtitle: "100ml",
-            description: "MRP: ₹300"
-        },
-        {
-            image: Lipstick,
-            title: "Lipstick",
-            subtitle: "100ml",
-            description: "MRP: ₹300"
-        },
-        {
-            image: Eyeshadow,
-            title: "Eyeshadow",
-            subtitle: "100ml",
-            description: "MRP: ₹300"
+    // Function to chunk array into groups of 3
+    const chunkArray = (array, chunkSize) => {
+        const result = [];
+        for (let i = 0; i < array.length; i += chunkSize) {
+            result.push(array.slice(i, i + chunkSize));
         }
-    ];
+        return result;
+    };
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch("http://localhost:3000/api/products");
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products');
+                }
+                const data = await response.json();
+                setProducts(data.products);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
 
     const handleCardClick = (product) => {
-        setModalContent(product);
+        setModalContent({
+            product_image: product.product_image,
+            product_name: product.product_name,
+            product_weight: product.product_weight,
+            price: `MRP: ₹${product.price}`
+        });
         setModalShow(true);
     };
+
+    if (loading) {
+        return <div className="text-center py-5">Loading products...</div>;
+    }
+
+    if (error) {
+        return <div className="text-center py-5 text-danger">Error: {error}</div>;
+    }
+
+    // Chunk products into groups of 3
+    const productChunks = chunkArray(products, 3);
 
     return (
         <>
@@ -46,42 +69,29 @@ function Products() {
 
                 <div id="productsCarousel" className="carousel slide" data-bs-ride="carousel">
                     <div className="carousel-inner">
-                        {/* First Carousel Slide */}
-                        <div className="carousel-item active">
-                            <div className="d-flex justify-content-center align-items-center flex-wrap card-container py-3">
-                                {products.map((product, index) => (
-                                    <div key={index} className="card card-custom" onClick={() => handleCardClick(product)}>
-                                        <img src={product.image} className="card-img-top card-img-custom" alt={product.title} />
-                                        <div className="card-body d-flex flex-column justify-content-between">
-                                            <h3 className="card-title">{product.title}</h3>
-                                            <p className="card-text card-text-custom">
-                                                {product.title}<br></br>
-                                                {product.subtitle} <br></br>
-                                                {product.description}
-                                            </p>
+                        {productChunks.map((chunk, index) => (
+                            <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
+                                <div className="d-flex justify-content-center align-items-center flex-wrap card-container py-3">
+                                    {chunk.map((product, productIndex) => (
+                                        <div key={productIndex} className="card card-custom" onClick={() => handleCardClick(product)}>
+                                            <img 
+                                                src={`http://localhost:3000/api/products/${product.product_image}`} 
+                                                className="card-img-top card-img-custom" 
+                                                alt={product.product_name} 
+                                            />
+                                            <div className="card-body d-flex flex-column justify-content-between">
+                                                <h3 className="card-title">{product.product_name}</h3>
+                                                <p className="card-text card-text-custom">
+                                                    {product.product_name}<br></br>
+                                                    {product.product_weight} <br></br>
+                                                    MRP: ₹{product.price}
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                        {/* Second Carousel Slide */}
-                        <div className="carousel-item">
-                            <div className="d-flex justify-content-center align-items-center flex-wrap card-container py-3">
-                                {products.map((product, index) => (
-                                    <div key={index} className="card card-custom" onClick={() => handleCardClick(product)}>
-                                        <img src={product.image} className="card-img-top card-img-custom" alt={product.title} />
-                                        <div className="card-body d-flex flex-column justify-content-between">
-                                            <h3 className="card-title">{product.title}</h3>
-                                            <p className="card-text card-text-custom">
-                                                {product.title}<br></br>
-                                                {product.subtitle} <br></br>
-                                                {product.description}
-                                            </p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                        ))}
                     </div>
                     {/* Carousel Controls */}
                     <button
@@ -117,11 +127,16 @@ function Products() {
                             <button type="button" className="btn-close" onClick={() => setModalShow(false)} aria-label="Close"></button>
                         </div>
                         <div className="modal-body d-flex">
-                            <img src={modalContent.image} alt={modalContent.title} className="img-fluid me-3" style={{ width: '250px', height: '250px' }} />
+                            <img 
+                                src={`http://localhost:3000/api/products/${modalContent.product_image}`} 
+                                alt={modalContent.product_name} 
+                                className="img-fluid me-3" 
+                                style={{ width: '250px', height: '250px' }} 
+                            />
                             <div>
-                            <h3 className="modal-title" id="productModalLabel">{modalContent.title}</h3>
-                                <h5>{modalContent.subtitle}</h5>
-                                <h6>{modalContent.description}</h6>
+                                <h3 className="modal-title" id="productModalLabel">{modalContent.product_name}</h3>
+                                <h5>{modalContent.product_weight}</h5>
+                                <h6>{modalContent.price}</h6>
                             </div>
                         </div>
                         <div className="modal-footer">

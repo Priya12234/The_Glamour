@@ -3,12 +3,12 @@ const router = express.Router();
 const productController = require("./productsController");
 const { verifyToken } = require("../Auth/jwtUtils");
 
-// Middleware to verify JWT token before accessing routes
-router.use(verifyToken);
-
 // GET all products
 
 router.get("/", productController.getAllProducts);
+
+// Middleware to verify JWT token before accessing routes
+router.use(verifyToken);
 
 // GET a single product by ID
 router.get("/:productId", productController.getProductsById);
