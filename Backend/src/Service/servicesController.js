@@ -58,11 +58,7 @@ const servicesController = {
   getAllService: async (req, res) => {
     try {
       const services = await db.query("SELECT * FROM Services");
-      res.status(201).json({
-        success: true,
-        message: "Services fetched successfully",
-        services: services.rows,
-      });
+      res.status(200).json(services.rows);
     } catch (error) {
       res.status(500).json({
         success: false,

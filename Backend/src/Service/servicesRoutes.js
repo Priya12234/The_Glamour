@@ -3,14 +3,16 @@ const router = express.Router();
 const servicesController = require('./servicesController');
 const { verifyToken } = require('../Auth/jwtUtils');
 
+
+router.get('/',servicesController.getAllService);
+
 // Verify if neeed token
 router.use(verifyToken);
 
-// Create a new service
+// Create a new services
 router.post('/', servicesController.createService);
 
 // Get all services
-router.get('/',servicesController.getAllService);
 
 // Get a single service by ID
 router.get("/:serviceid", servicesController.getServiceById);
