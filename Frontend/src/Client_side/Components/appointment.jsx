@@ -210,7 +210,7 @@ function BookingForm() {
             color: "#35262E",
             cursor: "pointer"
           }}
-          onClick={() => navigate("/feedback")}
+          onClick={() => navigate(-1)}
         />
 
         <div className="container p-3 p-md-5" style={{ fontFamily: "'Kaisei HarunoUmi', serif", color: "white" }}>

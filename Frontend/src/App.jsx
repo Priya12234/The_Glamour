@@ -1,9 +1,18 @@
-import LandingPage from "../src/Client_side/Components/Landing_page";
-// import Adminapp from "./Admin_side/Components/Adminapp";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LandingPage from "./Client_side/Components/Landing_page";
+import AdminApp from "./Admin_side/Components/Adminapp";
+
 function App() {
   return (
-       <LandingPage/>
-    //  <Adminapp/>
+    <Router>
+      <Routes>
+        {/* Client-side routes */}
+        <Route path="/*" element={<LandingPage />} />
+
+        {/* Admin-side routes */}
+        <Route path="/admin/*" element={<AdminApp />} />
+      </Routes>
+    </Router>
   );
 }
 

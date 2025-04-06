@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 function BenefitComponent() {
     return (
         <>
-        <div id="Benefit" style={{ backgroundColor: "#d3d3d3", padding: "70px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div id="Benefit" style={{ backgroundColor: "#E0E0E0", padding: "70px", display: "flex", flexDirection: "column", alignItems: "center" }}>
             {/* Centered Heading */}
             <h2 className="services-title display-4 font-weight-bold mb-4" style={{ textAlign: "center" }}>
                 Benefits you will get

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import NavigationBar from "../Components/Navbar.jsx";
 import BenifitComponent from "./benefit_component.jsx";
 import Footer from "./footer.jsx";
@@ -19,7 +19,7 @@ import EditProfile from "./editprofile.jsx";
 function Layout() {
   const location = useLocation();
 
-  // Define an array of paths where Navbar and Footer should not appear
+  // Define paths where Navbar and Footer should not appear
   const hideNavbarAndFooterPaths = [
     "/registerForm",
     "/loginForm",
@@ -31,16 +31,16 @@ function Layout() {
     "/profile/editprofile",
   ];
 
-  // Check if the current path matches any of the paths in the hideNavbarAndFooterPaths array
-  const shouldHideNavbarAndFooter = hideNavbarAndFooterPaths.some(path => location.pathname.startsWith(path));
+  const shouldHideNavbarAndFooter = hideNavbarAndFooterPaths.some((path) =>
+    location.pathname.startsWith(path)
+  );
 
   return (
     <>
-      {/* Conditionally render Navbar */}
       {!shouldHideNavbarAndFooter && <NavigationBar />}
       <Routes>
         <Route
-          path="/"
+          index
           element={
             <>
               <HeadlineImage />
@@ -52,31 +52,26 @@ function Layout() {
             </>
           }
         />
-        <Route path="/ourservice" element={<OurServices />} />
-        <Route path="/registerForm" element={<RegisterForm />} />
-        <Route path="/loginForm" element={<LoginForm />} />
-        <Route path="/appointment_form" element={<BookingForm />} />
-
-        {/* Profile Route with nested Routes */}
-        <Route path="/profile" element={<MyProfile />}>
-          <Route index element={<MyAppointments />} /> {/* Default route for MyAppointments */}
+        <Route path="ourservice" element={<OurServices />} />
+        <Route path="registerForm" element={<RegisterForm />} />
+        <Route path="loginForm" element={<LoginForm />} />
+        <Route path="appointment_form" element={<BookingForm />} />
+        <Route path="profile" element={<MyProfile />}>
+          <Route index element={<MyAppointments />} />
           <Route path="myappointment" element={<MyAppointments />} />
           <Route path="mycart" element={<MyCart />} />
           <Route path="editprofile" element={<EditProfile />} />
         </Route>
       </Routes>
-      {/* Conditionally render Footer */}
       {!shouldHideNavbarAndFooter && <Footer />}
     </>
   );
 }
 
-function LandingPage() {
+export default function LandingPage() {
   return (
-    <Router>
-      <Layout />
-    </Router>
+    <Routes>
+      <Route path="/*" element={<Layout />} />
+    </Routes>
   );
 }
-
-export default LandingPage;
