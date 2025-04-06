@@ -1,18 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const orderController = require("./orderController");
-const { verifyToken } = require("../Auth/jwtUtils"); 
+const { verifyToken } = require("../Auth/jwtUtils");
 
 // Apply JWT verification to all order routes
 router.use(verifyToken);
 
-// User routes
-router.post("/", orderController.createOrder);
-router.get("/", orderController.getUserOrders);
-router.get("/:orderid", orderController.getOrderById);
+// Cart routes
+router.get("/", orderController.getCartItems);
+router.patch("/:orderid", orderController.updateOrderQuantity);
 router.patch("/:orderid/cancel", orderController.cancelOrder);
 
-// Admin routes
-router.patch("/:orderid/status", orderController.updateOrderStatus);
+// Payment routes
+router.post("/create-payment-order", orderController.createPaymentOrder);
+router.post("/verify-payment", orderController.verifyPayment);
+router.post("/payment-failed", orderController.handlePaymentFailure);
 
 module.exports = router;
