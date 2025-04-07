@@ -7,12 +7,12 @@ import Home from "./Home";
 import Navbar from "./Navbar";
 import Orders from "./Orders";
 import Product from "./Product";
-import RegisterForm from "./RegisterForm";
 import Services from "./Services";
 import Sidebar from "./Sidebar";
 import Users from "./Users";
 import UserOrders from "./UserOrders";
 import UserAppointments from "./UserAppointments";
+import AdminRegisterForm from "./AdminRegisterForm";
 
 function AdminLayout() {
   const location = useLocation();
@@ -23,7 +23,7 @@ function AdminLayout() {
   };
 
   // Define paths where Sidebar, Navbar, and Footer should not appear
-  const hideComponentsPaths = ["/admin/registerform"];
+  const hideComponentsPaths = ["/admin/adminregisterform"];
 
   // Check if the current path matches any paths in hideComponentsPaths array
   const shouldHideComponents = hideComponentsPaths.some((path) =>
@@ -49,7 +49,7 @@ function AdminLayout() {
             <Route path="/" element={<Home />} />
             <Route path="appointments" element={<Appointments />} />
             <Route path="users" element={<Users />} />
-            <Route path="registerform" element={<RegisterForm />} />
+            <Route path="adminregisterform" element={<AdminRegisterForm />} />
             <Route path="product" element={<Product />} />
             <Route path="orders" element={<Orders />} />
             <Route path="services" element={<Services />} />

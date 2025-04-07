@@ -148,7 +148,7 @@ const Users = () => {
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="fw-bold mb-0">Users Management</h2>
-        <Link to="/registerform">
+        <Link to="/admin/adminregisterform">
           <Button icon={FaPlus}>New User</Button>
         </Link>
       </div>
