@@ -1,49 +1,54 @@
 import { FaCheck, FaClock } from "react-icons/fa";
-import lipglosses from "../Assets/image/lipglosses.jpg";
-import Lipstick from "../Assets/image/lipstick.png";
-import Primer from "../Assets/image/Primer.jpg";
-
-const orders = [
-  {
-    id: 1,
-    name: "Priya Chauhan",
-    number: "9999999999",
-    product: "Lipglosses",
-    quantity: 2,
-    image: lipglosses,
-    price: "300/-",
-    totalPrice: "600/-",
-    status: "Delivered",
-  },
-  {
-    id: 2,
-    name: "Priya Chauhan",
-    number: "9999999999",
-    product: "Lipstick",
-    quantity: 2,
-    image: Lipstick,
-    price: "300/-",
-    totalPrice: "600/-",
-    status: "Pending",
-  },
-  {
-    id: 3,
-    name: "Priya Chauhan",
-    number: "9999999999",
-    product: "Primer",
-    quantity: 2,
-    image: Primer,
-    price: "300/-",
-    totalPrice: "600/-",
-    status: "Pending",
-  },
-];
+  import lipglosses from "../Assets/image/lipglosses.jpg";
+  import Lipstick from "../Assets/image/lipstick.png";
+  import Primer from "../Assets/image/Primer.jpg";
 
 const Orders = () => {
+  // ... (previous state declarations remain the same)
+
+  
+  
+  const orders = [
+    {
+      id: 1,
+      name: "Priya Chauhan",
+      number: "9999999999",
+      product: "Lipglosses",
+      quantity: 2,
+      image: lipglosses,
+      price: "300/-",
+      totalPrice: "600/-",
+      status: "Delivered",
+    },
+    {
+      id: 2,
+      name: "Priya Chauhan",
+      number: "9999999999",
+      product: "Lipstick",
+      quantity: 2,
+      image: Lipstick,
+      price: "300/-",
+      totalPrice: "600/-",
+      status: "Pending",
+    },
+    {
+      id: 3,
+      name: "Priya Chauhan",
+      number: "9999999999",
+      product: "Primer",
+      quantity: 2,
+      image: Primer,
+      price: "300/-",
+      totalPrice: "600/-",
+      status: "Pending",
+    },
+  ];
+  // In your JSX, add a test button for debugging:
   return (
-    <div className="d-flex">
+    <div className="p-4">
+       <div className="d-flex">
       <div className="container p-4">
-       
+
         <h4>Orders</h4>
         <table className="table table-bordered mt-3">
           <thead className="table-secondary">
@@ -96,7 +101,8 @@ const Orders = () => {
             ))}
           </tbody>
         </table>
-      </div>
+        </div>
+        </div>
     </div>
   );
 };

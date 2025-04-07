@@ -45,6 +45,8 @@ function AdminLayout() {
         <main className="content px-3 py-4">
           <Routes>
             <Route index element={<Home />} />
+            <Route path="" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="appointments" element={<Appointments />} />
             <Route path="users" element={<Users />} />
             <Route path="registerform" element={<RegisterForm />} />
