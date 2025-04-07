@@ -1,102 +1,73 @@
-import { FaCheck, FaClock } from "react-icons/fa";
-import lipglosses from "../Assets/image/lipglosses.jpg";
-import Lipstick from "../Assets/image/lipstick.png";
-import Primer from "../Assets/image/Primer.jpg";
 
-const orders = [
-  {
-    id: 1,
-    name: "Priya Chauhan",
-    number: "9999999999",
-    product: "Lipglosses",
-    quantity: 2,
-    image: lipglosses,
-    price: "300/-",
-    totalPrice: "600/-",
-    status: "Delivered",
-  },
-  {
-    id: 2,
-    name: "Priya Chauhan",
-    number: "9999999999",
-    product: "Lipstick",
-    quantity: 2,
-    image: Lipstick,
-    price: "300/-",
-    totalPrice: "600/-",
-    status: "Pending",
-  },
-  {
-    id: 3,
-    name: "Priya Chauhan",
-    number: "9999999999",
-    product: "Primer",
-    quantity: 2,
-    image: Primer,
-    price: "300/-",
-    totalPrice: "600/-",
-    status: "Pending",
-  },
-];
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_BASE_URL || "http://localhost:3000/uploads";
 
 const Orders = () => {
+  // ... (previous state declarations remain the same)
+
+  const deleteOrder = async (orderId) => {
+    if (!window.confirm("Are you sure you want to delete this order permanently?")) {
+      return;
+    }
+
+    setDeletingId(orderId);
+    console.log("Attempting to delete order:", orderId); // Debug log
+
+    try {
+      console.log("Sending DELETE request to:", `${API_URL}/orders/${orderId}`); // Debug log
+      
+      const response = await fetch(`${API_URL}/orders/${orderId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          // Uncomment if your API requires authentication
+          // "Authorization": `Bearer ${localStorage.getItem('token')}`
+        },
+      });
+
+      console.log("Delete response status:", response.status); // Debug log
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error("Delete error response:", errorData); // Debug log
+        throw new Error(errorData.message || `Server responded with status ${response.status}`);
+      }
+
+      console.log("Deletion successful, updating UI..."); // Debug log
+      setOrders(prevOrders => prevOrders.filter(order => order.id !== orderId));
+      
+      // Show success message
+      alert("Order deleted successfully!");
+    } catch (error) {
+      console.error("Delete operation failed:", {
+        error: error.message,
+        stack: error.stack
+      }); // Detailed error log
+      alert(`Delete failed: ${error.message}`);
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  // In your JSX, add a test button for debugging:
   return (
-    <div className="d-flex">
-      <div className="container p-4">
-       
-        <h4>Orders</h4>
-        <table className="table table-bordered mt-3">
-          <thead className="table-secondary">
-            <tr>
-              <th>No.</th>
-              <th>Name</th>
-              <th>Number</th>
-              <th>Product</th>
-              <th>Quantity</th>
-              <th>Image</th>
-              <th>Price</th>
-              <th>Total Price</th>
-              <th>Status</th>
-              <th>Cancel</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order, index) => (
-              <tr key={order.id}>
-                <td>{index + 1}</td>
-                <td>{order.name}</td>
-                <td>{order.number}</td>
-                <td>{order.product}</td>
-                <td>{order.quantity}</td>
-                <td>
-                  <img 
-                    src={order.image} 
-                    alt={order.product} 
-                    className="product-img" 
-                    style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "5px" }}
-                  />
-                </td>
-                <td>{order.price}</td>
-                <td>{order.totalPrice}</td>
-                <td>
-                  {order.status === "Delivered" ? (
-                    <>
-                      Delivered <FaCheck className="text-success ms-2" />
-                    </>
-                  ) : (
-                    <>
-                      Pending <FaClock className="text-warning ms-2" />
-                    </>
-                  )}
-                </td>
-                <td>
-                  <button className="btn btn-danger btn-sm">Cancel</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="p-4">
+      {/* DEBUG SECTION - REMOVE IN PRODUCTION */}
+      <div className="mb-4 p-3 bg-yellow-100 rounded-lg">
+        <h3 className="font-bold text-yellow-800">Debug Tools</h3>
+        <button 
+          onClick={() => {
+            const testOrderId = prompt("Enter order ID to test delete:");
+            if (testOrderId) deleteOrder(testOrderId);
+          }}
+          className="mt-2 px-3 py-1 bg-yellow-500 text-white rounded"
+        >
+          Test Delete Endpoint
+        </button>
       </div>
+      {/* END DEBUG SECTION */}
+
+      {/* ... rest of your existing JSX ... */}
     </div>
   );
 };
