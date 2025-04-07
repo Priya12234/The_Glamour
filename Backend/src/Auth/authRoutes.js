@@ -13,7 +13,7 @@ router.get("/me", verifyToken, authController.getMe);
 router.put("/update", verifyToken, authController.updateProfile);
 
 // for admins only
-router.get("/users", authController.getAllUsers);
+router.get("/users",verifyToken, authController.getAllUsers);
 router.delete("/users/:userId", verifyToken, authController.deleteUser);
 router.put("/users/:userId", verifyToken, authController.updateUser);
 

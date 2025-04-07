@@ -13,6 +13,9 @@ const LoginForm = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  // List of admin emails (you can move this to a config file if needed)
+  const ADMIN_EMAILS = ['abc@gmail.com'];
+
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData(prev => ({
@@ -49,11 +52,16 @@ const LoginForm = () => {
       localStorage.setItem('user', JSON.stringify({
         userid: data.userid,
         email: data.email,
-        name: data.name
+        name: data.name,
+        isAdmin: ADMIN_EMAILS.includes(data.email.toLowerCase()) // Add admin flag
       }));
 
-      // Redirect to home page
-      navigate('/');
+      // Redirect based on email (admin or user)
+      if (ADMIN_EMAILS.includes(data.email.toLowerCase())) {
+        navigate('/admin'); // Redirect to admin panel
+      } else {
+        navigate('/user'); // Redirect to user panel
+      }
     } catch (err) {
       console.error('Login error:', err);
       setError(err.message || 'Login failed. Please try again.');

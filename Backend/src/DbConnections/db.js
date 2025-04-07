@@ -23,7 +23,7 @@ const createPool = () => {
     ssl: {
       rejectUnauthorized: false,
     },
-    idleTimeoutMillis: 30000,
+    idleTimeoutMillis: 70000,
     connectionTimeoutMillis: 5000,
   });
 
