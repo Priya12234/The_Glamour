@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
@@ -8,29 +8,65 @@ const Home = () => {
   const [newTime, setNewTime] = useState("");
   const [newAmPm, setNewAmPm] = useState("AM");
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Sample appointments data
-  const Appointments = [
-    { id: 1, name: "priya", service: "Haircut", date: "01-04-2025", time: "10:00 AM" },
-    { id: 2, name: "Vaibhav", service: "Facial", date: "19-3-2025", time: "11:30 AM" },
-    { id: 3, name: "Nishant", service: "Massage", date: "19-2-2025", time: "1:00 PM" },
-    { id: 4, name: "Jenil", service: "Hair Color", date: "19-2-2025", time: "3:00 PM" },
-    { id: 5, name: "Jenil", service: "Hair Color", date: "07-03-2025", time: "3:00 PM" }, // This won't be displayed
-  ];
+  // Fetch appointments from the database
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/appointments', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch appointments');
+        }
+        
+        const data = await response.json();
+        setAppointments(data.appointments);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // Get today's date in the same format as the appointments data
+    fetchAppointments();
+  }, []);
+
+  // Get today's date in the format used in the database (YYYY-MM-DD)
   const getTodayDate = () => {
     const today = new Date();
-    const day = String(today.getDate()).padStart(2, "0");
-    const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are 0-based
     const year = today.getFullYear();
-    return `${day}-${month}-${year}`;
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   };
 
   // Filter appointments to include only today's appointments
-  const filteredAppointments = Appointments.filter(
+  const filteredAppointments = appointments.filter(
     (appointment) => appointment.date === getTodayDate()
   );
+
+  // Format time to AM/PM format for display
+  const formatTime = (timeString) => {
+    if (!timeString) return '';
+    
+    // Assuming timeString is in format "HH:MM:SS" or "HH:MM"
+    const [hours, minutes] = timeString.split(':');
+    const hourNum = parseInt(hours, 10);
+    
+    if (hourNum >= 12) {
+      return `${hourNum === 12 ? 12 : hourNum - 12}:${minutes} PM`;
+    } else {
+      return `${hourNum === 0 ? 12 : hourNum}:${minutes} AM`;
+    }
+  };
 
   const handleCancelClick = (appointment) => {
     setSelectedAppointment(appointment);
@@ -56,19 +92,94 @@ const Home = () => {
     setSelectedAppointment(null);
   };
 
-  const handleSendCancellation = () => {
-    console.log("Cancellation reason:", cancelReason);
-    console.log("Cancelled Appointment:", selectedAppointment);
-    handleCloseModal();
+  const handleSendCancellation = async () => {
+    try {
+      const response = await fetch(`/api/appointments/${selectedAppointment.appointmentid}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ cancelReason })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to cancel appointment');
+      }
+
+      // Update local state by removing the cancelled appointment
+      setAppointments(appointments.filter(
+        app => app.appointmentid !== selectedAppointment.appointmentid
+      ));
+      
+      handleCloseModal();
+    } catch (err) {
+      console.error("Cancellation error:", err);
+      setError(err.message);
+    }
   };
 
-  const handleSendPostponement = () => {
-    const fullNewTime = `${newTime} ${newAmPm}`;
-    console.log("New Date:", newDate);
-    console.log("New Time:", fullNewTime);
-    console.log("Postponed Appointment:", selectedAppointment);
-    handleClosePostponeModal();
+  const handleSendPostponement = async () => {
+    try {
+      const fullNewTime = `${newTime} ${newAmPm}`;
+      
+      const response = await fetch(`/api/appointments/${selectedAppointment.appointmentid}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          date: newDate,
+          time: fullNewTime
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to postpone appointment');
+      }
+
+      const updatedAppointment = await response.json();
+      
+      // Update local state with the postponed appointment
+      setAppointments(appointments.map(app => 
+        app.appointmentid === selectedAppointment.appointmentid 
+          ? updatedAppointment.appointment 
+          : app
+      ));
+      
+      handleClosePostponeModal();
+    } catch (err) {
+      console.error("Postponement error:", err);
+      setError(err.message);
+    }
   };
+
+  if (loading) {
+    return (
+      <main className="content px-3 py-4 bg-light">
+        <div className="container-fluid">
+          <div className="text-center py-5">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="content px-3 py-4 bg-light">
+        <div className="container-fluid">
+          <div className="alert alert-danger" role="alert">
+            Error loading appointments: {error}
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="content px-3 py-4 bg-light">
@@ -84,7 +195,7 @@ const Home = () => {
           <div className="col-12">
             <div className="card shadow-sm border-0">
               <div className="card-header bg-white py-3">
-                <h5 className="mb-0 fw-bold">Todays Appointments</h5>
+                <h5 className="mb-0 fw-bold">Today Appointments</h5>
               </div>
               <div className="card-body">
                 <table className="table table-striped table-hover">
@@ -101,21 +212,19 @@ const Home = () => {
                   <tbody>
                     {filteredAppointments.length > 0 ? (
                       filteredAppointments.map((appointment, index) => (
-                        <tr key={appointment.id}>
+                        <tr key={appointment.appointmentid}>
                           <td>{index + 1}</td>
                           <td>{appointment.name}</td>
                           <td>{appointment.service}</td>
                           <td>{appointment.date}</td>
-                          <td>{appointment.time}</td>
+                          <td>{formatTime(appointment.time)}</td>
                           <td>
                             <button
-                              className="btn btn-danger btn-sm"
+                              className="btn btn-danger btn-sm me-2"
                               onClick={() => handleCancelClick(appointment)}
                             >
                               Cancel
                             </button>
-                          </td>
-                          <td>
                             <button
                               className="btn btn-info btn-sm"
                               onClick={() => handlePostponeClick(appointment)}
@@ -155,25 +264,25 @@ const Home = () => {
                 <p>
                   <strong>Canceling:</strong> {selectedAppointment?.name} - {selectedAppointment?.service}
                 </p>
-                <label className="form-label">Describe:</label>
+                <label className="form-label">Reason:</label>
                 <textarea
                   className="form-control"
                   rows="4"
                   value={cancelReason}
                   onChange={(e) => setCancelReason(e.target.value)}
+                  placeholder="Please specify the reason for cancellation"
                 ></textarea>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn" onClick={handleCloseModal}>
+                <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>
                   Close
                 </button>
                 <button
                   type="button"
-                  className="btn"
-                  style={{ backgroundColor: "#786670", color: "white" }}
+                  className="btn btn-primary"
                   onClick={handleSendCancellation}
                 >
-                  Send
+                  Confirm Cancellation
                 </button>
               </div>
             </div>
@@ -200,44 +309,48 @@ const Home = () => {
                   <strong>Old Date:</strong> {selectedAppointment?.date}
                 </p>
                 <p>
-                  <strong>Old Time:</strong> {selectedAppointment?.time}
+                  <strong>Old Time:</strong> {formatTime(selectedAppointment?.time)}
                 </p>
-                <label className="form-label">New Date:</label>
-                <input
-                  type="date"
-                  className="form-control"
-                  value={newDate}
-                  onChange={(e) => setNewDate(e.target.value)}
-                />
-                <label className="form-label">New Time:</label>
-                <div className="input-group">
+                <div className="mb-3">
+                  <label className="form-label">New Date:</label>
                   <input
-                    type="time"
+                    type="date"
                     className="form-control"
-                    value={newTime}
-                    onChange={(e) => setNewTime(e.target.value)}
+                    value={newDate}
+                    onChange={(e) => setNewDate(e.target.value)}
+                    min={new Date().toISOString().split('T')[0]}
                   />
-                  <select
-                    className="form-control"
-                    value={newAmPm}
-                    onChange={(e) => setNewAmPm(e.target.value)}
-                  >
-                    <option value="AM">AM</option>
-                    <option value="PM">PM</option>
-                  </select>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">New Time:</label>
+                  <div className="input-group">
+                    <input
+                      type="time"
+                      className="form-control"
+                      value={newTime}
+                      onChange={(e) => setNewTime(e.target.value)}
+                    />
+                    <select
+                      className="form-control"
+                      value={newAmPm}
+                      onChange={(e) => setNewAmPm(e.target.value)}
+                    >
+                      <option value="AM">AM</option>
+                      <option value="PM">PM</option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn" onClick={handleClosePostponeModal}>
+                <button type="button" className="btn btn-secondary" onClick={handleClosePostponeModal}>
                   Close
                 </button>
                 <button
                   type="button"
-                  className="btn"
-                  style={{ backgroundColor: "#786670", color: "white" }}
+                  className="btn btn-primary"
                   onClick={handleSendPostponement}
                 >
-                  Send
+                  Confirm Postponement
                 </button>
               </div>
             </div>

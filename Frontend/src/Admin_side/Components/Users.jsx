@@ -1,54 +1,86 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaCalendarAlt, FaShoppingBag, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Button = ({ children, onClick, className }) => {
   return (
-    <button onClick={onClick} className={`btn ${className}`} style={{ backgroundColor: "#A5909C", color: "black", border: "none", fontFamily: "'Kaisei HarunoUmi'" }}>
+    <button
+      onClick={onClick}
+      className={`btn ${className}`}
+      style={{
+        backgroundColor: "#A5909C",
+        color: "black",
+        border: "none",
+        fontFamily: "'Kaisei HarunoUmi'",
+      }}
+    >
       {children}
     </button>
   );
 };
 
 const Users = () => {
-  const [users, setUsers] = useState([
-    {
-      name: "Priya Chauhan",
-      email: "pchauhan862@rku.ac.in",
-      number: "9999999999",
-    },
-    {
-      name: "Drashti chag",
-      email: "dchag730@rku.ac.in",
-      number: "9999999999",
-    },
-    {
-      name: "Priya Chauhan",
-      email: "pchauhan862@rku.ac.in",
-      number: "9999999999",
-    },
-    {
-      name: "Isha Tank",
-      email: "itank862@rku.ac.in",
-      number: "9999999999",
-    },
-    {
-      name: "Drashti chag",
-      email: "dchag730@rku.ac.in",
-      number: "9999999999",
-    },
-  ]);
+  const [users, setUsers] = useState([]);
 
-  const handleDelete = (index) => {
-    const updatedUsers = users.filter((_, i) => i !== index);
-    setUsers(updatedUsers);
-  };
+  // ✅ Use fetch to get data from the backend
+  useEffect(() => {
+    // Updated fetchUsers function in your Users component
+    const fetchUsers = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch("http://localhost:3000/api/auth/users", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch users");
+        }
+
+        const data = await response.json();
+        setUsers(data);
+      } catch (error) {
+        console.error("Error fetching users:", error.message);
+      }
+    };
+
+    // Updated handleDelete function
+    const handleDelete = async (userId) => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          `http://localhost:3000/api/admin/users/${userId}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to delete user");
+        }
+
+        // Update the UI by removing the deleted user
+        setUsers(users.filter((user) => user.userid !== userId));
+      } catch (error) {
+        console.error("Error deleting user:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
 
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between mb-3">
         <h2 className="fw-bold">Users</h2>
-        <Link to="/registerform"> <Button>New User</Button></Link>
+        <Link to="/registerform">
+          <Button>New User</Button>
+        </Link>
       </div>
       <div className="table-responsive">
         <table className="table table-bordered text-center">
@@ -69,16 +101,24 @@ const Users = () => {
                 <td>{user.email}</td>
                 <td>{user.number}</td>
                 <td>
-                  <Link to={`/userorders/${user.name}/${user.email}/${user.number}`}>
+                  <Link
+                    to={`/userorders/${user.name}/${user.email}/${user.number}`}
+                  >
                     <FaShoppingBag className="text-dark" />
                   </Link>
                 </td>
                 <td>
-                <Link to={`/userappointments/${user.name}/${user.email}/${user.number}`}>
-                  <FaCalendarAlt className="text-dark" />
-               </Link> </td>
+                  <Link
+                    to={`/userappointments/${user.name}/${user.email}/${user.number}`}
+                  >
+                    <FaCalendarAlt className="text-dark" />
+                  </Link>
+                </td>
                 <td>
-                  <button className="btn btn-link text-danger" onClick={() => handleDelete(index)}>
+                  <button
+                    className="btn btn-link text-danger"
+                    onClick={() => handleDelete()}
+                  >
                     <FaTrash />
                   </button>
                 </td>
