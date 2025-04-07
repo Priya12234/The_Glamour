@@ -29,7 +29,7 @@ const Sidebar = () => {
       </div>
 
       <ul className="sidebar-nav">
-        <SidebarItem to="admin" icon="bi-house-door" label="Home" />
+        <SidebarItem to="/admin" icon="bi-house-door" label="Home" end />
         <SidebarItem
           to="/admin/appointments"
           icon="bi-calendar-event"
@@ -44,7 +44,7 @@ const Sidebar = () => {
           icon="bi-clipboard-check"
           label="Feedback"
         />{" "}
-        {/* ✅ Feedback Page Added */}
+        {/*  Feedback Page Added */}
       </ul>
 
       <div className="sidebar-footer">
@@ -54,7 +54,7 @@ const Sidebar = () => {
   );
 };
 
-// ✅ Reusable Sidebar Item Component
+//  Reusable Sidebar Item Component
 const SidebarItem = ({ to, icon, label }) => (
   <li className="sidebar-item">
     <NavLink
