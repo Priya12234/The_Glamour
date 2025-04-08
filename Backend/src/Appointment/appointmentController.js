@@ -80,77 +80,101 @@ const appointmentController = {
       });
     }
   },
+getUserAppointmentsAdmin: async (req, res)=> {
+  try {
+    let query = await db.query(
+      `SELECT * FROM Appointments ORDER BY date, time` 
+    )
+    res.status(201).json({
+      success: true,
+      appointments: query.rows
+    })
 
-  // Get all appointments for a user
-  getUserAppointments: async (req, res) => {
-    try {
-      const userId = req.user.userId;
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch appointments",
+      error: error.message
+    });
+  }
+},
+getUserAppointments: async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { date } = req.query;
 
-      const appointments = await db.query(
-        `SELECT 
-          appointmentid, name, service, date, time, 
-          details, contact_email, contact_phone,
-          created_at, updated_at
-         FROM Appointments 
-         WHERE userid = $1 
-         ORDER BY date ASC, time ASC`,
-        [userId]
-      );
+    let query = `
+      SELECT 
+        appointmentid, name, service, date, time, 
+        details, contact_email, contact_phone,
+        created_at, updated_at
+      FROM Appointments 
+      WHERE userid = $1
+    `;
+    
+    let params = [userId];
+    
+    if (date) {
+      query += ` AND date = $2`;
+      params.push(date);
+    }
 
-      return res.status(200).json({
-        success: true,
-        count: appointments.rows.length,
-        appointments: appointments.rows
-      });
+    query += ` ORDER BY date ASC, time ASC`;
 
-    } catch (error) {
-      console.error("Get appointments error:", error);
-      return res.status(500).json({
+    const result = await db.query(query, params);
+
+    return res.status(200).json({
+      success: true,
+      appointments: result.rows
+    });
+
+  } catch (error) {
+    console.error("Get appointments error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch appointments",
+      error: error.message
+    });
+  }
+},
+
+// Get single appointment by ID
+getAppointmentById: async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.userId;
+
+    const appointment = await db.query(
+      `SELECT 
+        appointmentid, name, service, date, time, 
+        details, contact_email, contact_phone,
+        created_at, updated_at
+       FROM Appointments 
+       WHERE appointmentid = $1 AND userid = $2`,
+      [id, userId]
+    );
+
+    if (appointment.rows.length === 0) {
+      return res.status(404).json({
         success: false,
-        message: "Failed to fetch appointments",
-        error: error.message
+        message: "Appointment not found"
       });
     }
-  },
 
-  // Get single appointment by ID
-  getUserAppointmentsById: async (req, res) => {
-    try {
-      const { id } = req.params;
-      const userId = req.user.userId;
+    return res.status(200).json({
+      success: true,
+      appointment: appointment.rows[0]
+    });
 
-      const appointment = await db.query(
-        `SELECT 
-          appointmentid, name, service, date, time, 
-          details, contact_email, contact_phone,
-          created_at, updated_at
-         FROM Appointments 
-         WHERE appointmentid = $1 AND userid = $2`,
-        [id, userId]
-      );
-
-      if (appointment.rows.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "Appointment not found"
-        });
-      }
-
-      return res.status(200).json({
-        success: true,
-        appointment: appointment.rows[0]
-      });
-
-    } catch (error) {
-      console.error("Get appointment by ID error:", error);
-      return res.status(500).json({
-        success: false,
-        message: "Failed to fetch appointment",
-        error: error.message
-      });
-    }
-  },
-
+  } catch (error) {
+    console.error("Get appointment by ID error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch appointment",
+      error: error.message
+    });
+  }
+},
   // Update an appointment
   updateAppointment: async (req, res) => {
     try {

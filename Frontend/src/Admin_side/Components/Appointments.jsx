@@ -1,147 +1,290 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Appointments = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showCancelModal, setShowCancelModal] = useState(false);
   const [showPostponeModal, setShowPostponeModal] = useState(false);
-  const [cancelReason, setCancelReason] = useState("");
-  const [newDate, setNewDate] = useState("");
-  const [newTime, setNewTime] = useState("");
-  const [newAmPm, setNewAmPm] = useState("AM");
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [cancelReason, setCancelReason] = useState("");
+  const [postponeDate, setPostponeDate] = useState("");
+  const [postponeTime, setPostponeTime] = useState("");
 
-  const todayAppointments = [
-    { id: 1, name: "Isha ", service: "Haircut", date: "19-2-2025", time: "10:00 AM" },
-    { id: 2, name: "Drashti", service: "Facial", date: "19-2-2025", time: "11:30 AM" },
-    { id: 3, name: "Priya", service: "Massage", date: "19-2-2025", time: "1:00 PM" },
-    { id: 4, name: "Isha", service: "Hair Color", date: "19-2-2025", time: "3:00 PM" },
-    { id: 5, name: "Drashti", service: "Haircut", date: "19-2-2025", time: "10:00 AM" },
-    { id: 6, name: "Priya", service: "Facial", date: "19-2-2025", time: "11:30 AM" },
-    { id: 7, name: "Isha", service: "Massage", date: "19-2-2025", time: "1:00 PM" },
-    { id: 8, name: "Drashti", service: "Hair Color", date: "19-2-2025", time: "3:00 PM" },
-  ];
+  const fetchAppointments = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+  
+      console.log('Making request to /api/appointments with token:', token);
+      
+      const response = await fetch('http://localhost:3000/api/appointments', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json'
+        }
+      });
+  
+      console.log('Response status:', response.status);
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        console.error('Error response data:', errorData);
+        throw new Error(errorData?.message || `HTTP error! status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      setAppointments(data.appointments || []);
+      
+    } catch (err) {
+      console.error('Fetch error details:', {
+        message: err.message,
+        stack: err.stack,
+        name: err.name
+      });
+      setError(err.message);
+      setAppointments([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleCancelAppointment = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:3000/api/appointments/${selectedAppointment.appointmentid}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ reason: cancelReason })
+      });
 
-  const handleCancelClick = (appointment) => {
-    setSelectedAppointment(appointment);
-    setShowModal(true);
+      if (!response.ok) {
+        throw new Error('Failed to cancel appointment');
+      }
+
+      setShowCancelModal(false);
+      setCancelReason("");
+      fetchAppointments();
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
-  const handlePostponeClick = (appointment) => {
-    setSelectedAppointment(appointment);
-    setShowPostponeModal(true);
+  const handlePostponeAppointment = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:3000/api/appointments/${selectedAppointment.appointmentid}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          date: postponeDate,
+          time: postponeTime
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to postpone appointment');
+      }
+
+      setShowPostponeModal(false);
+      setPostponeDate("");
+      setPostponeTime("");
+      fetchAppointments();
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setCancelReason("");
-    setSelectedAppointment(null);
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
+
+  const formatDisplayDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+    } catch {
+      return dateString;
+    }
   };
 
-  const handleClosePostponeModal = () => {
-    setShowPostponeModal(false);
-    setNewDate("");
-    setNewTime("");
-    setNewAmPm("AM");
-    setSelectedAppointment(null);
-  };
-
-  const handleSendCancellation = () => {
-    console.log("Cancellation reason:", cancelReason);
-    console.log("Cancelled Appointment:", selectedAppointment);
-    handleCloseModal();
-  };
-
-  const handleSendPostponement = () => {
-    const fullNewTime = `${newTime} ${newAmPm}`;
-    console.log("New Date:", newDate);
-    console.log("New Time:", fullNewTime);
-    console.log("Postponed Appointment:", selectedAppointment);
-    handleClosePostponeModal();
-  };
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: '50vh' }}>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <main className="content px-3 py-4 bg-light">
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h3 className="fw-bold fs-4">All Appointments</h3>
-          <h5 className="text-muted">{new Date().toLocaleDateString()}</h5>
+          <div className="d-flex align-items-center gap-3">
+            <button 
+              className="btn btn-primary"
+              onClick={fetchAppointments}
+            >
+              <i className="bi bi-arrow-clockwise"></i> Refresh
+            </button>
+          </div>
         </div>
-        <div className="row">
-          <div className="col-12">
-            <div className="card shadow-sm border-0">
-              <div className="card-body">
-                <table className="table table-striped table-hover">
-                  <thead>
-                    <tr>
-                      <th>SR NO</th>
-                      <th>Name</th>
-                      <th>Service</th>
-                      <th>Date</th>
-                      <th>Time</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {todayAppointments.length > 0 ? (
-                      todayAppointments.map((appointment, index) => (
-                        <tr key={appointment.id}>
-                          <td>{index + 1}</td>
-                          <td>{appointment.name}</td>
-                          <td>{appointment.service}</td>
-                          <td>{appointment.date}</td>
-                          <td>{appointment.time}</td>
-                          <td>
-                            <button className="btn btn-danger btn-sm" onClick={() => handleCancelClick(appointment)}>
-                              Cancel
+
+        {error && (
+          <div className="alert alert-danger">
+            <h4>Error Loading Appointments</h4>
+            <p>{error}</p>
+            <button 
+              className="btn btn-primary"
+              onClick={fetchAppointments}
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
+        <div className="card shadow-sm">
+          <div className="card-body p-0">
+            <div className="table-responsive">
+              <table className="table table-hover mb-0">
+                <thead className="table-light">
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Contact</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {appointments.length > 0 ? (
+                    appointments.map((appointment, index) => (
+                      <tr key={appointment.appointmentid || index}>
+                        <td>{index + 1}</td>
+                        <td>{appointment.name || 'N/A'}</td>
+                        <td>{appointment.service || 'N/A'}</td>
+                        <td>{formatDisplayDate(appointment.date)}</td>
+                        <td>{appointment.time || 'N/A'}</td>
+                        <td>
+                          {appointment.contact_email && (
+                            <div className="text-truncate" style={{ maxWidth: '150px' }}>
+                              <i className="bi bi-envelope me-2"></i>
+                              {appointment.contact_email}
+                            </div>
+                          )}
+                          {appointment.contact_phone && (
+                            <div>
+                              <i className="bi bi-telephone me-2"></i>
+                              {appointment.contact_phone}
+                            </div>
+                          )}
+                        </td>
+                        <td>
+                          <div className="d-flex gap-2">
+                            <button 
+                              className="btn btn-sm btn-outline-danger"
+                              onClick={() => {
+                                setSelectedAppointment(appointment);
+                                setShowCancelModal(true);
+                              }}
+                            >
+                              <i className="bi bi-x-circle me-1"></i> Cancel
                             </button>
-                          </td>
-                          <td>
-                            <button className="btn btn-info btn-sm" onClick={() => handlePostponeClick(appointment)}>
-                              Postpone
+                            <button 
+                              className="btn btn-sm btn-outline-primary"
+                              onClick={() => {
+                                setSelectedAppointment(appointment);
+                                setPostponeDate(appointment.date);
+                                setPostponeTime(appointment.time.split(' ')[0]);
+                                setShowPostponeModal(true);
+                              }}
+                            >
+                              <i className="bi bi-clock me-1"></i> Reschedule
                             </button>
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan="6" className="text-center text-muted">
-                          No appointments for today.
+                          </div>
                         </td>
                       </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="7" className="text-center py-4 text-muted">
+                        {error ? 'Error loading appointments' : 'No appointments found'}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
 
-      {showModal && (
-        <div className="modal show d-block" tabIndex="-1" role="dialog">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content" style={{ backgroundColor: "#D9D9D9" }}>
+      {/* Cancel Appointment Modal */}
+      {showCancelModal && (
+        <div className="modal show d-block" tabIndex="-1">
+          <div className="modal-dialog">
+            <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Appointment Cancellation</h5>
-                <button type="button" className="btn" onClick={handleCloseModal}>
-                <i className="bi bi-x-lg"></i>
-                </button>
+                <h5 className="modal-title">Cancel Appointment</h5>
+                <button 
+                  type="button" 
+                  className="btn-close" 
+                  onClick={() => {
+                    setShowCancelModal(false);
+                    setCancelReason("");
+                  }}
+                ></button>
               </div>
               <div className="modal-body">
-                <p><strong>Canceling:</strong> {selectedAppointment?.name} - {selectedAppointment?.service}</p>
-                <label className="form-label">Describe:</label>
-                <textarea
-                  className="form-control"
-                  rows="4"
-                  value={cancelReason}
-                  onChange={(e) => setCancelReason(e.target.value)}
-                ></textarea>
+                <p>Are you sure you want to cancel this appointment?</p>
+                <div className="mb-3">
+                  <label className="form-label">Reason for cancellation:</label>
+                  <textarea
+                    className="form-control"
+                    rows={3}
+                    value={cancelReason}
+                    onChange={(e) => setCancelReason(e.target.value)}
+                  />
+                </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn" onClick={handleCloseModal}>
+                <button 
+                  type="button" 
+                  className="btn btn-secondary" 
+                  onClick={() => {
+                    setShowCancelModal(false);
+                    setCancelReason("");
+                  }}
+                >
                   Close
                 </button>
-                <button type="button" className="btn" style={{backgroundColor:"#786670", color:"white"}} onClick={handleSendCancellation}>
-                  Send
+                <button 
+                  type="button" 
+                  className="btn btn-danger"
+                  onClick={handleCancelAppointment}
+                  disabled={!cancelReason.trim()}
+                >
+                  Confirm Cancellation
                 </button>
               </div>
             </div>
@@ -149,51 +292,63 @@ const Appointments = () => {
         </div>
       )}
 
+      {/* Postpone Appointment Modal */}
       {showPostponeModal && (
-        <div className="modal show d-block" tabIndex="-1" role="dialog">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content" style={{ backgroundColor: "#D9D9D9" }}>
+        <div className="modal show d-block" tabIndex="-1">
+          <div className="modal-dialog">
+            <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Appointment Postponement</h5>
-                <button type="button" className="btn p-0 boarder-0" onClick={handleClosePostponeModal}>
-                  <i className="bi bi-x-lg"></i>
-                </button>
+                <h5 className="modal-title">Reschedule Appointment</h5>
+                <button 
+                  type="button" 
+                  className="btn-close" 
+                  onClick={() => {
+                    setShowPostponeModal(false);
+                    setPostponeDate("");
+                    setPostponeTime("");
+                  }}
+                ></button>
               </div>
               <div className="modal-body">
-                <p><strong>Postponing:</strong> {selectedAppointment?.name} - {selectedAppointment?.service}</p>
-                <p><strong>Old Date:</strong> {selectedAppointment?.date}</p>
-                <p><strong>Old Time:</strong> {selectedAppointment?.time}</p>
-                <label className="form-label">New Date:</label>
-                <input
-                  type="date"
-                  className="form-control"
-                  value={newDate}
-                  onChange={(e) => setNewDate(e.target.value)}
-                />
-                <label className="form-label">New Time:</label>
-                <div className="input-group">
+                <div className="mb-3">
+                  <label className="form-label">New Date:</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    value={postponeDate}
+                    onChange={(e) => setPostponeDate(e.target.value)}
+                    min={new Date().toISOString().split('T')[0]}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">New Time:</label>
                   <input
                     type="time"
                     className="form-control"
-                    value={newTime}
-                    onChange={(e) => setNewTime(e.target.value)}
+                    value={postponeTime}
+                    onChange={(e) => setPostponeTime(e.target.value)}
                   />
-                  <select
-                    className="form-control"
-                    value={newAmPm}
-                    onChange={(e) => setNewAmPm(e.target.value)}
-                  >
-                    <option value="AM">AM</option>
-                    <option value="PM">PM</option>
-                  </select>
                 </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn" onClick={handleClosePostponeModal}>
+                <button 
+                  type="button" 
+                  className="btn btn-secondary" 
+                  onClick={() => {
+                    setShowPostponeModal(false);
+                    setPostponeDate("");
+                    setPostponeTime("");
+                  }}
+                >
                   Close
                 </button>
-                <button type="button" className="btn" style={{backgroundColor:"#786670", color:"white"}} onClick={handleSendPostponement}>
-                  Send
+                <button 
+                  type="button" 
+                  className="btn btn-primary"
+                  onClick={handlePostponeAppointment}
+                  disabled={!postponeDate || !postponeTime}
+                >
+                  Confirm Reschedule
                 </button>
               </div>
             </div>

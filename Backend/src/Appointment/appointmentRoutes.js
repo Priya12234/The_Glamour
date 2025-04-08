@@ -9,14 +9,18 @@ router.use(verifyToken);
 // Create appointment
 router.post("/", appointmentController.createAppointment);
 
-// Get all appointments for logged-in user
+// Get all appointments
 router.get("/", appointmentController.getUserAppointments);
-router.get("/:id", appointmentController.getUserAppointmentsById);
+
+// Get single appointment by ID
+router.get("/:id", appointmentController.getAppointmentById);
 
 // Update appointment
 router.put("/:appointmentId", appointmentController.updateAppointment);
 
 // Delete appointment
 router.delete("/:appointmentId", appointmentController.deleteAppointment);
+
+router.get("/aall", appointmentController.getUserAppointmentsAdmin);
 
 module.exports = router;
