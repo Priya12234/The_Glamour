@@ -4,7 +4,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import panaImage from "../../Client_side/Assets/Images/pana.png";
 import "../Assets/css/style.css";
 
-const RegisterForm = () => {
+const AdminRegisterForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
@@ -87,7 +87,7 @@ const RegisterForm = () => {
           color: "#35262E",
           cursor: "pointer"
         }}
-        onClick={() => navigate("/users")}
+        onClick={() => navigate("/admin")}
       />
 
       <div className="row w-100 justify-content-center">
@@ -186,4 +186,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default AdminRegisterForm;
