@@ -104,10 +104,7 @@ getUserAppointments: async (req, res) => {
     const { date } = req.query;
 
     let query = `
-      SELECT 
-        appointmentid, name, service, date, time, 
-        details, contact_email, contact_phone,
-        created_at, updated_at
+      SELECT *
       FROM Appointments 
       WHERE userid = $1
     `;

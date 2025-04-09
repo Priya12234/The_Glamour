@@ -11,6 +11,7 @@ router.post("/", appointmentController.createAppointment);
 
 // Get all appointments
 router.get("/", appointmentController.getUserAppointments);
+router.get("/admninalldata", appointmentController.getUserAppointmentsAdmin);
 
 // Get single appointment by ID
 router.get("/:id", appointmentController.getAppointmentById);
@@ -21,6 +22,5 @@ router.put("/:appointmentId", appointmentController.updateAppointment);
 // Delete appointment
 router.delete("/:appointmentId", appointmentController.deleteAppointment);
 
-router.get("/aall", appointmentController.getUserAppointmentsAdmin);
 
 module.exports = router;
