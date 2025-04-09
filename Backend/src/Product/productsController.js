@@ -90,8 +90,8 @@ const appointmentController = {
   // Delete a product
   deleteProduct: async (req, res) => {
     try {
-      const productId = parseInt(req.params.id);
-      await db.query("DELETE FROM products WHERE id = $1", [productId]);
+      const productId = req.params.id;
+      await db.query("DELETE FROM products WHERE productid = $1", [productId]);
       res.status(200).json({
         message: "Product deleted successfully",
       });
