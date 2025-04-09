@@ -23,7 +23,7 @@ const Appointments = () => {
   
       console.log('Making request to /api/appointments with token:', token);
       
-      const response = await fetch('http://localhost:3000/api/appointments/admninalldata', {
+      const response = await fetch('http://localhost:3000/api/appointments/adminalldata', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json'

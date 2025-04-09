@@ -11,7 +11,7 @@ router.post("/", appointmentController.createAppointment);
 
 // Get all appointments
 router.get("/", appointmentController.getUserAppointments);
-router.get("/admninalldata", appointmentController.getUserAppointmentsAdmin);
+router.get("/adminalldata", appointmentController.getUserAppointmentsAdmin);
 
 // Get single appointment by ID
 router.get("/:id", appointmentController.getAppointmentById);

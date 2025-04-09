@@ -12,11 +12,20 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch appointments from the database
+  // Helper function to get today's date in YYYY-MM-DD format
+  function getTodayDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  // Fetch all appointments from the database
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/appointments', {
+        const response = await fetch(`http://localhost:3000/api/appointments/adminalldata`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
             'Content-Type': 'application/json'
@@ -28,7 +37,7 @@ const Home = () => {
         }
         
         const data = await response.json();
-        setAppointments(data.appointments);
+        setAppointments(data.appointments || []);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -39,25 +48,16 @@ const Home = () => {
     fetchAppointments();
   }, []);
 
-  // Get today's date in the format used in the database (YYYY-MM-DD)
-  const getTodayDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
+  // Filter appointments to only show today's appointments
+  const getTodaysAppointments = () => {
+    const today = getTodayDate();
+    return appointments.filter(appointment => appointment.date === today);
   };
-
-  // Filter appointments to include only today's appointments
-  const filteredAppointments = appointments.filter(
-    (appointment) => appointment.date === getTodayDate()
-  );
 
   // Format time to AM/PM format for display
   const formatTime = (timeString) => {
     if (!timeString) return '';
     
-    // Assuming timeString is in format "HH:MM:SS" or "HH:MM"
     const [hours, minutes] = timeString.split(':');
     const hourNum = parseInt(hours, 10);
     
@@ -94,7 +94,7 @@ const Home = () => {
 
   const handleSendCancellation = async () => {
     try {
-      const response = await fetch(`/api/appointments/${selectedAppointment.appointmentid}`, {
+      const response = await fetch(`http://localhost:3000/api/appointments/${selectedAppointment.appointmentid}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -123,7 +123,7 @@ const Home = () => {
     try {
       const fullNewTime = `${newTime} ${newAmPm}`;
       
-      const response = await fetch(`/api/appointments/${selectedAppointment.appointmentid}`, {
+      const response = await fetch(`http://localhost:3000/api/appointments/${selectedAppointment.appointmentid}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -181,6 +181,8 @@ const Home = () => {
     );
   }
 
+  const todaysAppointments = getTodaysAppointments();
+
   return (
     <main className="content px-3 py-4 bg-light">
       <div className="container-fluid">
@@ -195,7 +197,7 @@ const Home = () => {
           <div className="col-12">
             <div className="card shadow-sm border-0">
               <div className="card-header bg-white py-3">
-                <h5 className="mb-0 fw-bold">Today Appointments</h5>
+                <h5 className="mb-0 fw-bold">Todays Appointments</h5>
               </div>
               <div className="card-body">
                 <table className="table table-striped table-hover">
@@ -204,19 +206,17 @@ const Home = () => {
                       <th>SR NO</th>
                       <th>Name</th>
                       <th>Service</th>
-                      <th>Date</th>
                       <th>Time</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredAppointments.length > 0 ? (
-                      filteredAppointments.map((appointment, index) => (
+                    {todaysAppointments.length > 0 ? (
+                      todaysAppointments.map((appointment, index) => (
                         <tr key={appointment.appointmentid}>
                           <td>{index + 1}</td>
                           <td>{appointment.name}</td>
                           <td>{appointment.service}</td>
-                          <td>{appointment.date}</td>
                           <td>{formatTime(appointment.time)}</td>
                           <td>
                             <button
@@ -236,7 +236,7 @@ const Home = () => {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="6" className="text-center text-muted">
+                        <td colSpan="5" className="text-center text-muted">
                           No appointments for today.
                         </td>
                       </tr>
@@ -306,10 +306,7 @@ const Home = () => {
                   <strong>Postponing:</strong> {selectedAppointment?.name} - {selectedAppointment?.service}
                 </p>
                 <p>
-                  <strong>Old Date:</strong> {selectedAppointment?.date}
-                </p>
-                <p>
-                  <strong>Old Time:</strong> {formatTime(selectedAppointment?.time)}
+                  <strong>Current Time:</strong> {formatTime(selectedAppointment?.time)}
                 </p>
                 <div className="mb-3">
                   <label className="form-label">New Date:</label>
