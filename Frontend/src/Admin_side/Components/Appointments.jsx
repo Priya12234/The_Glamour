@@ -83,11 +83,16 @@ const Appointments = () => {
         },
         body: JSON.stringify({ reason: cancelReason })
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to cancel appointment');
       }
-
+  
+      const result = await response.json();
+      if (result.success) {
+        alert(`Appointment cancelled successfully. A confirmation email has been sent to ${selectedAppointment.contact_email}`);
+      }
+  
       fetchAppointments();
       handleCloseModal();
     } catch (err) {
@@ -95,12 +100,12 @@ const Appointments = () => {
       setError(err.message);
     }
   };
-
+  
   const handleSendPostponement = async () => {
     try {
       const fullNewTime = `${newTime} ${newAmPm}`;
       const token = localStorage.getItem('token');
-
+  
       const response = await fetch(`http://localhost:3000/api/appointments/${selectedAppointment.appointmentid}`, {
         method: 'PUT',
         headers: {
@@ -112,11 +117,16 @@ const Appointments = () => {
           time: fullNewTime
         })
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to postpone appointment');
       }
-
+  
+      const result = await response.json();
+      if (result.success) {
+        alert(`Appointment rescheduled successfully. A confirmation email has been sent to ${selectedAppointment.contact_email}`);
+      }
+  
       fetchAppointments();
       handleClosePostponeModal();
     } catch (err) {

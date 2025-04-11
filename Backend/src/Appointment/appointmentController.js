@@ -1,7 +1,8 @@
 const db = require("../DbConnections/db");
+const { transporter, cancellationEmail, postponementEmail, confirmationEmail } = require("../utils/mailer");
 
 const appointmentController = {
-  // Create a new appointment
+  // Create a new appointment with email confirmation
   createAppointment: async (req, res) => {
     try {
       const { 
@@ -64,6 +65,27 @@ const appointmentController = {
         ]
       );
 
+      // Send confirmation email if email was provided
+      if (contact_email) {
+        try {
+          const mailOptions = confirmationEmail(
+            contact_email,
+            {
+              name,
+              service,
+              date,
+              time,
+              details
+            }
+          );
+
+          await transporter.sendMail(mailOptions);
+        } catch (emailError) {
+          console.error("Failed to send confirmation email:", emailError);
+          // Don't fail the whole request if email fails
+        }
+      }
+
       return res.status(201).json({
         success: true,
         message: "Appointment created successfully",
@@ -80,6 +102,8 @@ const appointmentController = {
       });
     }
   },
+
+  // Get all appointments for admin
   getUserAppointmentsAdmin: async (req, res) => {
     try {
       let query = await db.query(
@@ -109,81 +133,84 @@ const appointmentController = {
       });
     }
   },
-getUserAppointments: async (req, res) => {
-  try {
-    const userId = req.user.userId;
-    const { date } = req.query;
 
-    let query = `
-      SELECT *
-      FROM Appointments 
-      WHERE userid = $1
-    `;
-    
-    let params = [userId];
-    
-    if (date) {
-      query += ` AND date = $2`;
-      params.push(date);
-    }
+  // Get user appointments
+  getUserAppointments: async (req, res) => {
+    try {
+      const userId = req.user.userId;
+      const { date } = req.query;
 
-    query += ` ORDER BY date ASC, time ASC`;
+      let query = `
+        SELECT *
+        FROM Appointments 
+        WHERE userid = $1
+      `;
+      
+      let params = [userId];
+      
+      if (date) {
+        query += ` AND date = $2`;
+        params.push(date);
+      }
 
-    const result = await db.query(query, params);
+      query += ` ORDER BY date ASC, time ASC`;
 
-    return res.status(200).json({
-      success: true,
-      appointments: result.rows
-    });
+      const result = await db.query(query, params);
 
-  } catch (error) {
-    console.error("Get appointments error:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Failed to fetch appointments",
-      error: error.message
-    });
-  }
-},
+      return res.status(200).json({
+        success: true,
+        appointments: result.rows
+      });
 
-// Get single appointment by ID
-getAppointmentById: async (req, res) => {
-  try {
-    const { id } = req.params;
-    const userId = req.user.userId;
-
-    const appointment = await db.query(
-      `SELECT 
-        appointmentid, name, service, date, time, 
-        details, contact_email, contact_phone,
-        created_at, updated_at
-       FROM Appointments 
-       WHERE appointmentid = $1 AND userid = $2`,
-      [id, userId]
-    );
-
-    if (appointment.rows.length === 0) {
-      return res.status(404).json({
+    } catch (error) {
+      console.error("Get appointments error:", error);
+      return res.status(500).json({
         success: false,
-        message: "Appointment not found"
+        message: "Failed to fetch appointments",
+        error: error.message
       });
     }
+  },
 
-    return res.status(200).json({
-      success: true,
-      appointment: appointment.rows[0]
-    });
+  // Get single appointment by ID
+  getAppointmentById: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const userId = req.user.userId;
 
-  } catch (error) {
-    console.error("Get appointment by ID error:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Failed to fetch appointment",
-      error: error.message
-    });
-  }
-},
-  // Update an appointment
+      const appointment = await db.query(
+        `SELECT 
+          appointmentid, name, service, date, time, 
+          details, contact_email, contact_phone,
+          created_at, updated_at
+         FROM Appointments 
+         WHERE appointmentid = $1 AND userid = $2`,
+        [id, userId]
+      );
+
+      if (appointment.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Appointment not found"
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        appointment: appointment.rows[0]
+      });
+
+    } catch (error) {
+      console.error("Get appointment by ID error:", error);
+      return res.status(500).json({
+        success: false,
+        message: "Failed to fetch appointment",
+        error: error.message
+      });
+    }
+  },
+
+  // Update an appointment with optional email notification
   updateAppointment: async (req, res) => {
     try {
       const { appointmentId } = req.params;
@@ -261,6 +288,28 @@ getAppointmentById: async (req, res) => {
         ]
       );
 
+      // Send reschedule notification if date/time changed and email exists
+      if ((date || time) && (contact_email || existingAppointment.rows[0].contact_email)) {
+        try {
+          const mailOptions = postponementEmail(
+            contact_email || existingAppointment.rows[0].contact_email,
+            {
+              name: name || existingAppointment.rows[0].name,
+              service: service || existingAppointment.rows[0].service,
+              date: existingAppointment.rows[0].date,
+              time: existingAppointment.rows[0].time
+            },
+            date || existingAppointment.rows[0].date,
+            time || existingAppointment.rows[0].time
+          );
+
+          await transporter.sendMail(mailOptions);
+        } catch (emailError) {
+          console.error("Failed to send reschedule email:", emailError);
+          // Don't fail the whole request if email fails
+        }
+      }
+
       return res.json({
         success: true,
         message: "Appointment updated successfully",
@@ -277,37 +326,64 @@ getAppointmentById: async (req, res) => {
     }
   },
 
-  // Delete an appointment
+  // Delete an appointment with cancellation email
   deleteAppointment: async (req, res) => {
     try {
       const { appointmentId } = req.params;
-      const userId = req.user.userId;
-
-      // Verify appointment exists and belongs to user
+      const { reason } = req.body;
+  
+      // Step 1: Check if appointment exists
       const existingAppointment = await db.query(
-        `SELECT * FROM Appointments 
-         WHERE appointmentid = $1 AND userid = $2`,
-        [appointmentId, userId]
+        `SELECT * FROM Appointments WHERE appointmentid = $1`,
+        [appointmentId]
       );
-
+  
       if (existingAppointment.rows.length === 0) {
         return res.status(404).json({
           success: false,
           message: "Appointment not found"
         });
       }
-
+  
+      const appointment = existingAppointment.rows[0];
+  
+      // Step 2: Send cancellation email if email exists
+      if (appointment.contact_email) {
+        const mailOptions = cancellationEmail(
+          appointment.contact_email,
+          {
+            name: appointment.name,
+            service: appointment.service,
+            date: appointment.date,
+            time: appointment.time
+          },
+          reason || "No reason provided"
+        );
+  
+        try {
+          await transporter.sendMail(mailOptions);
+          console.log(`Cancellation email sent to ${appointment.contact_email}`);
+        } catch (emailError) {
+          console.error("Failed to send cancellation email:", emailError);
+          return res.status(500).json({
+            success: false,
+            message: "Failed to send cancellation email. Appointment not deleted.",
+            error: emailError.message
+          });
+        }
+      }
+  
+      // Step 3: Delete appointment after email is sent
       await db.query(
-        `DELETE FROM Appointments 
-         WHERE appointmentid = $1`,
+        `DELETE FROM Appointments WHERE appointmentid = $1`,
         [appointmentId]
       );
-
+  
       return res.json({
         success: true,
-        message: "Appointment deleted successfully"
+        message: "Appointment deleted successfully and notification sent"
       });
-
+  
     } catch (error) {
       console.error("Delete appointment error:", error);
       return res.status(500).json({
@@ -316,7 +392,7 @@ getAppointmentById: async (req, res) => {
         error: error.message
       });
     }
-  }
+  }  
 };
 
 module.exports = appointmentController;
