@@ -34,7 +34,7 @@ const Users = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      
+
       if (!token) {
         navigate("/login");
         return;
@@ -85,21 +85,28 @@ const Users = () => {
       });
 
       if (!result.isConfirmed) return;
-
       const token = localStorage.getItem("token");
+      // Add this debug line:
+      console.log("Current token:", token);
+
       const response = await fetch(
         `http://localhost:3000/api/auth/users/${userId}`,
         {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json", // Add this if missing
           },
         }
       );
 
+      // Add more detailed error logging
+      console.log("Delete response status:", response.status);
       if (!response.ok) {
-        throw new Error("Failed to delete user");
-      }
+        const errorData = await response.json();
+        console.error("Error details:", errorData);
+        throw new Error(errorData.message || "Failed to delete user");
+      } 
 
       setUsers(users.filter((user) => user.userid !== userId));
       Swal.fire(
@@ -152,7 +159,7 @@ const Users = () => {
           <Button icon={FaPlus}>New User</Button>
         </Link>
       </div>
-      
+
       <div className="card shadow-sm">
         <div className="card-body p-0">
           <div className="table-responsive">
