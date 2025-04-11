@@ -19,21 +19,11 @@ const Product = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          throw new Error('Authentication token not found');
-        }
-
-        const response = await fetch('http://localhost:3000/api/products', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-
+        const response = await fetch('http://localhost:3000/api/products');
+        
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          const errorData = await response.json();
+          throw new Error(errorData.message || `Failed to fetch products`);
         }
 
         const data = await response.json();
@@ -54,36 +44,13 @@ const Product = () => {
     setEditProduct(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleEditImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setEditProduct(prev => ({
-        ...prev,
-        newImage: e.target.files[0],
-        product_image: URL.createObjectURL(e.target.files[0])
-      }));
-    }
-  };
-
   const handleEditClick = (product) => {
-    setEditProduct({
-      ...product,
-      newImage: null
-    });
+    setEditProduct({ ...product });
   };
 
   const handleNewProductInputChange = (e) => {
     const { name, value } = e.target;
     setNewProduct(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setNewProduct(prev => ({ 
-        ...prev, 
-        product_image: URL.createObjectURL(e.target.files[0]),
-        imageFile: e.target.files[0]
-      }));
-    }
   };
 
   const handleAddProduct = async () => {
@@ -93,7 +60,7 @@ const Product = () => {
         throw new Error('Product name is required');
       }
       if (!newProduct.price || isNaN(newProduct.price)) {
-        throw new Error('Valid price is required');
+        throw new Error('Please enter a valid price');
       }
 
       const token = localStorage.getItem('token');
@@ -101,28 +68,24 @@ const Product = () => {
         throw new Error('Authentication token not found');
       }
 
-      const formData = new FormData();
-      formData.append('product_name', newProduct.product_name);
-      formData.append('product_weight', newProduct.product_weight);
-      formData.append('price', newProduct.price);
-      
-      if (newProduct.imageFile) {
-        formData.append('product_image', newProduct.imageFile);
-      }
-
       const response = await fetch('http://localhost:3000/api/products', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`
-          // Don't set Content-Type for FormData - browser will set it automatically
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
-        body: formData
+        body: JSON.stringify({
+          product_name: newProduct.product_name,
+          product_weight: newProduct.product_weight,
+          price: newProduct.price
+        })
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || `Failed to add product`);
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to add product');
       }
 
       setProducts([...products, data.product]);
@@ -134,9 +97,10 @@ const Product = () => {
         imageFile: null 
       });
       setShowNewProductModal(false);
+      setError(null);
     } catch (err) {
-      setError(err.message);
       console.error('Add product error:', err);
+      setError(err.message);
     }
   };
 
@@ -149,7 +113,7 @@ const Product = () => {
         throw new Error('Product name is required');
       }
       if (!editProduct.price || isNaN(editProduct.price)) {
-        throw new Error('Valid price is required');
+        throw new Error('Please enter a valid price');
       }
 
       const token = localStorage.getItem('token');
@@ -157,39 +121,36 @@ const Product = () => {
         throw new Error('Authentication token not found');
       }
 
-      const formData = new FormData();
-      formData.append('product_name', editProduct.product_name);
-      formData.append('product_weight', editProduct.product_weight);
-      formData.append('price', editProduct.price);
-      
-      if (editProduct.newImage) {
-        formData.append('product_image', editProduct.newImage);
-      }
-
       const response = await fetch(
         `http://localhost:3000/api/products/${editProduct.productid}`,
         {
           method: 'PUT',
           headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
           },
-          body: formData
+          body: JSON.stringify({
+            product_name: editProduct.product_name,
+            product_weight: editProduct.product_weight,
+            price: editProduct.price
+          })
         }
       );
 
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.message || `Failed to update product`);
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || 'Failed to update product');
       }
 
       setProducts(products.map(prod =>
         prod.productid === editProduct.productid ? data.product : prod
       ));
       setEditProduct(null);
+      setError(null);
     } catch (err) {
-      setError(err.message);
       console.error('Update product error:', err);
+      setError(err.message);
     }
   };
 
@@ -215,14 +176,17 @@ const Product = () => {
         }
       );
 
-      if (!response.ok) {
-        throw new Error(`Failed to delete product`);
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || 'Failed to delete product');
       }
 
       setProducts(products.filter(prod => prod.productid !== productId));
+      setError(null);
     } catch (err) {
-      setError(err.message);
       console.error('Delete product error:', err);
+      setError(err.message);
     }
   };
 
@@ -236,22 +200,21 @@ const Product = () => {
     );
   }
 
-  if (error) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        Error: {error}
-        <button 
-          className="btn-close float-end" 
-          onClick={() => setError(null)}
-          aria-label="Close"
-        ></button>
-      </div>
-    );
-  }
-
   return (
     <div className="d-flex">
       <div className="container-fluid p-4">
+        {error && (
+          <div className="alert alert-danger alert-dismissible fade show" role="alert">
+            {error}
+            <button 
+              type="button" 
+              className="btn-close" 
+              onClick={() => setError(null)}
+              aria-label="Close"
+            ></button>
+          </div>
+        )}
+
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h4>Products</h4>
           <button 
@@ -372,30 +335,6 @@ const Product = () => {
                   />
                 </div>
                 
-                <div className="mb-3">
-                  <label className="form-label">Change Image:</label>
-                  <div className="input-group">
-                    <input 
-                      type="file" 
-                      id="editProductImage"
-                      onChange={handleEditImageChange}
-                      className="form-control"
-                      accept="image/*"
-                    />
-                  </div>
-                  {editProduct.newImage && (
-                    <div className="mt-2 text-center">
-                      <img 
-                        src={URL.createObjectURL(editProduct.newImage)} 
-                        alt="New Preview" 
-                        className="img-thumbnail" 
-                        style={{ maxHeight: '100px' }}
-                      />
-                      <small className="d-block text-muted">New Image Preview</small>
-                    </div>
-                  )}
-                </div>
-                
                 <div className="d-flex justify-content-end mt-3 gap-2">
                   <button 
                     className="btn btn-secondary" 
@@ -469,28 +408,6 @@ const Product = () => {
                     min="0"
                     step="0.01"
                   />
-                </div>
-                
-                <div className="mb-3">
-                  <label className="form-label">Image:</label>
-                  <div className="input-group">
-                    <input 
-                      type="file" 
-                      onChange={handleImageChange}
-                      className="form-control"
-                      accept="image/*"
-                    />
-                  </div>
-                  {newProduct.product_image && (
-                    <div className="mt-2 text-center">
-                      <img 
-                        src={newProduct.product_image} 
-                        alt="Preview" 
-                        className="img-thumbnail" 
-                        style={{ maxHeight: '100px' }}
-                      />
-                    </div>
-                  )}
                 </div>
                 
                 <div className="d-flex justify-content-end mt-3 gap-2">
