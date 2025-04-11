@@ -80,24 +80,35 @@ const appointmentController = {
       });
     }
   },
-getUserAppointmentsAdmin: async (req, res)=> {
-  try {
-    let query = await db.query(
-      `SELECT * FROM Appointments ORDER BY date, time` 
-    )
-    res.status(201).json({
-      success: true,
-      appointments: query.rows
-    })
-
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch appointments",
-      error: error.message
-    });
-  }
-},
+  getUserAppointmentsAdmin: async (req, res) => {
+    try {
+      let query = await db.query(
+        `SELECT 
+          appointmentid,
+          userid,
+          name,
+          service,
+          TO_CHAR(date, 'YYYY-MM-DD') as date,
+          time,
+          contact_email,
+          contact_phone
+        FROM Appointments 
+        ORDER BY date, time` 
+      );
+      
+      res.status(200).json({
+        success: true,
+        appointments: query.rows
+      });
+  
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Failed to fetch appointments",
+        error: error.message
+      });
+    }
+  },
 getUserAppointments: async (req, res) => {
   try {
     const userId = req.user.userId;

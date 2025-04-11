@@ -13,13 +13,36 @@ const Home = () => {
   const [error, setError] = useState(null);
 
   // Helper function to get today's date in YYYY-MM-DD format
-  function getTodayDate() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  }
+function getTodayDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+// Filter appointments to only show today's appointments
+const getTodaysAppointments = () => {
+  const today = getTodayDate();
+  
+  // Debug logs to see what we're comparing
+  console.log("Today's date:", today);
+  console.log("All appointments:", appointments);
+  
+  const filtered = appointments.filter(appointment => {
+    // Ensure the appointment has a date
+    if (!appointment.date) return false;
+    
+    // Normalize the appointment date by taking only the date part (in case it includes time)
+    const appointmentDateOnly = appointment.date.split('T')[0];
+    console.log(`Comparing: ${appointmentDateOnly} === ${today}`, appointmentDateOnly === today);
+    
+    return appointmentDateOnly === today;
+  });
+  
+  console.log("Filtered appointments:", filtered);
+  return filtered;
+};
 
   // Fetch all appointments from the database
   useEffect(() => {
@@ -31,11 +54,11 @@ const Home = () => {
             'Content-Type': 'application/json'
           }
         });
-        
+
         if (!response.ok) {
           throw new Error('Failed to fetch appointments');
         }
-        
+
         const data = await response.json();
         setAppointments(data.appointments || []);
       } catch (err) {
@@ -49,18 +72,18 @@ const Home = () => {
   }, []);
 
   // Filter appointments to only show today's appointments
-  const getTodaysAppointments = () => {
-    const today = getTodayDate();
-    return appointments.filter(appointment => appointment.date === today);
-  };
+  // const getTodaysAppointments = () => {
+  //   const today = getTodayDate();
+  //   return appointments.filter(appointment => appointment.date === today);
+  // };
 
   // Format time to AM/PM format for display
   const formatTime = (timeString) => {
     if (!timeString) return '';
-    
+
     const [hours, minutes] = timeString.split(':');
     const hourNum = parseInt(hours, 10);
-    
+
     if (hourNum >= 12) {
       return `${hourNum === 12 ? 12 : hourNum - 12}:${minutes} PM`;
     } else {
@@ -111,7 +134,7 @@ const Home = () => {
       setAppointments(appointments.filter(
         app => app.appointmentid !== selectedAppointment.appointmentid
       ));
-      
+
       handleCloseModal();
     } catch (err) {
       console.error("Cancellation error:", err);
@@ -122,7 +145,7 @@ const Home = () => {
   const handleSendPostponement = async () => {
     try {
       const fullNewTime = `${newTime} ${newAmPm}`;
-      
+
       const response = await fetch(`http://localhost:3000/api/appointments/${selectedAppointment.appointmentid}`, {
         method: 'PUT',
         headers: {
@@ -140,14 +163,14 @@ const Home = () => {
       }
 
       const updatedAppointment = await response.json();
-      
+
       // Update local state with the postponed appointment
-      setAppointments(appointments.map(app => 
-        app.appointmentid === selectedAppointment.appointmentid 
-          ? updatedAppointment.appointment 
+      setAppointments(appointments.map(app =>
+        app.appointmentid === selectedAppointment.appointmentid
+          ? updatedAppointment.appointment
           : app
       ));
-      
+
       handleClosePostponeModal();
     } catch (err) {
       console.error("Postponement error:", err);
