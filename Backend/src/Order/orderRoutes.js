@@ -15,5 +15,7 @@ router.patch("/:orderid/cancel", orderController.cancelOrder);
 router.post("/create-payment-order", orderController.createPaymentOrder);
 router.post("/verify-payment", orderController.verifyPayment);
 router.post("/payment-failed", orderController.handlePaymentFailure);
+router.get("/user/:userId",  orderController.getUserOrders); // For admins to view any user's orders
+
 
 module.exports = router;

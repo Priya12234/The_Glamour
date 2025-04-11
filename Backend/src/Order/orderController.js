@@ -347,7 +347,57 @@ const orderController = {
     } finally {
       client.release();
     }
-  }
+  },
+  getUserOrders: async (req, res) => {
+    try {
+      const { userId } = req.params;
+
+      // First verify the user exists
+      const userQuery = 'SELECT userid FROM Users WHERE userid = $1';
+      const userResult = await db.query(userQuery, [userId]);
+
+      if (userResult.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: 'User not found'
+        });
+      }
+
+      // Get all orders for this user with product details
+      const ordersQuery = `
+        SELECT 
+          o.orderid,
+          o.order_date,
+          o.productid,
+          p.product_name,
+          p.product_image,
+          o.quantity,
+          o.total,
+          o.status,
+          o.payment_id,
+          o.payment_date
+        FROM Orders o
+        JOIN Products p ON o.productid = p.productid
+        WHERE o.userid = $1
+        ORDER BY o.order_date DESC
+      `;
+
+      const ordersResult = await db.query(ordersQuery, [userId]);
+
+      res.status(200).json({
+        success: true,
+        count: ordersResult.rows.length,
+        data: ordersResult.rows
+      });
+    } catch (error) {
+      console.error("Error fetching user orders:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to fetch user orders",
+        error: error.message
+      });
+    }
+  },
 };
 
 module.exports = orderController;

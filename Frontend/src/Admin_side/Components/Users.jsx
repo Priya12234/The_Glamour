@@ -183,7 +183,7 @@ const Users = () => {
                       <td className="align-middle">{user.number || "N/A"}</td>
                       <td className="align-middle text-center">
                         <Link
-                          to={`/userorders/${user.userid}`}
+                          to={`/admin/userorders/${user.userid}`}
                           className="btn btn-sm btn-outline-primary"
                           title="View Orders"
                         >
@@ -192,7 +192,7 @@ const Users = () => {
                       </td>
                       <td className="align-middle text-center">
                         <Link
-                          to={`/userappointments/${user.userid}`}
+                          to={`/admin/userappointments/${user.userid}`}
                           className="btn btn-sm btn-outline-secondary"
                           title="View Appointments"
                         >
