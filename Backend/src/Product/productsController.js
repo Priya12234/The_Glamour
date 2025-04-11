@@ -1,29 +1,35 @@
 const db = require("../DbConnections/db");
 
-const appointmentController = {
+const productController = {
   // Create a new product
   createProduct: async (req, res) => {
     try {
-      const { product_name, product_weight, price, product_image } = req.body;
+      const { product_name, product_weight, price } = req.body;
 
-      // validate the fileds
-      if (!product_name || !product_weight || !price || !product_image) {
-        return res.status(400).json({ message: "All fields are required" });
+      // Validate required fields
+      if (!product_name || !price) {
+        return res.status(400).json({ 
+          success: false,
+          message: "Product name and price are required" 
+        });
       }
 
-      const newProducts = await db.query(
-        "INSERT INTO products (product_name, product_weight, price, product_image) VALUES ($1 , $2 , $3 , $4) RETURNING *",
-        [product_name, product_weight, price, product_image]
+      const newProduct = await db.query(
+        "INSERT INTO products (product_name, product_weight, price) VALUES ($1, $2, $3) RETURNING *",
+        [product_name, product_weight || '', (price)]
       );
 
-      res.status(200).json({
-        message: "Product created successfully",
-        product: newProducts.rows[0],
+      res.status(201).json({
+        success: true,
+        product: newProduct.rows[0],
+        message: "Product created successfully"
       });
     } catch (error) {
+      console.error('Product creation error:', error);
       res.status(500).json({
+        success: false,
         message: "Failed to create product",
-        error: error.message,
+        error: error.message
       });
     }
   },
@@ -31,14 +37,16 @@ const appointmentController = {
   // Get all products
   getAllProducts: async (req, res) => {
     try {
-      const products = await db.query("SELECT * FROM products");
-
+      const products = await db.query("SELECT * FROM products ORDER BY productid");
       res.status(200).json({
+        success: true,
         count: products.rows.length,
         products: products.rows,
       });
     } catch (error) {
+      console.error('Error fetching products:', error);
       res.status(500).json({
+        success: false,
         message: "Failed to fetch products",
         error: error.message,
       });
@@ -46,21 +54,30 @@ const appointmentController = {
   },
 
   // Get product by id
-  getProductsById: async (req, res) => {
+  getProductById: async (req, res) => {
     try {
       const { productId } = req.params;
-      const productsById = await db.query(
+      const product = await db.query(
         "SELECT * FROM products WHERE productid = $1",
         [productId]
       );
 
+      if (product.rows.length === 0) {
+        return res.status(404).json({ 
+          success: false,
+          message: "Product not found" 
+        });
+      }
+
       res.status(200).json({
-        count: productsById.rows.length,
-        products: productsById.rows,
+        success: true,
+        product: product.rows[0]
       });
     } catch (error) {
+      console.error('Error fetching product:', error);
       res.status(500).json({
-        message: "Failed to fetcge the products by Id",
+        success: false,
+        message: "Failed to fetch the product",
         error: error.message,
       });
     }
@@ -70,17 +87,37 @@ const appointmentController = {
   updateProduct: async (req, res) => {
     try {
       const { productId } = req.params;
-      const { product_name, product_weight, price, product_image } = req.body;
+      const { product_name, product_weight, price } = req.body;
+
+      // Validate required fields
+      if (!product_name || !price) {
+        return res.status(400).json({ 
+          success: false,
+          message: "Product name and price are required" 
+        });
+      }
+
       const updatedProduct = await db.query(
-        "UPDATE products SET product_name=$1, product_weight=$2, price=$3, product_image=$4 WHERE productid=$5 RETURNING *",
-        [product_name, product_weight, price, product_image, productId]
+        "UPDATE products SET product_name = $1, product_weight = $2, price = $3 WHERE productid = $4 RETURNING *",
+        [product_name, product_weight || '', parseFloat(price), productId]
       );
+
+      if (updatedProduct.rows.length === 0) {
+        return res.status(404).json({ 
+          success: false,
+          message: "Product not found" 
+        });
+      }
+
       res.status(200).json({
-        message: "Product updated successfully",
+        success: true,
         product: updatedProduct.rows[0],
+        message: "Product updated successfully"
       });
     } catch (error) {
+      console.error('Error updating product:', error);
       res.status(500).json({
+        success: false,
         message: "Failed to update the product",
         error: error.message,
       });
@@ -90,13 +127,29 @@ const appointmentController = {
   // Delete a product
   deleteProduct: async (req, res) => {
     try {
-      const productId = parseInt(req.params.id);
-      await db.query("DELETE FROM products WHERE id = $1", [productId]);
+      const { productId } = req.params;
+      
+      const result = await db.query(
+        "DELETE FROM products WHERE productid = $1 RETURNING *",
+        [productId]
+      );
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({ 
+          success: false,
+          message: "Product not found" 
+        });
+      }
+
       res.status(200).json({
+        success: true,
         message: "Product deleted successfully",
+        deletedProduct: result.rows[0],
       });
     } catch (error) {
+      console.error('Error deleting product:', error);
       res.status(500).json({
+        success: false,
         message: "Failed to delete the product",
         error: error.message,
       });
@@ -104,4 +157,4 @@ const appointmentController = {
   },
 };
 
-module.exports = appointmentController;
+module.exports = productController;
