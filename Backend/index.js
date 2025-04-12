@@ -33,6 +33,12 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/services", serviceRouters);
 app.use("/api/feedback", feedbackRoutes);
 
+// Add these near your other route imports
+const paymentRoutes = require('../Backend/src/Payment/paymentRoutes');
+
+// Add this with your other app.use() routes
+app.use('/api/payments', paymentRoutes);
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
