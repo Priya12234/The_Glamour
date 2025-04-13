@@ -14,14 +14,14 @@ const serviceRouters = require("./src/Service/servicesRoutes");
 const feedbackRoutes = require("./src/Feedback/feedbackRoutes");
 
 // Initialize the app
-const app = express();
+const app = express();  
 
 // Middleware
 app.use(morgan("dev")); // Add HTTP request logging
 app.use(express.json());
 app.use(cors({
   origin: 'http://localhost:5173',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
