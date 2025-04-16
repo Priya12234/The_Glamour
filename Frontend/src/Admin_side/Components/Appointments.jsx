@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 
 const Appointments = () => {
+  const API_BASE_URL = 'http://localhost:3000';
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const [showModal, setShowModal] = useState(false);
   const [showPostponeModal, setShowPostponeModal] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
@@ -22,7 +24,7 @@ const Appointments = () => {
         throw new Error('No authentication token found');
       }
   
-      const response = await fetch('http://localhost:3000/api/appointments/adminalldata', {
+      const response = await fetch(`${API_BASE_URL}/api/appointments/adminalldata`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json'
@@ -53,8 +55,10 @@ const Appointments = () => {
 
   const handlePostponeClick = (appointment) => {
     setSelectedAppointment(appointment);
+    const timeParts = appointment.time.split(' ');
     setNewDate(appointment.date);
-    setNewTime(appointment.time.split(' ')[0]);
+    setNewTime(timeParts[0]);
+    setNewAmPm(timeParts[1] || 'AM');
     setShowPostponeModal(true);
   };
 
@@ -75,7 +79,7 @@ const Appointments = () => {
   const handleSendCancellation = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/api/appointments/${selectedAppointment.appointmentid}`, {
+      const response = await fetch(`${API_BASE_URL}/api/appointments/${selectedAppointment.appointmentid}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -103,38 +107,40 @@ const Appointments = () => {
   
   const handleSendPostponement = async () => {
     try {
+      if (!newDate || !newTime) {
+        throw new Error('Date and time are required');
+      }
+  
       const fullNewTime = `${newTime} ${newAmPm}`;
       const token = localStorage.getItem('token');
-  
-      const response = await fetch(`http://localhost:3000/api/appointments/${selectedAppointment.appointmentid}`, {
+      
+      const response = await fetch(`${API_BASE_URL}/api/appointments/${selectedAppointment.appointmentid}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           date: newDate,
-          time: fullNewTime
-        })
+          time: fullNewTime,
+        }),
       });
   
-      if (!response.ok) {
-        throw new Error('Failed to postpone appointment');
-      }
-  
       const result = await response.json();
-      if (result.success) {
-        alert(`Appointment rescheduled successfully. A confirmation email has been sent to ${selectedAppointment.contact_email}`);
+  
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to update appointment');
       }
   
+      alert('Appointment rescheduled successfully!');
       fetchAppointments();
       handleClosePostponeModal();
     } catch (err) {
       console.error("Postponement error:", err);
-      setError(err.message);
+      alert(`Error: ${err.message}`);
     }
   };
-
+  
   const formatTime = (timeString) => {
     if (!timeString) return '';
 
@@ -201,13 +207,10 @@ const Appointments = () => {
   return (
     <main className="content px-3 py-4 bg-light">
       <div className="container-fluid">
-        {/* Header Section */}
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h3 className="fw-bold fs-4">All Appointments</h3>
-          
         </div>
 
-        {/* Appointments Table */}
         <div className="row">
           <div className="col-12">
             <div className="card shadow-sm border-0">
@@ -263,7 +266,7 @@ const Appointments = () => {
                                   className="btn btn-info btn-sm"
                                   onClick={() => handlePostponeClick(appointment)}
                                 >
-                                  Reschedule
+                                  Postpone
                                 </button>
                               </div>
                             </td>
@@ -285,7 +288,6 @@ const Appointments = () => {
         </div>
       </div>
 
-      {/* Cancellation Modal */}
       {showModal && (
         <div className="modal show d-block" tabIndex="-1" role="dialog">
           <div className="modal-dialog" role="document">
@@ -327,7 +329,6 @@ const Appointments = () => {
         </div>
       )}
 
-      {/* Postponement Modal */}
       {showPostponeModal && (
         <div className="modal show d-block" tabIndex="-1" role="dialog">
           <div className="modal-dialog" role="document">
@@ -353,6 +354,7 @@ const Appointments = () => {
                     value={newDate}
                     onChange={(e) => setNewDate(e.target.value)}
                     min={new Date().toISOString().split('T')[0]}
+                    required
                   />
                 </div>
                 <div className="mb-3">
@@ -363,6 +365,7 @@ const Appointments = () => {
                       className="form-control"
                       value={newTime}
                       onChange={(e) => setNewTime(e.target.value)}
+                      required
                     />
                     <select
                       className="form-control"
